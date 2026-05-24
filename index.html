@@ -514,6 +514,10 @@ const PROVIDERS = [
   { id:'01ai',         name:'零一万物',      color:'#34D399', nativeCurrency:'CNY' },
   { id:'stepfun',      name:'阶跃星辰',      color:'#F472B6', nativeCurrency:'CNY' },
   { id:'xai',          name:'xAI',          color:'#E5E7EB', nativeCurrency:'USD' },
+  { id:'cohere',        name:'Cohere',        color:'#39594D', nativeCurrency:'USD' },
+  { id:'perplexity',    name:'Perplexity',    color:'#1DB954', nativeCurrency:'USD' },
+  { id:'together',      name:'Together',      color:'#0F9BF7', nativeCurrency:'USD' },
+  { id:'fireworks',     name:'Fireworks',     color:'#FF4444', nativeCurrency:'USD' },
   { id:'deepmind',     name:'DeepMind',     color:'#22D3EE', nativeCurrency:'USD' },
 ];
 
@@ -535,6 +539,9 @@ const BUILTIN_DATA = [
   { provider:'openai', model:'GPT-4.1 Nano',        pIn:0.10,  pOut:0.40,  ctx:'1M',   note:'',               cRatio:0.5, bIn:0.05,  bOut:0.20 },
   { provider:'openai', model:'o3-pro',              pIn:20.00, pOut:80.00, ctx:'200K', note:'推理旗舰',        cRatio:0.1, bIn:10.00, bOut:40.00 },
   { provider:'openai', model:'o4-mini',             pIn:1.10,  pOut:4.40,  ctx:'200K', note:'推理轻量',        cRatio:0.1, bIn:0.55,  bOut:2.20 },
+  { provider:'openai', model:'GPT-5 Nano',          pIn:0.05,  pOut:0.40,  ctx:'1M',   note:'极致轻量',      cRatio:0.1, bIn:0.025, bOut:0.20 },
+  { provider:'openai', model:'o3-mini',             pIn:1.10,  pOut:4.40,  ctx:'200K', note:'推理中端',      cRatio:0.1, bIn:0.55,  bOut:2.20 },
+  { provider:'openai', model:'o1-mini',             pIn:1.10,  pOut:4.40,  ctx:'128K', note:'旧推理轻量',    cRatio:0.1, bIn:0.55,  bOut:2.20 },
 
   // ── Anthropic (2026-05 最新, USD, 缓存10%=cRatio0.1, Batch=50%折扣) ──
   { provider:'anthropic', model:'Claude Opus 4.6',   pIn:5.00,  pOut:25.00, ctx:'1M',   note:'最新旗舰',      cRatio:0.1, bIn:2.50, bOut:12.50 },
@@ -552,6 +559,8 @@ const BUILTIN_DATA = [
   { provider:'google', model:'Gemini 2.5 Pro',       pIn:1.25,  pOut:10.00, ctx:'1M',   note:'旧旗舰',    cRatio:0.1 },
   { provider:'google', model:'Gemini 2.5 Flash',     pIn:0.30,  pOut:2.50,  ctx:'1M',   note:'旧性价比',  cRatio:0.1 },
   { provider:'google', model:'Gemini 2.5 Flash-Lite',pIn:0.10,  pOut:0.40,  ctx:'1M',   note:'旧版',      cRatio:0.1 },
+  { provider:'google', model:'Gemini 3.5 Flash-Lite', pIn:0.10,  pOut:0.40,  ctx:'1M',   note:'极致便宜',    cRatio:0.1 },
+  { provider:'google', model:'Gemini 2.5 Ultra',      pIn:2.50,  pOut:15.00, ctx:'1M',   note:'最强多模态>200K涨价', cRatio:0.1 },
 
   // ── DeepSeek (2026-05 永久原价1/4, CNY ¥/1M, 缓存命中=官方绝对值) ──
   { provider:'deepseek', model:'DeepSeek V4 Pro',    pIn:3.00,  pOut:6.00,  ctx:'1M',   note:'🔥永久原价1/4! 缓存¥0.025', cRatio:0.0083 },
@@ -618,6 +627,8 @@ const BUILTIN_DATA = [
   { provider:'mistral', model:'Mistral Small 4',     pIn:0.15,  pOut:0.60,  ctx:'32K',  note:'小模型' },
   { provider:'mistral', model:'Codestral',           pIn:0.30,  pOut:0.90,  ctx:'32K',  note:'代码' },
   { provider:'mistral', model:'Mistral Medium 3.1',  pIn:0.40,  pOut:2.00,  ctx:'131K', note:'最新中端' },
+  { provider:'mistral', model:'Mistral Large 2',   pIn:2.00,  pOut:6.00,  ctx:'128K', note:'上代旗舰' },
+  { provider:'mistral', model:'Mistral Tiny',      pIn:0.15,  pOut:0.40,  ctx:'32K',  note:'极致便宜' },
 
   // ── 月之暗面 Kimi (CNY, ¥/1M, 无缓存=cRatio1) ──
   { provider:'moonshot', model:'Kimi-K2',            pIn:4.00,  pOut:16.00, ctx:'128K', note:'最新/推理' },
@@ -626,9 +637,22 @@ const BUILTIN_DATA = [
   // ── 零一万物 (CNY, ¥/1M, 无缓存) ──
   { provider:'01ai', model:'Yi-Large',               pIn:2.00,  pOut:6.00,  ctx:'32K',  note:'旧' },
 
+  // ── Cohere (USD, 无缓存) ──
+  { provider:'cohere', model:'Command R+',           pIn:1.50,  pOut:4.50,  ctx:'128K', note:'企业级长文本' },
+
   // ── xAI Grok (USD, 缓存16%=cRatio0.16, cache $0.20/1M) ──
   { provider:'xai', model:'Grok-4.3',                pIn:1.25,  pOut:2.50,  ctx:'1M',   note:'最新/推荐', cRatio:0.16 },
   { provider:'xai', model:'Grok Build 0.1',         pIn:1.00,  pOut:2.00,  ctx:'1M',   note:'新版尝鲜/推荐', cRatio:0.16 },
+
+  // ── Perplexity (USD, 联网搜索模型) ──
+  { provider:'perplexity', model:'Sonar Pro',      pIn:3.00,  pOut:15.00, ctx:'200K', note:'联网搜索旗舰' },
+  { provider:'perplexity', model:'Sonar',          pIn:1.00,  pOut:5.00,  ctx:'128K', note:'联网搜索轻量' },
+
+  // ── Together AI (USD, 开源模型API) ──
+  { provider:'together', model:'Llama 4 Maverick', pIn:0.15,  pOut:0.60,  ctx:'1M', note:'同Meta原价' },
+
+  // ── Fireworks AI (USD) ──
+  { provider:'fireworks', model:'Llama 4 Scout',   pIn:0.08,  pOut:0.30,  ctx:'1M', note:'开源托管' },
 ];
 
 /* ═══════════════════════════════════════════════
