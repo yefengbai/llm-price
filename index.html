@@ -523,18 +523,18 @@ const providerMap = Object.fromEntries(PROVIDERS.map(p => [p.id, p]));
    BUILT-IN DATA  (native currency prices per 1M tokens)
    ═══════════════════════════════════════════════ */
 const BUILTIN_DATA = [
-  // ── OpenAI (2026-05 最新, USD, 缓存50%=cRatio0.5, Batch=50%折扣) ──
-  { provider:'openai', model:'GPT-5.5',             pIn:5.00,  pOut:30.00, ctx:'1M',   note:'最新旗舰',        cRatio:0.5, bIn:2.50,  bOut:15.00 },
-  { provider:'openai', model:'GPT-5',               pIn:1.25,  pOut:10.00, ctx:'272K', note:'性价比旗舰',      cRatio:0.5, bIn:0.625, bOut:5.00 },
-  { provider:'openai', model:'GPT-5.4',             pIn:2.50,  pOut:15.00, ctx:'1M',   note:'推荐中端',        cRatio:0.5, bIn:1.25,  bOut:7.50 },
-  { provider:'openai', model:'GPT-5.4 Mini',        pIn:0.25,  pOut:2.00,  ctx:'1M',   note:'',               cRatio:0.5, bIn:0.125, bOut:1.00 },
-  { provider:'openai', model:'GPT-5.4 Nano',        pIn:0.10,  pOut:0.40,  ctx:'1M',   note:'最便宜',          cRatio:0.5, bIn:0.05,  bOut:0.20 },
+  // ── OpenAI (2026-05 最新, USD, GPT-5缓存90%off=0.1, GPT-4缓存50%off=0.5, Batch=50%折扣) ──
+  { provider:'openai', model:'GPT-5.5',             pIn:5.00,  pOut:30.00, ctx:'1M',   note:'最新旗舰',        cRatio:0.1, bIn:2.50,  bOut:15.00 },
+  { provider:'openai', model:'GPT-5',               pIn:1.25,  pOut:10.00, ctx:'272K', note:'性价比旗舰',      cRatio:0.1, bIn:0.625, bOut:5.00 },
+  { provider:'openai', model:'GPT-5.4',             pIn:2.50,  pOut:15.00, ctx:'1M',   note:'推荐中端',        cRatio:0.1, bIn:1.25,  bOut:7.50 },
+  { provider:'openai', model:'GPT-5.4 Mini',        pIn:0.25,  pOut:2.00,  ctx:'1M',   note:'',               cRatio:0.1, bIn:0.125, bOut:1.00 },
+  { provider:'openai', model:'GPT-5.4 Nano',        pIn:0.10,  pOut:0.40,  ctx:'1M',   note:'最便宜',          cRatio:0.1, bIn:0.05,  bOut:0.20 },
   { provider:'openai', model:'GPT-4o',              pIn:2.50,  pOut:10.00, ctx:'128K', note:'多模态',          cRatio:0.5, bIn:1.25,  bOut:5.00 },
   { provider:'openai', model:'GPT-4.1',             pIn:2.00,  pOut:8.00,  ctx:'1M',   note:'长上下文',        cRatio:0.5, bIn:1.00,  bOut:4.00 },
   { provider:'openai', model:'GPT-4.1 Mini',        pIn:0.40,  pOut:1.60,  ctx:'1M',   note:'',               cRatio:0.5, bIn:0.20,  bOut:0.80 },
   { provider:'openai', model:'GPT-4.1 Nano',        pIn:0.10,  pOut:0.40,  ctx:'1M',   note:'',               cRatio:0.5, bIn:0.05,  bOut:0.20 },
-  { provider:'openai', model:'o3-pro',              pIn:20.00, pOut:80.00, ctx:'200K', note:'推理旗舰',        cRatio:0.5, bIn:10.00, bOut:40.00 },
-  { provider:'openai', model:'o4-mini',             pIn:1.10,  pOut:4.40,  ctx:'200K', note:'推理轻量',        cRatio:0.5, bIn:0.55,  bOut:2.20 },
+  { provider:'openai', model:'o3-pro',              pIn:20.00, pOut:80.00, ctx:'200K', note:'推理旗舰',        cRatio:0.1, bIn:10.00, bOut:40.00 },
+  { provider:'openai', model:'o4-mini',             pIn:1.10,  pOut:4.40,  ctx:'200K', note:'推理轻量',        cRatio:0.1, bIn:0.55,  bOut:2.20 },
 
   // ── Anthropic (2026-05 最新, USD, 缓存10%=cRatio0.1, Batch=50%折扣) ──
   { provider:'anthropic', model:'Claude Opus 4.6',   pIn:5.00,  pOut:25.00, ctx:'1M',   note:'最新旗舰',      cRatio:0.1, bIn:2.50, bOut:12.50 },
@@ -570,11 +570,11 @@ const BUILTIN_DATA = [
   { provider:'alibaba', model:'Qwen-Coder',          pIn:1.00,  pOut:4.00,  ctx:'1M',   note:'代码' },
   { provider:'alibaba', model:'Qwen-Long',           pIn:0.50,  pOut:2.00,  ctx:'10M',  note:'超长上下文' },
 
-  // ── 字节跳动 豆包 (CNY, ¥/1M, 缓存30%=cRatio0.3) ──
-  { provider:'bytedance', model:'Doubao-seed-2.0-pro(32K)',  pIn:6.40,  pOut:32.00, ctx:'32K',  note:'旗舰',         cRatio:0.3 },
-  { provider:'bytedance', model:'Doubao-seed-2.0-pro(128K)', pIn:9.60,  pOut:48.00, ctx:'128K', note:'旗舰长文/贵!', cRatio:0.3 },
-  { provider:'bytedance', model:'Doubao-seed-2.0-lite(32K)', pIn:1.20,  pOut:7.20,  ctx:'32K',  note:'轻量',         cRatio:0.3 },
-  { provider:'bytedance', model:'Doubao-seed-2.0-lite(128K)',pIn:1.80,  pOut:10.80, ctx:'128K', note:'轻量长文',     cRatio:0.3 },
+  // ── 字节跳动 豆包 (CNY, ¥/1M, 缓存20%=cRatio0.2) ──
+  { provider:'bytedance', model:'Doubao-seed-2.0-pro(32K)',  pIn:6.40,  pOut:32.00, ctx:'32K',  note:'旗舰',         cRatio:0.2 },
+  { provider:'bytedance', model:'Doubao-seed-2.0-pro(128K)', pIn:9.60,  pOut:48.00, ctx:'128K', note:'旗舰长文/贵!', cRatio:0.2 },
+  { provider:'bytedance', model:'Doubao-seed-2.0-lite(32K)', pIn:1.20,  pOut:7.20,  ctx:'32K',  note:'轻量',         cRatio:0.2 },
+  { provider:'bytedance', model:'Doubao-seed-2.0-lite(128K)',pIn:1.80,  pOut:10.80, ctx:'128K', note:'轻量长文',     cRatio:0.2 },
 
   // ── 百度 文心一言 (CNY, ¥/1M, 无缓存=cRatio1) ──
   { provider:'baidu', model:'ERNIE 4.5',             pIn:20.00, pOut:60.00, ctx:'128K', note:'最新/贵!' },
@@ -626,9 +626,9 @@ const BUILTIN_DATA = [
   // ── 零一万物 (CNY, ¥/1M, 无缓存) ──
   { provider:'01ai', model:'Yi-Large',               pIn:2.00,  pOut:6.00,  ctx:'32K',  note:'旧' },
 
-  // ── xAI Grok (USD, 无缓存=cRatio1) ──
-  { provider:'xai', model:'Grok-4.3',                pIn:1.25,  pOut:2.50,  ctx:'1M',   note:'最新/推荐' },
-  { provider:'xai', model:'Grok Build 0.1',         pIn:1.00,  pOut:2.00,  ctx:'1M',   note:'新版尝鲜/推荐' },
+  // ── xAI Grok (USD, 缓存16%=cRatio0.16, cache $0.20/1M) ──
+  { provider:'xai', model:'Grok-4.3',                pIn:1.25,  pOut:2.50,  ctx:'1M',   note:'最新/推荐', cRatio:0.16 },
+  { provider:'xai', model:'Grok Build 0.1',         pIn:1.00,  pOut:2.00,  ctx:'1M',   note:'新版尝鲜/推荐', cRatio:0.16 },
 ];
 
 /* ═══════════════════════════════════════════════
