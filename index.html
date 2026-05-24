@@ -481,135 +481,109 @@ const providerMap = Object.fromEntries(PROVIDERS.map(p => [p.id, p]));
    BUILT-IN DATA  (native currency prices per 1M tokens)
    ═══════════════════════════════════════════════ */
 const BUILTIN_DATA = [
-  // ── OpenAI ──
-  { provider:'openai', model:'GPT-4o',             pIn:2.50,  pOut:10.00, ctx:'128K', note:'' },
-  { provider:'openai', model:'GPT-4o-mini',         pIn:0.15,  pOut:0.60,  ctx:'128K', note:'' },
-  { provider:'openai', model:'o1',                  pIn:15.00, pOut:60.00, ctx:'200K', note:'推理模型' },
-  { provider:'openai', model:'o1-mini',             pIn:3.00,  pOut:12.00, ctx:'200K', note:'推理模型' },
-  { provider:'openai', model:'o3-mini',             pIn:1.10,  pOut:4.40,  ctx:'200K', note:'推理模型' },
-  { provider:'openai', model:'GPT-4 Turbo',         pIn:10.00, pOut:30.00, ctx:'128K', note:'旧版' },
-  { provider:'openai', model:'GPT-3.5 Turbo',       pIn:0.50,  pOut:1.50,  ctx:'16K',  note:'旧版' },
-  { provider:'openai', model:'GPT-4.1',             pIn:2.50,  pOut:10.00, ctx:'1M',   note:'最新' },
+  // ── OpenAI (2026-05 最新, USD) ──
+  { provider:'openai', model:'GPT-5.5',             pIn:5.00,  pOut:30.00, ctx:'1M',   note:'最新旗舰',        cache:0.50 },
+  { provider:'openai', model:'GPT-5.4',             pIn:2.50,  pOut:15.00, ctx:'1M',   note:'推荐中端',        cache:1.25 },
+  { provider:'openai', model:'GPT-5.4 Mini',        pIn:0.75,  pOut:4.50,  ctx:'1M',   note:'' },
+  { provider:'openai', model:'GPT-5.4 Nano',        pIn:0.20,  pOut:1.25,  ctx:'1M',   note:'最便宜' },
+  { provider:'openai', model:'GPT-4.1',             pIn:2.00,  pOut:8.00,  ctx:'1M',   note:'' },
   { provider:'openai', model:'GPT-4.1 Mini',        pIn:0.40,  pOut:1.60,  ctx:'1M',   note:'' },
-  { provider:'openai', model:'GPT-4.1 Nano',        pIn:0.10,  pOut:0.40,  ctx:'1M',   note:'最便宜' },
+  { provider:'openai', model:'GPT-4.1 Nano',        pIn:0.10,  pOut:0.40,  ctx:'1M',   note:'' },
+  { provider:'openai', model:'GPT-4o',              pIn:2.50,  pOut:10.00, ctx:'128K', note:'' },
+  { provider:'openai', model:'GPT-4o Mini',         pIn:0.15,  pOut:0.60,  ctx:'128K', note:'' },
+  { provider:'openai', model:'o3-pro',              pIn:20.00, pOut:80.00, ctx:'200K', note:'推理旗舰' },
+  { provider:'openai', model:'o4-mini',             pIn:1.10,  pOut:4.40,  ctx:'200K', note:'推理轻量' },
+  { provider:'openai', model:'o3-mini',             pIn:1.10,  pOut:4.40,  ctx:'200K', note:'旧推理' },
 
-  // ── Anthropic ──
-  { provider:'anthropic', model:'Claude 4 Sonnet',   pIn:3.00,  pOut:15.00, ctx:'200K', note:'Claude 4 系列' },
-  { provider:'anthropic', model:'Claude 3 Opus',     pIn:15.00, pOut:75.00, ctx:'200K', note:'旧旗舰' },
-  { provider:'anthropic', model:'Claude 3.5 Sonnet', pIn:3.00,  pOut:15.00, ctx:'200K', note:'推荐' },
-  { provider:'anthropic', model:'Claude 3 Haiku',    pIn:0.25,  pOut:1.25,  ctx:'200K', note:'轻量' },
+  // ── Anthropic (2026-05 最新, USD) ──
+  { provider:'anthropic', model:'Claude Opus 4.7',   pIn:5.00,  pOut:25.00, ctx:'1M',   note:'最新旗舰',  cache:0.50 },
+  { provider:'anthropic', model:'Claude Sonnet 4.6', pIn:3.00,  pOut:15.00, ctx:'1M',   note:'生产推荐',  cache:0.30 },
+  { provider:'anthropic', model:'Claude Sonnet 4.5', pIn:3.00,  pOut:15.00, ctx:'200K', note:'' },
+  { provider:'anthropic', model:'Claude Haiku 4.5',  pIn:1.00,  pOut:5.00,  ctx:'200K', note:'轻量' },
   { provider:'anthropic', model:'Claude 3.5 Haiku',  pIn:0.80,  pOut:4.00,  ctx:'200K', note:'' },
+  { provider:'anthropic', model:'Claude 3 Opus',     pIn:15.00, pOut:75.00, ctx:'200K', note:'旧旗舰' },
 
-  // ── Google Gemini ──
-  { provider:'google', model:'Gemini 2.5 Pro',       pIn:1.25,  pOut:10.00, ctx:'1M',   note:'最新旗舰' },
-  { provider:'google', model:'Gemini 2.5 Flash',     pIn:0.15,  pOut:0.60,  ctx:'1M',   note:'' },
-  { provider:'google', model:'Gemini 2.0 Pro',       pIn:1.25,  pOut:5.00,  ctx:'2M',   note:'' },
-  { provider:'google', model:'Gemini 2.0 Flash',     pIn:0.10,  pOut:0.40,  ctx:'1M',   note:'性价比' },
-  { provider:'google', model:'Gemini 1.5 Pro',       pIn:1.25,  pOut:5.00,  ctx:'2M',   note:'旧版' },
-  { provider:'google', model:'Gemini 1.5 Flash',     pIn:0.075, pOut:0.30,  ctx:'1M',   note:'旧版' },
+  // ── Google Gemini (2026-05 最新, USD) ──
+  { provider:'google', model:'Gemini 3.5 Flash',     pIn:1.50,  pOut:9.00,  ctx:'1M',   note:'最新',      cache:0.15 },
+  { provider:'google', model:'Gemini 3 Flash',       pIn:0.50,  pOut:3.00,  ctx:'1M',   note:'性价比' },
+  { provider:'google', model:'Gemini 3.1 Pro',       pIn:2.00,  pOut:12.00, ctx:'2M',   note:'旗舰' },
+  { provider:'google', model:'Gemini 2.5 Pro',       pIn:1.25,  pOut:10.00, ctx:'1M',   note:'' },
+  { provider:'google', model:'Gemini 2.5 Flash',     pIn:0.30,  pOut:2.50,  ctx:'1M',   note:'' },
+  { provider:'google', model:'Gemini 2.5 Flash-Lite',pIn:0.10,  pOut:0.40,  ctx:'1M',   note:'最便宜' },
+  { provider:'google', model:'Gemini 2.0 Flash',     pIn:0.10,  pOut:0.40,  ctx:'1M',   note:'旧版' },
 
-  // ── DeepSeek ──
-  { provider:'deepseek', model:'DeepSeek V3',        pIn:2.00,  pOut:8.00,  ctx:'128K', note:'' },
-  { provider:'deepseek', model:'DeepSeek R1',        pIn:4.00,  pOut:16.00, ctx:'128K', note:'推理模型' },
-  { provider:'deepseek', model:'DeepSeek Coder',     pIn:1.00,  pOut:2.00,  ctx:'128K', note:'代码专用' },
-  { provider:'deepseek', model:'DeepSeek Chat',      pIn:1.00,  pOut:2.00,  ctx:'64K',  note:'' },
+  // ── DeepSeek (2026-05 永久降价, CNY ¥/1M) ──
+  { provider:'deepseek', model:'DeepSeek V4 Pro',    pIn:3.00,  pOut:6.00,  ctx:'1M',   note:'🔥永久2.5折!', cache:0.025 },
+  { provider:'deepseek', model:'DeepSeek V4 Flash',  pIn:1.00,  pOut:2.00,  ctx:'1M',   note:'轻量',       cache:0.015 },
+  { provider:'deepseek', model:'DeepSeek V3.2',      pIn:2.00,  pOut:3.00,  ctx:'131K', note:'' },
+  { provider:'deepseek', model:'DeepSeek R1-0528',   pIn:4.00,  pOut:16.00, ctx:'164K', note:'推理模型' },
+  { provider:'deepseek', model:'DeepSeek Coder V2',  pIn:1.00,  pOut:2.00,  ctx:'128K', note:'代码专用' },
 
-  // ── 阿里云 通义千问 ──
-  { provider:'alibaba', model:'Qwen-Max',            pIn:20.00, pOut:60.00, ctx:'32K',  note:'旗舰' },
+  // ── 阿里云 通义千问 (CNY, ¥/1M) ──
+  { provider:'alibaba', model:'Qwen3.7-Max',         pIn:18.00, pOut:54.00, ctx:'1M',   note:'最新旗舰' },
   { provider:'alibaba', model:'Qwen-Plus',           pIn:2.00,  pOut:6.00,  ctx:'131K', note:'推荐' },
   { provider:'alibaba', model:'Qwen-Turbo',          pIn:0.50,  pOut:1.50,  ctx:'131K', note:'轻量' },
   { provider:'alibaba', model:'Qwen2.5-72B',         pIn:4.00,  pOut:12.00, ctx:'131K', note:'' },
   { provider:'alibaba', model:'Qwen2.5-32B',         pIn:3.50,  pOut:7.00,  ctx:'131K', note:'' },
-  { provider:'alibaba', model:'Qwen2.5-14B',         pIn:2.00,  pOut:4.00,  ctx:'131K', note:'' },
   { provider:'alibaba', model:'Qwen2.5-7B',          pIn:1.00,  pOut:2.00,  ctx:'131K', note:'' },
-  { provider:'alibaba', model:'Qwen2.5-1.5B',        pIn:0.00,  pOut:0.00,  ctx:'32K',  note:'免费' },
-  { provider:'alibaba', model:'Qwen2.5-0.5B',        pIn:0.00,  pOut:0.00,  ctx:'32K',  note:'免费' },
   { provider:'alibaba', model:'Qwen-Coder-Plus',     pIn:3.50,  pOut:7.00,  ctx:'131K', note:'代码' },
-  { provider:'alibaba', model:'Qwen-VL-Max',         pIn:3.00,  pOut:9.00,  ctx:'32K',  note:'多模态' },
 
-  // ── 字节跳动 豆包 ──
+  // ── 字节跳动 豆包 (CNY, ¥/1M) ──
   { provider:'bytedance', model:'Doubao-pro-32k',    pIn:0.80,  pOut:2.00,  ctx:'32K',  note:'推荐' },
   { provider:'bytedance', model:'Doubao-pro-128k',   pIn:5.00,  pOut:9.00,  ctx:'128K', note:'' },
   { provider:'bytedance', model:'Doubao-lite-32k',   pIn:0.30,  pOut:0.60,  ctx:'32K',  note:'轻量' },
   { provider:'bytedance', model:'Doubao-lite-128k',  pIn:0.80,  pOut:1.00,  ctx:'128K', note:'' },
-  { provider:'bytedance', model:'Doubao-pro-256k',   pIn:5.00,  pOut:9.00,  ctx:'256K', note:'' },
-  { provider:'bytedance', model:'Doubao-vision-pro', pIn:3.00,  pOut:9.00,  ctx:'32K',  note:'多模态' },
 
-  // ── 百度 文心一言 ──
+  // ── 百度 文心一言 (CNY, ¥/1M) ──
+  { provider:'baidu', model:'ERNIE 4.5',             pIn:20.00, pOut:60.00, ctx:'128K', note:'最新' },
   { provider:'baidu', model:'ERNIE 4.0',             pIn:30.00, pOut:90.00, ctx:'8K',   note:'旗舰' },
-  { provider:'baidu', model:'ERNIE 3.5',             pIn:12.00, pOut:36.00, ctx:'8K',   note:'' },
   { provider:'baidu', model:'ERNIE Speed',           pIn:0.00,  pOut:0.00,  ctx:'8K',   note:'免费' },
   { provider:'baidu', model:'ERNIE Lite',            pIn:0.00,  pOut:0.00,  ctx:'8K',   note:'免费' },
-  { provider:'baidu', model:'ERNIE Tiny',            pIn:0.00,  pOut:0.00,  ctx:'8K',   note:'免费' },
-  { provider:'baidu', model:'ERNIE 4.5',             pIn:20.00, pOut:60.00, ctx:'128K', note:'最新' },
 
-  // ── 智谱 GLM ──
-  { provider:'zhipu', model:'GLM-4-Plus',            pIn:5.00,  pOut:5.00,  ctx:'128K', note:'旗舰' },
-  { provider:'zhipu', model:'GLM-4',                 pIn:1.00,  pOut:1.00,  ctx:'128K', note:'' },
+  // ── 智谱 GLM (CNY, ¥/1M) ──
+  { provider:'zhipu', model:'GLM-5.1',               pIn:5.00,  pOut:5.00,  ctx:'1M',   note:'🔥400t/s极速' },
+  { provider:'zhipu', model:'GLM-4-Plus',            pIn:5.00,  pOut:5.00,  ctx:'128K', note:'' },
   { provider:'zhipu', model:'GLM-4-Air',             pIn:0.50,  pOut:0.50,  ctx:'128K', note:'推荐' },
   { provider:'zhipu', model:'GLM-4-Flash',           pIn:0.00,  pOut:0.00,  ctx:'128K', note:'免费' },
-  { provider:'zhipu', model:'GLM-4-Long',            pIn:1.00,  pOut:1.00,  ctx:'1M',   note:'超长上下文' },
   { provider:'zhipu', model:'CodeGeeX',              pIn:0.00,  pOut:0.00,  ctx:'128K', note:'代码/免费' },
-  { provider:'zhipu', model:'GLM-4V-Plus',           pIn:5.00,  pOut:5.00,  ctx:'8K',   note:'多模态' },
 
-  // ── 讯飞星火 ──
+  // ── 讯飞星火 (CNY, ¥/1M) ──
   { provider:'iflytek', model:'Spark 4.0',           pIn:3.00,  pOut:10.00, ctx:'8K',   note:'' },
-  { provider:'iflytek', model:'Spark 3.5',           pIn:1.50,  pOut:5.00,  ctx:'8K',   note:'' },
-  { provider:'iflytek', model:'Spark Max',           pIn:2.00,  pOut:8.00,  ctx:'8K',   note:'' },
   { provider:'iflytek', model:'Spark Pro',           pIn:1.00,  pOut:3.00,  ctx:'8K',   note:'' },
   { provider:'iflytek', model:'Spark Lite',          pIn:0.00,  pOut:0.00,  ctx:'8K',   note:'免费' },
 
-  // ── 腾讯混元 ──
+  // ── 腾讯混元 (CNY, ¥/1M) ──
+  { provider:'tencent', model:'Hunyuan-TurboS',      pIn:1.00,  pOut:3.00,  ctx:'32K',  note:'最新' },
   { provider:'tencent', model:'Hunyuan-Pro',         pIn:3.00,  pOut:9.00,  ctx:'32K',  note:'' },
-  { provider:'tencent', model:'Hunyuan-Turbo',       pIn:1.00,  pOut:3.00,  ctx:'32K',  note:'' },
   { provider:'tencent', model:'Hunyuan-Lite',        pIn:0.00,  pOut:0.00,  ctx:'32K',  note:'免费' },
-  { provider:'tencent', model:'Hunyuan-Standard',    pIn:0.50,  pOut:1.00,  ctx:'32K',  note:'' },
-  { provider:'tencent', model:'Hunyuan-Vision',      pIn:3.00,  pOut:9.00,  ctx:'8K',   note:'多模态' },
 
-  // ── 百川智能 ──
+  // ── 百川智能 (CNY, ¥/1M) ──
   { provider:'baichuan', model:'Baichuan4',          pIn:2.00,  pOut:6.00,  ctx:'32K',  note:'' },
   { provider:'baichuan', model:'Baichuan3-Turbo',    pIn:1.00,  pOut:3.00,  ctx:'32K',  note:'' },
-  { provider:'baichuan', model:'Baichuan3-Turbo-128k',pIn:2.00, pOut:6.00,  ctx:'128K', note:'' },
-  { provider:'baichuan', model:'Baichuan2-Turbo',    pIn:0.50,  pOut:1.00,  ctx:'8K',   note:'旧版' },
 
-  // ── MiniMax ──
+  // ── MiniMax (CNY, ¥/1M) ──
   { provider:'minimax', model:'abab6.5s',            pIn:1.00,  pOut:3.00,  ctx:'245K', note:'' },
   { provider:'minimax', model:'abab6.5t',            pIn:0.50,  pOut:1.00,  ctx:'8K',   note:'' },
-  { provider:'minimax', model:'abab5.5',             pIn:0.50,  pOut:2.00,  ctx:'16K',  note:'' },
 
-  // ── Meta Llama (via OpenRouter) ──
+  // ── Meta Llama (USD, OpenRouter) ──
   { provider:'meta', model:'Llama 3.1-405B',         pIn:2.50,  pOut:5.00,  ctx:'128K', note:'开源旗舰' },
   { provider:'meta', model:'Llama 3.1-70B',          pIn:0.59,  pOut:0.79,  ctx:'128K', note:'' },
   { provider:'meta', model:'Llama 3.1-8B',           pIn:0.06,  pOut:0.06,  ctx:'128K', note:'最轻量' },
-  { provider:'meta', model:'Llama 3.2-90B',          pIn:0.90,  pOut:0.90,  ctx:'128K', note:'多模态' },
 
-  // ── Mistral ──
-  { provider:'mistral', model:'Mistral Large',       pIn:2.00,  pOut:6.00,  ctx:'128K', note:'' },
-  { provider:'mistral', model:'Mistral Small',       pIn:0.20,  pOut:0.60,  ctx:'32K',  note:'' },
-  { provider:'mistral', model:'Mistral Nemo',        pIn:0.15,  pOut:0.15,  ctx:'128K', note:'' },
+  // ── Mistral (USD) ──
+  { provider:'mistral', model:'Mistral Large 2',     pIn:2.00,  pOut:6.00,  ctx:'128K', note:'' },
+  { provider:'mistral', model:'Mistral Small 3',     pIn:0.20,  pOut:0.60,  ctx:'32K',  note:'' },
   { provider:'mistral', model:'Codestral',           pIn:0.20,  pOut:0.60,  ctx:'32K',  note:'代码' },
 
-  // ── 月之暗面 Moonshot ──
-  { provider:'moonshot', model:'Moonshot-v1-8k',     pIn:1.00,  pOut:2.00,  ctx:'8K',   note:'' },
-  { provider:'moonshot', model:'Moonshot-v1-32k',    pIn:2.00,  pOut:4.00,  ctx:'32K',  note:'' },
+  // ── 月之暗面 (CNY, ¥/1M) ──
+  { provider:'moonshot', model:'Kimi-K2',            pIn:2.00,  pOut:6.00,  ctx:'128K', note:'最新' },
   { provider:'moonshot', model:'Moonshot-v1-128k',   pIn:5.00,  pOut:10.00, ctx:'128K', note:'' },
 
-  // ── 零一万物 ──
+  // ── 零一万物 (CNY, ¥/1M) ──
   { provider:'01ai', model:'Yi-Large',               pIn:2.00,  pOut:6.00,  ctx:'32K',  note:'' },
-  { provider:'01ai', model:'Yi-Medium',              pIn:1.00,  pOut:3.00,  ctx:'16K',  note:'' },
-  { provider:'01ai', model:'Yi-Spark',               pIn:0.00,  pOut:0.00,  ctx:'16K',  note:'免费' },
-  { provider:'01ai', model:'Yi-Vision',              pIn:2.00,  pOut:6.00,  ctx:'8K',   note:'多模态' },
 
-  // ── 阶跃星辰 StepFun ──
-  { provider:'stepfun', model:'Step-2-16k',          pIn:2.00,  pOut:6.00,  ctx:'16K',  note:'' },
-  { provider:'stepfun', model:'Step-1-8k',           pIn:1.00,  pOut:2.00,  ctx:'8K',   note:'' },
-  { provider:'stepfun', model:'Step-1V',             pIn:2.00,  pOut:8.00,  ctx:'8K',   note:'多模态' },
-
-  // ── xAI Grok ──
-  { provider:'xai', model:'Grok-2',                  pIn:2.00,  pOut:10.00, ctx:'128K', note:'' },
-
-  // ── DeepMind ──
-  { provider:'deepmind', model:'Gemini 2.5 Pro',     pIn:1.25,  pOut:10.00, ctx:'1M',   note:'DeepMind/Google' },
+  // ── xAI Grok (USD) ──
+  { provider:'xai', model:'Grok-3',                  pIn:2.00,  pOut:10.00, ctx:'128K', note:'最新' },
 ];
 
 /* ═══════════════════════════════════════════════
@@ -625,6 +599,7 @@ class Model {
     this.context = raw.ctx || '';
     this.note = raw.note || '';
     this.fromAPI = !!raw.fromAPI;
+    this.cachePrice = raw.cache > 0 ? raw.cache : 0;  // native cache input price per 1M
   }
 
   // Get price in CNY per 1M tokens (converts if native is USD)
@@ -672,9 +647,9 @@ class Model {
     const inputTokens = total * inputFraction;
     const outputTokens = total * outputFraction;
 
-    // Cache hit uses 10% of input price (or actual cached price if set)
-    const cachePrice = this.cached_input_price > 0
-      ? this.cached_input_price
+    // Cache hit price: use actual cache price if set, otherwise 10% of input
+    const cachePrice = this.cachePrice > 0
+      ? (this.provider.nativeCurrency === 'USD' ? this.cachePrice * STATE.rate : this.cachePrice)
       : this.cnyIn * 0.1;
 
     const cacheHitCost = inputTokens * hitRate * (cachePrice / 1_000_000);
