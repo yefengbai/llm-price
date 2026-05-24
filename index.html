@@ -542,14 +542,23 @@ const BUILTIN_DATA = [
   { provider:'openai', model:'GPT-5 Nano',          pIn:0.05,  pOut:0.40,  ctx:'1M',   note:'极致轻量',      cRatio:0.1, bIn:0.025, bOut:0.20 },
   { provider:'openai', model:'o3-mini',             pIn:1.10,  pOut:4.40,  ctx:'200K', note:'推理中端',      cRatio:0.1, bIn:0.55,  bOut:2.20 },
   { provider:'openai', model:'o1-mini',             pIn:1.10,  pOut:4.40,  ctx:'128K', note:'旧推理轻量',    cRatio:0.1, bIn:0.55,  bOut:2.20 },
+  { provider:'openai', model:'o1',                  pIn:15.00, pOut:60.00, ctx:'200K', note:'推理旗舰(旧)', cRatio:0.1, bIn:7.50,  bOut:30.00 },
+  { provider:'openai', model:'GPT-4o Mini',         pIn:0.15,  pOut:0.60,  ctx:'128K', note:'多模态轻量',    cRatio:0.5, bIn:0.075, bOut:0.30 },
 
   // ── Anthropic (2026-05 最新, USD, 缓存10%=cRatio0.1, Batch=50%折扣) ──
-  { provider:'anthropic', model:'Claude Opus 4.6',   pIn:5.00,  pOut:25.00, ctx:'1M',   note:'最新旗舰',      cRatio:0.1, bIn:2.50, bOut:12.50 },
-  { provider:'anthropic', model:'Claude Opus 4.6 Fast', pIn:30.00, pOut:150.00, ctx:'1M', note:'高速旗舰/太贵!', cRatio:0.1, bIn:15.00, bOut:75.00 },
-  { provider:'anthropic', model:'Claude Sonnet 4.6', pIn:3.00,  pOut:15.00, ctx:'1M',   note:'生产推荐',      cRatio:0.1, bIn:1.50, bOut:7.50 },
-  { provider:'anthropic', model:'Claude Haiku 4.5',  pIn:1.00,  pOut:5.00,  ctx:'200K', note:'轻量',          cRatio:0.1, bIn:0.50, bOut:2.50 },
-  { provider:'anthropic', model:'Claude 3.5 Haiku',  pIn:0.80,  pOut:4.00,  ctx:'200K', note:'旧版轻量',      cRatio:0.1, bIn:0.40, bOut:2.00 },
-  { provider:'anthropic', model:'Claude 3 Opus',     pIn:15.00, pOut:75.00, ctx:'200K', note:'旧旗舰/太贵',   cRatio:0.1, bIn:7.50, bOut:37.50 },
+  { provider:'anthropic', model:'Claude Opus 4.7',   pIn:5.00,  pOut:25.00, ctx:'1M',   note:'🔥最新旗舰',    cRatio:0.1, bIn:2.50,  bOut:12.50 },
+  { provider:'anthropic', model:'Claude Opus 4.6',   pIn:5.00,  pOut:25.00, ctx:'1M',   note:'上代旗舰',      cRatio:0.1, bIn:2.50,  bOut:12.50 },
+  { provider:'anthropic', model:'Claude Opus 4.6 Fast', pIn:30.00, pOut:150.00, ctx:'1M', note:'极速模式6x价',  cRatio:0.1, bIn:15.00, bOut:75.00 },
+  { provider:'anthropic', model:'Claude Opus 4.5',   pIn:5.00,  pOut:25.00, ctx:'200K', note:'旧旗舰',        cRatio:0.1, bIn:2.50,  bOut:12.50 },
+  { provider:'anthropic', model:'Claude Opus 4.1',   pIn:15.00, pOut:75.00, ctx:'200K', note:'旧旗舰/太贵',   cRatio:0.1, bIn:7.50,  bOut:37.50 },
+  { provider:'anthropic', model:'Claude Sonnet 4.6', pIn:3.00,  pOut:15.00, ctx:'1M',   note:'🔥生产推荐',    cRatio:0.1, bIn:1.50,  bOut:7.50 },
+  { provider:'anthropic', model:'Claude Sonnet 4.5', pIn:3.00,  pOut:15.00, ctx:'200K', note:'上代生产',      cRatio:0.1, bIn:1.50,  bOut:7.50 },
+  { provider:'anthropic', model:'Claude Sonnet 4',   pIn:3.00,  pOut:15.00, ctx:'200K', note:'旧版生产',      cRatio:0.1, bIn:1.50,  bOut:7.50 },
+  { provider:'anthropic', model:'Claude Haiku 4.5',  pIn:1.00,  pOut:5.00,  ctx:'200K', note:'轻量推荐',      cRatio:0.1, bIn:0.50,  bOut:2.50 },
+  { provider:'anthropic', model:'Claude Haiku 3.5',  pIn:0.80,  pOut:4.00,  ctx:'200K', note:'旧版轻量',      cRatio:0.1, bIn:0.40,  bOut:2.00 },
+  { provider:'anthropic', model:'Claude Haiku 3',    pIn:0.25,  pOut:1.25,  ctx:'200K', note:'极致便宜/将退役', cRatio:0.1, bIn:0.125, bOut:0.625 },
+  { provider:'anthropic', model:'Claude 3 Opus',     pIn:15.00, pOut:75.00, ctx:'200K', note:'远古旗舰/太贵',  cRatio:0.1, bIn:7.50,  bOut:37.50 },
+  { provider:'anthropic', model:'Mythos Preview',    pIn:25.00, pOut:125.00, ctx:'1M',  note:'研究预览/邀请制', cRatio:0.1 },
 
   // ── Google Gemini (2026-05 最新, USD, 缓存10%=cRatio0.1) ──
   { provider:'google', model:'Gemini 3.5 Flash',     pIn:1.50,  pOut:9.00,  ctx:'1M',   note:'最新',      cRatio:0.1 },
@@ -561,6 +570,10 @@ const BUILTIN_DATA = [
   { provider:'google', model:'Gemini 2.5 Flash-Lite',pIn:0.10,  pOut:0.40,  ctx:'1M',   note:'旧版',      cRatio:0.1 },
   { provider:'google', model:'Gemini 3.5 Flash-Lite', pIn:0.10,  pOut:0.40,  ctx:'1M',   note:'极致便宜',    cRatio:0.1 },
   { provider:'google', model:'Gemini 2.5 Ultra',      pIn:2.50,  pOut:15.00, ctx:'1M',   note:'最强多模态>200K涨价', cRatio:0.1 },
+  { provider:'google', model:'Gemini 2.0 Flash',      pIn:0.10,  pOut:0.40,  ctx:'1M',   note:'旧版Flash',    cRatio:0.1 },
+  { provider:'google', model:'Gemini 2.0 Flash-Lite', pIn:0.075, pOut:0.30,  ctx:'1M',   note:'旧版最便宜',    cRatio:0.1 },
+  { provider:'google', model:'Gemma 4 31B',           pIn:0.12,  pOut:0.37,  ctx:'262K', note:'开源Gemma',     cRatio:0.1 },
+  { provider:'google', model:'Gemma 3 27B',           pIn:0.08,  pOut:0.16,  ctx:'128K', note:'开源Gemma',     cRatio:0.1 },
 
   // ── DeepSeek (2026-05 永久原价1/4, CNY ¥/1M, 缓存命中=官方绝对值) ──
   { provider:'deepseek', model:'DeepSeek V4 Pro',    pIn:3.00,  pOut:6.00,  ctx:'1M',   note:'🔥永久原价1/4! 缓存¥0.025', cRatio:0.0083 },
@@ -568,6 +581,9 @@ const BUILTIN_DATA = [
   { provider:'deepseek', model:'DeepSeek V3.2',      pIn:2.00,  pOut:3.00,  ctx:'131K', note:'旧版性价比',                 cRatio:0.01 },
   { provider:'deepseek', model:'DeepSeek R1-0528',   pIn:4.00,  pOut:16.00, ctx:'164K', note:'推理专用',                   cRatio:0.01 },
   { provider:'deepseek', model:'DeepSeek Coder V2',  pIn:1.00,  pOut:2.00,  ctx:'128K', note:'代码专用',                   cRatio:0.01 },
+  { provider:'deepseek', model:'DeepSeek R1',        pIn:4.00,  pOut:16.00, ctx:'128K', note:'推理原版',                   cRatio:0.01 },
+  { provider:'deepseek', model:'DeepSeek V3',        pIn:2.00,  pOut:8.00,  ctx:'128K', note:'旧版基础',                   cRatio:0.01 },
+  { provider:'deepseek', model:'DeepSeek V3.1',      pIn:4.35,  pOut:12.33, ctx:'128K', note:'旧版过渡',                   cRatio:0.01 },
 
   // ── 阿里云 通义千问 (CNY, ¥/1M, 缓存动态: 隐式0.2/显式0.1) ──
   { provider:'alibaba', model:'Qwen3.7-Max',         pIn:6.00,  pOut:18.00, ctx:'256K', note:'🔥5折!原¥12/36' },
@@ -621,6 +637,9 @@ const BUILTIN_DATA = [
   { provider:'meta', model:'Llama 4 Maverick',       pIn:0.15,  pOut:0.60,  ctx:'1M',   note:'🔥开源旗舰' },
   { provider:'meta', model:'Llama 4 Scout',          pIn:0.08,  pOut:0.30,  ctx:'1M',   note:'开源轻量' },
   { provider:'meta', model:'Llama 3.1-8B',           pIn:0.06,  pOut:0.06,  ctx:'128K', note:'旧版最小开源' },
+  { provider:'meta', model:'Llama 3.3 70B',        pIn:0.10,  pOut:0.20,  ctx:'131K', note:'开源中坚' },
+  { provider:'meta', model:'Llama 3.1 405B',       pIn:0.12,  pOut:0.30,  ctx:'131K', note:'开源巨无霸' },
+  { provider:'meta', model:'Llama 3.1 70B',        pIn:0.10,  pOut:0.10,  ctx:'131K', note:'旧开源中坚' },
 
   // ── Mistral (USD, OpenRouter, 无缓存=cRatio1) ──
   { provider:'mistral', model:'Mistral Large 3',     pIn:0.50,  pOut:1.50,  ctx:'256K', note:'推荐' },
@@ -629,6 +648,10 @@ const BUILTIN_DATA = [
   { provider:'mistral', model:'Mistral Medium 3.1',  pIn:0.40,  pOut:2.00,  ctx:'131K', note:'最新中端' },
   { provider:'mistral', model:'Mistral Large 2',   pIn:2.00,  pOut:6.00,  ctx:'128K', note:'上代旗舰' },
   { provider:'mistral', model:'Mistral Tiny',      pIn:0.15,  pOut:0.40,  ctx:'32K',  note:'极致便宜' },
+  { provider:'mistral', model:'Mistral Medium 3.5', pIn:1.50,  pOut:7.50,  ctx:'256K', note:'最新中端旗舰' },
+  { provider:'mistral', model:'Mistral Small 3.1',  pIn:0.10,  pOut:0.30,  ctx:'128K', note:'性价比轻量' },
+  { provider:'mistral', model:'Mistral Nemo',       pIn:0.02,  pOut:0.03,  ctx:'131K', note:'极致便宜/最小' },
+  { provider:'mistral', model:'Ministral 3 8B',     pIn:0.15,  pOut:0.15,  ctx:'262K', note:'边缘端侧' },
 
   // ── 月之暗面 Kimi (CNY, ¥/1M, 无缓存=cRatio1) ──
   { provider:'moonshot', model:'Kimi-K2',            pIn:4.00,  pOut:16.00, ctx:'128K', note:'最新/推理' },
@@ -643,6 +666,7 @@ const BUILTIN_DATA = [
   // ── xAI Grok (USD, 缓存16%=cRatio0.16, cache $0.20/1M) ──
   { provider:'xai', model:'Grok-4.3',                pIn:1.25,  pOut:2.50,  ctx:'1M',   note:'最新/推荐', cRatio:0.16 },
   { provider:'xai', model:'Grok Build 0.1',         pIn:1.00,  pOut:2.00,  ctx:'1M',   note:'新版尝鲜/推荐', cRatio:0.16 },
+  { provider:'xai', model:'Grok 4.1',               pIn:0.75,  pOut:1.50,  ctx:'128K', note:'上代/性价比',   cRatio:0.16 },
 
   // ── Perplexity (USD, 联网搜索模型) ──
   { provider:'perplexity', model:'Sonar Pro',      pIn:3.00,  pOut:15.00, ctx:'200K', note:'联网搜索旗舰' },
