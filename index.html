@@ -156,7 +156,8 @@ select {
    Table
    ═══════════════════════════════════════════════ */
 .table-wrapper {
-  overflow-x: auto; border-radius: var(--radius);
+  overflow-x: auto; overflow-y: auto; max-height: 80vh;
+  border-radius: var(--radius);
   border: 1px solid var(--border); background: var(--bg-secondary);
 }
 table {
@@ -166,8 +167,9 @@ thead th {
   background: var(--bg-tertiary); padding: 10px 14px;
   text-align: left; font-weight: 600; white-space: nowrap;
   cursor: pointer; user-select: none; position: sticky; top: 0;
-  border-bottom: 2px solid var(--border);
+  border-bottom: 2px solid var(--border); z-index: 10;
 }
+thead th:first-child { z-index: 20; }
 thead th:hover { background: var(--border); }
 thead th .sort-arrow { margin-left: 4px; font-size: 0.7rem; }
 thead th .sort-arrow.active { color: var(--accent); }
@@ -176,7 +178,29 @@ tbody td {
   padding: 8px 14px; border-bottom: 1px solid var(--border);
   white-space: nowrap;
 }
+tbody td:first-child { position: sticky; left: 0; background: var(--bg-secondary); z-index: 5; }
+tbody td:nth-child(3) { position: sticky; left: 56px; background: var(--bg-secondary); z-index: 5; }
+tbody tr:hover td:first-child,
+tbody tr:hover td:nth-child(3) { background: rgba(255,255,255,0.05); }
 tbody tr:hover { background: rgba(255,255,255,0.03); }
+
+.cache-cell { color: var(--green); font-size: 0.78rem; }
+.batch-cell { color: var(--text-muted); font-size: 0.78rem; }
+
+/* Tier tooltip */
+.price-tier-icon {
+  display: inline-block; color: var(--accent-dim); cursor: help;
+  font-size: 0.7rem; margin-left: 2px; position: relative;
+}
+.price-tier-icon .tooltip {
+  display: none; position: absolute; bottom: 120%; left: 50%;
+  transform: translateX(-50%); background: var(--bg-tertiary);
+  color: var(--text-primary); font-size: 0.72rem; padding: 6px 10px;
+  border-radius: 4px; border: 1px solid var(--border);
+  white-space: pre-line; z-index: 999; min-width: 180px;
+  pointer-events: none; text-align: left; font-weight: 400;
+}
+.price-tier-icon:hover .tooltip { display: block; }
 
 .provider-badge {
   display: inline-flex; align-items: center; gap: 6px;
@@ -360,13 +384,24 @@ tbody tr:hover { background: rgba(255,255,255,0.03); }
         <input type="number" id="calcCacheRate" value="99" step="0.1" min="0" max="100" onchange="applyFilters()" style="width:70px">
         <span>%</span>
         <label style="margin-left:8px">输入占比:</label>
-        <select id="calcIORatio" onchange="applyFilters()">
-          <option value="1">纯输入 (100%)</option>
-          <option value="0.75" selected>输3:出1 (输入75%)</option>
-          <option value="0.5">输1:出1 (输入50%)</option>
-          <option value="0.25">输1:出3 (输入25%)</option>
+        <input type="number" id="calcInputPct" value="99.47" step="0.01" min="0" max="100" onchange="applyFilters()" style="width:80px">
+        <span>%</span>
+        <label style="margin-left:8px">输出占比:</label>
+        <input type="number" id="calcOutputPct" value="0.53" step="0.01" min="0" max="100" onchange="applyFilters()" style="width:80px">
+        <span>%</span>
+        <span style="color:var(--text-muted);font-size:0.75rem">各模型按官方真实缓存倍率计算｜阿里云可切换隐式/显式缓存</span>
+      </div>
+      <div class="price-range-row" style="margin-top:6px">
+        <span style="font-size:0.8rem;color:var(--accent)">☁️ 阿里云缓存:</span>
+        <select id="alibabaCacheMode" onchange="STATE.alibabaCacheMode=this.value;applyFilters()" style="width:100px;background:var(--bg-primary);color:var(--text-primary);border:1px solid var(--border);border-radius:4px;padding:4px 8px;font-size:0.8rem">
+          <option value="implicit">隐式 20%</option>
+          <option value="explicit">显式 10%</option>
         </select>
-        <span style="color:var(--text-muted);font-size:0.75rem">缓存价按标准价的10%估算</span>
+        <label style="font-size:0.8rem;cursor:pointer;margin-left:16px" title="OpenAI/Claude/Google: Batch+缓存可叠加 | 阿里云: Batch禁用缓存(互斥)">
+          <input type="checkbox" id="batchMode" onchange="STATE.batchMode=this.checked;applyFilters()" style="accent-color:var(--accent-dim)">
+          📦 Batch 50%折扣
+        </label>
+        <span style="color:var(--text-muted);font-size:0.72rem">OpenAI/Claude/Google可叠加 | 阿里云Batch自动禁用缓存</span>
       </div>
     </div>
     <div class="controls-row">
@@ -397,9 +432,12 @@ tbody tr:hover { background: rgba(255,255,255,0.03); }
           <th data-sort="provider" onclick="setSort('provider')">供应商 <span class="sort-arrow"></span></th>
           <th data-sort="model" onclick="setSort('model')">模型 <span class="sort-arrow"></span></th>
           <th data-sort="input" onclick="setSort('input')">Input 价格 <span class="sort-arrow"></span></th>
+          <th data-sort="cache" onclick="setSort('cache')">输入(缓存命中) <span class="sort-arrow"></span></th>
           <th data-sort="output" onclick="setSort('output')">Output 价格 <span class="sort-arrow"></span></th>
-          <th data-sort="context" onclick="setSort('context')" class="hide-mobile">上下文 <span class="sort-arrow"></span></th>
+          <th class="hide-mobile" data-sort="context" onclick="setSort('context')">上下文 <span class="sort-arrow"></span></th>
           <th class="hide-mobile">备注</th>
+          <th class="hide-mobile">Batch输入</th>
+          <th class="hide-mobile">Batch输出</th>
           <th id="calcHeader" style="display:none" data-sort="totalCost" onclick="setSort('totalCost')">总费用 <span class="sort-arrow"></span></th>
         </tr>
       </thead>
@@ -413,7 +451,7 @@ tbody tr:hover { background: rgba(255,255,255,0.03); }
   <!-- Footer -->
   <div class="footer">
     <div class="updated">数据最后更新: <span id="lastUpdated">2026-05-24 (内置数据 + OpenRouter)</span></div>
-    <div style="margin-top:4px">价格仅供参考，以各供应商官网为准 | 汇率: <span id="footerRate">1 USD ≈ 7.25 CNY</span></div>
+    <div style="margin-top:4px;color:var(--text-muted);font-size:0.75rem">美元兑人民币参考汇率：<span id="footerRate">1 USD ≈ 7.25 CNY</span> | 每日自动更新 (exchangerate-api.com)</div>
   </div>
 </div>
 
@@ -434,7 +472,7 @@ tbody tr:hover { background: rgba(255,255,255,0.03); }
    ═══════════════════════════════════════════════ */
 const STATE = {
   displayCurrency: 'CNY',
-  rate: 7.25,
+  rate: 6.81,
   unit: '1M',        // '1M' or '1K'
   sortKey: 'provider',
   sortDir: 'asc',
@@ -448,7 +486,10 @@ const STATE = {
   calcEnabled: false,
   calcTokens: 100_000_000,
   calcCacheRate: 99,
-  calcIORatio: 0.75,  // input fraction (0.75 = 3:1 input:output)
+  calcInputPct: 99.47,   // input token percentage
+  calcOutputPct: 0.53,   // output token percentage
+  alibabaCacheMode: 'implicit', // 'implicit' (0.2) or 'explicit' (0.1)
+  batchMode: false,       // Global Batch 50% discount, Alibaba cache mutex
 };
 
 /* ═══════════════════════════════════════════════
@@ -482,109 +523,112 @@ const providerMap = Object.fromEntries(PROVIDERS.map(p => [p.id, p]));
    BUILT-IN DATA  (native currency prices per 1M tokens)
    ═══════════════════════════════════════════════ */
 const BUILTIN_DATA = [
-  // ── OpenAI (2026-05 最新, USD) ──
-  { provider:'openai', model:'GPT-5.5',             pIn:5.00,  pOut:30.00, ctx:'1M',   note:'最新旗舰',        cache:0.50 },
-  { provider:'openai', model:'GPT-5.4',             pIn:2.50,  pOut:15.00, ctx:'1M',   note:'推荐中端',        cache:1.25 },
-  { provider:'openai', model:'GPT-5.4 Mini',        pIn:0.75,  pOut:4.50,  ctx:'1M',   note:'' },
-  { provider:'openai', model:'GPT-5.4 Nano',        pIn:0.20,  pOut:1.25,  ctx:'1M',   note:'最便宜' },
-  { provider:'openai', model:'GPT-4.1',             pIn:2.00,  pOut:8.00,  ctx:'1M',   note:'' },
-  { provider:'openai', model:'GPT-4.1 Mini',        pIn:0.40,  pOut:1.60,  ctx:'1M',   note:'' },
-  { provider:'openai', model:'GPT-4.1 Nano',        pIn:0.10,  pOut:0.40,  ctx:'1M',   note:'' },
-  { provider:'openai', model:'GPT-4o',              pIn:2.50,  pOut:10.00, ctx:'128K', note:'' },
-  { provider:'openai', model:'GPT-4o Mini',         pIn:0.15,  pOut:0.60,  ctx:'128K', note:'' },
-  { provider:'openai', model:'o3-pro',              pIn:20.00, pOut:80.00, ctx:'200K', note:'推理旗舰' },
-  { provider:'openai', model:'o4-mini',             pIn:1.10,  pOut:4.40,  ctx:'200K', note:'推理轻量' },
-  { provider:'openai', model:'o3-mini',             pIn:1.10,  pOut:4.40,  ctx:'200K', note:'旧推理' },
+  // ── OpenAI (2026-05 最新, USD, 缓存50%=cRatio0.5, Batch=50%折扣) ──
+  { provider:'openai', model:'GPT-5.5',             pIn:5.00,  pOut:30.00, ctx:'1M',   note:'最新旗舰',        cRatio:0.5, bIn:2.50,  bOut:15.00 },
+  { provider:'openai', model:'GPT-5',               pIn:1.25,  pOut:10.00, ctx:'272K', note:'性价比旗舰',      cRatio:0.5, bIn:0.625, bOut:5.00 },
+  { provider:'openai', model:'GPT-5.4',             pIn:2.50,  pOut:15.00, ctx:'1M',   note:'推荐中端',        cRatio:0.5, bIn:1.25,  bOut:7.50 },
+  { provider:'openai', model:'GPT-5.4 Mini',        pIn:0.25,  pOut:2.00,  ctx:'1M',   note:'',               cRatio:0.5, bIn:0.125, bOut:1.00 },
+  { provider:'openai', model:'GPT-5.4 Nano',        pIn:0.10,  pOut:0.40,  ctx:'1M',   note:'最便宜',          cRatio:0.5, bIn:0.05,  bOut:0.20 },
+  { provider:'openai', model:'GPT-4o',              pIn:2.50,  pOut:10.00, ctx:'128K', note:'多模态',          cRatio:0.5, bIn:1.25,  bOut:5.00 },
+  { provider:'openai', model:'GPT-4.1',             pIn:2.00,  pOut:8.00,  ctx:'1M',   note:'长上下文',        cRatio:0.5, bIn:1.00,  bOut:4.00 },
+  { provider:'openai', model:'GPT-4.1 Mini',        pIn:0.40,  pOut:1.60,  ctx:'1M',   note:'',               cRatio:0.5, bIn:0.20,  bOut:0.80 },
+  { provider:'openai', model:'GPT-4.1 Nano',        pIn:0.10,  pOut:0.40,  ctx:'1M',   note:'',               cRatio:0.5, bIn:0.05,  bOut:0.20 },
+  { provider:'openai', model:'o3-pro',              pIn:20.00, pOut:80.00, ctx:'200K', note:'推理旗舰',        cRatio:0.5, bIn:10.00, bOut:40.00 },
+  { provider:'openai', model:'o4-mini',             pIn:1.10,  pOut:4.40,  ctx:'200K', note:'推理轻量',        cRatio:0.5, bIn:0.55,  bOut:2.20 },
 
-  // ── Anthropic (2026-05 最新, USD) ──
-  { provider:'anthropic', model:'Claude Opus 4.7',   pIn:5.00,  pOut:25.00, ctx:'1M',   note:'最新旗舰',  cache:0.50 },
-  { provider:'anthropic', model:'Claude Sonnet 4.6', pIn:3.00,  pOut:15.00, ctx:'1M',   note:'生产推荐',  cache:0.30 },
-  { provider:'anthropic', model:'Claude Sonnet 4.5', pIn:3.00,  pOut:15.00, ctx:'200K', note:'' },
-  { provider:'anthropic', model:'Claude Haiku 4.5',  pIn:1.00,  pOut:5.00,  ctx:'200K', note:'轻量' },
-  { provider:'anthropic', model:'Claude 3.5 Haiku',  pIn:0.80,  pOut:4.00,  ctx:'200K', note:'' },
-  { provider:'anthropic', model:'Claude 3 Opus',     pIn:15.00, pOut:75.00, ctx:'200K', note:'旧旗舰' },
+  // ── Anthropic (2026-05 最新, USD, 缓存10%=cRatio0.1, Batch=50%折扣) ──
+  { provider:'anthropic', model:'Claude Opus 4.6',   pIn:5.00,  pOut:25.00, ctx:'1M',   note:'最新旗舰',      cRatio:0.1, bIn:2.50, bOut:12.50 },
+  { provider:'anthropic', model:'Claude Opus 4.6 Fast', pIn:30.00, pOut:150.00, ctx:'1M', note:'高速旗舰/太贵!', cRatio:0.1, bIn:15.00, bOut:75.00 },
+  { provider:'anthropic', model:'Claude Sonnet 4.6', pIn:3.00,  pOut:15.00, ctx:'1M',   note:'生产推荐',      cRatio:0.1, bIn:1.50, bOut:7.50 },
+  { provider:'anthropic', model:'Claude Haiku 4.5',  pIn:1.00,  pOut:5.00,  ctx:'200K', note:'轻量',          cRatio:0.1, bIn:0.50, bOut:2.50 },
+  { provider:'anthropic', model:'Claude 3.5 Haiku',  pIn:0.80,  pOut:4.00,  ctx:'200K', note:'旧版轻量',      cRatio:0.1, bIn:0.40, bOut:2.00 },
+  { provider:'anthropic', model:'Claude 3 Opus',     pIn:15.00, pOut:75.00, ctx:'200K', note:'旧旗舰/太贵',   cRatio:0.1, bIn:7.50, bOut:37.50 },
 
-  // ── Google Gemini (2026-05 最新, USD) ──
-  { provider:'google', model:'Gemini 3.5 Flash',     pIn:1.50,  pOut:9.00,  ctx:'1M',   note:'最新',      cache:0.15 },
-  { provider:'google', model:'Gemini 3 Flash',       pIn:0.50,  pOut:3.00,  ctx:'1M',   note:'性价比' },
-  { provider:'google', model:'Gemini 3.1 Pro',       pIn:2.00,  pOut:12.00, ctx:'2M',   note:'旗舰' },
-  { provider:'google', model:'Gemini 2.5 Pro',       pIn:1.25,  pOut:10.00, ctx:'1M',   note:'' },
-  { provider:'google', model:'Gemini 2.5 Flash',     pIn:0.30,  pOut:2.50,  ctx:'1M',   note:'' },
-  { provider:'google', model:'Gemini 2.5 Flash-Lite',pIn:0.10,  pOut:0.40,  ctx:'1M',   note:'最便宜' },
-  { provider:'google', model:'Gemini 2.0 Flash',     pIn:0.10,  pOut:0.40,  ctx:'1M',   note:'旧版' },
+  // ── Google Gemini (2026-05 最新, USD, 缓存10%=cRatio0.1) ──
+  { provider:'google', model:'Gemini 3.5 Flash',     pIn:1.50,  pOut:9.00,  ctx:'1M',   note:'最新',      cRatio:0.1 },
+  { provider:'google', model:'Gemini 3.1 Pro',       pIn:2.00,  pOut:12.00, ctx:'2M',   note:'旗舰',      cRatio:0.1 },
+  { provider:'google', model:'Gemini 3 Flash',       pIn:0.50,  pOut:3.00,  ctx:'1M',   note:'性价比',    cRatio:0.1 },
+  { provider:'google', model:'Gemini 3.1 Flash Lite',pIn:0.25,  pOut:1.50,  ctx:'1M',   note:'最便宜',    cRatio:0.1 },
+  { provider:'google', model:'Gemini 2.5 Pro',       pIn:1.25,  pOut:10.00, ctx:'1M',   note:'旧旗舰',    cRatio:0.1 },
+  { provider:'google', model:'Gemini 2.5 Flash',     pIn:0.30,  pOut:2.50,  ctx:'1M',   note:'旧性价比',  cRatio:0.1 },
+  { provider:'google', model:'Gemini 2.5 Flash-Lite',pIn:0.10,  pOut:0.40,  ctx:'1M',   note:'旧版',      cRatio:0.1 },
 
-  // ── DeepSeek (2026-05 永久降价, CNY ¥/1M) ──
-  { provider:'deepseek', model:'DeepSeek V4 Pro',    pIn:3.00,  pOut:6.00,  ctx:'1M',   note:'🔥永久2.5折!', cache:0.025 },
-  { provider:'deepseek', model:'DeepSeek V4 Flash',  pIn:1.00,  pOut:2.00,  ctx:'1M',   note:'轻量',       cache:0.015 },
-  { provider:'deepseek', model:'DeepSeek V3.2',      pIn:2.00,  pOut:3.00,  ctx:'131K', note:'' },
-  { provider:'deepseek', model:'DeepSeek R1-0528',   pIn:4.00,  pOut:16.00, ctx:'164K', note:'推理模型' },
-  { provider:'deepseek', model:'DeepSeek Coder V2',  pIn:1.00,  pOut:2.00,  ctx:'128K', note:'代码专用' },
+  // ── DeepSeek (2026-05 永久降价, CNY ¥/1M, 缓存10%=cRatio0.1) ──
+  { provider:'deepseek', model:'DeepSeek V4 Pro',    pIn:3.00,  pOut:6.00,  ctx:'1M',   note:'🔥永久2.5折!', cRatio:0.1 },
+  { provider:'deepseek', model:'DeepSeek V4 Flash',  pIn:1.00,  pOut:2.00,  ctx:'1M',   note:'轻量/极低价', cRatio:0.1 },
+  { provider:'deepseek', model:'DeepSeek V3.2',      pIn:2.00,  pOut:3.00,  ctx:'131K', note:'旧版性价比',  cRatio:0.1 },
+  { provider:'deepseek', model:'DeepSeek R1-0528',   pIn:4.00,  pOut:16.00, ctx:'164K', note:'推理专用',    cRatio:0.1 },
+  { provider:'deepseek', model:'DeepSeek Coder V2',  pIn:1.00,  pOut:2.00,  ctx:'128K', note:'代码专用',    cRatio:0.1 },
 
-  // ── 阿里云 通义千问 (CNY, ¥/1M) ──
-  { provider:'alibaba', model:'Qwen3.7-Max',         pIn:18.00, pOut:54.00, ctx:'1M',   note:'最新旗舰' },
-  { provider:'alibaba', model:'Qwen-Plus',           pIn:2.00,  pOut:6.00,  ctx:'131K', note:'推荐' },
-  { provider:'alibaba', model:'Qwen-Turbo',          pIn:0.50,  pOut:1.50,  ctx:'131K', note:'轻量' },
-  { provider:'alibaba', model:'Qwen2.5-72B',         pIn:4.00,  pOut:12.00, ctx:'131K', note:'' },
-  { provider:'alibaba', model:'Qwen2.5-32B',         pIn:3.50,  pOut:7.00,  ctx:'131K', note:'' },
-  { provider:'alibaba', model:'Qwen2.5-7B',          pIn:1.00,  pOut:2.00,  ctx:'131K', note:'' },
-  { provider:'alibaba', model:'Qwen-Coder-Plus',     pIn:3.50,  pOut:7.00,  ctx:'131K', note:'代码' },
+  // ── 阿里云 通义千问 (CNY, ¥/1M, 缓存动态: 隐式0.2/显式0.1) ──
+  { provider:'alibaba', model:'Qwen3.7-Max',         pIn:6.00,  pOut:18.00, ctx:'256K', note:'🔥5折!原¥12/36' },
+  { provider:'alibaba', model:'Qwen3-Max',           pIn:2.50,  pOut:10.00, ctx:'252K', note:'上代旗舰' },
+  { provider:'alibaba', model:'Qwen3.6-Plus',        pIn:2.00,  pOut:12.00, ctx:'1M',   note:'最新推荐',   tiers:'≤256K：输入¥2.00 / 输出¥12.00\n＞256K：输入¥4.00 / 输出¥24.00' },
+  { provider:'alibaba', model:'Qwen3.5-Plus',        pIn:0.80,  pOut:4.80,  ctx:'1M',   note:'推荐(上代)' },
+  { provider:'alibaba', model:'Qwen-Plus',           pIn:0.80,  pOut:2.00,  ctx:'131K', note:'旧推荐' },
+  { provider:'alibaba', model:'Qwen-Turbo',          pIn:0.37,  pOut:1.47,  ctx:'1M',   note:'极低价' },
+  { provider:'alibaba', model:'Qwen-Coder',          pIn:1.00,  pOut:4.00,  ctx:'1M',   note:'代码' },
+  { provider:'alibaba', model:'Qwen-Long',           pIn:0.50,  pOut:2.00,  ctx:'10M',  note:'超长上下文' },
 
-  // ── 字节跳动 豆包 (CNY, ¥/1M) ──
-  { provider:'bytedance', model:'Doubao-pro-32k',    pIn:0.80,  pOut:2.00,  ctx:'32K',  note:'推荐' },
-  { provider:'bytedance', model:'Doubao-pro-128k',   pIn:5.00,  pOut:9.00,  ctx:'128K', note:'' },
-  { provider:'bytedance', model:'Doubao-lite-32k',   pIn:0.30,  pOut:0.60,  ctx:'32K',  note:'轻量' },
-  { provider:'bytedance', model:'Doubao-lite-128k',  pIn:0.80,  pOut:1.00,  ctx:'128K', note:'' },
+  // ── 字节跳动 豆包 (CNY, ¥/1M, 缓存30%=cRatio0.3) ──
+  { provider:'bytedance', model:'Doubao-seed-2.0-pro(32K)',  pIn:6.40,  pOut:32.00, ctx:'32K',  note:'旗舰',         cRatio:0.3 },
+  { provider:'bytedance', model:'Doubao-seed-2.0-pro(128K)', pIn:9.60,  pOut:48.00, ctx:'128K', note:'旗舰长文/贵!', cRatio:0.3 },
+  { provider:'bytedance', model:'Doubao-seed-2.0-lite(32K)', pIn:1.20,  pOut:7.20,  ctx:'32K',  note:'轻量',         cRatio:0.3 },
+  { provider:'bytedance', model:'Doubao-seed-2.0-lite(128K)',pIn:1.80,  pOut:10.80, ctx:'128K', note:'轻量长文',     cRatio:0.3 },
 
-  // ── 百度 文心一言 (CNY, ¥/1M) ──
-  { provider:'baidu', model:'ERNIE 4.5',             pIn:20.00, pOut:60.00, ctx:'128K', note:'最新' },
-  { provider:'baidu', model:'ERNIE 4.0',             pIn:30.00, pOut:90.00, ctx:'8K',   note:'旗舰' },
+  // ── 百度 文心一言 (CNY, ¥/1M, 无缓存=cRatio1) ──
+  { provider:'baidu', model:'ERNIE 4.5',             pIn:20.00, pOut:60.00, ctx:'128K', note:'最新/贵!' },
+  { provider:'baidu', model:'ERNIE 4.0',             pIn:30.00, pOut:90.00, ctx:'8K',   note:'旧旗舰/太贵!' },
   { provider:'baidu', model:'ERNIE Speed',           pIn:0.00,  pOut:0.00,  ctx:'8K',   note:'免费' },
   { provider:'baidu', model:'ERNIE Lite',            pIn:0.00,  pOut:0.00,  ctx:'8K',   note:'免费' },
 
-  // ── 智谱 GLM (CNY, ¥/1M) ──
-  { provider:'zhipu', model:'GLM-5.1',               pIn:5.00,  pOut:5.00,  ctx:'1M',   note:'🔥400t/s极速' },
-  { provider:'zhipu', model:'GLM-4-Plus',            pIn:5.00,  pOut:5.00,  ctx:'128K', note:'' },
-  { provider:'zhipu', model:'GLM-4-Air',             pIn:0.50,  pOut:0.50,  ctx:'128K', note:'推荐' },
+  // ── 智谱 GLM (CNY, ¥/1M, 缓存25%=cRatio0.25) ──
+  { provider:'zhipu', model:'GLM-5.1',               pIn:5.00,  pOut:25.00, ctx:'1M',   note:'🔥顶级编程',     cRatio:0.25 },
+  { provider:'zhipu', model:'GLM-4-Plus',            pIn:5.00,  pOut:5.00,  ctx:'128K', note:'推荐',            cRatio:0.25 },
+  { provider:'zhipu', model:'GLM-4-Air',             pIn:0.60,  pOut:0.60,  ctx:'128K', note:'轻量',            cRatio:0.25 },
   { provider:'zhipu', model:'GLM-4-Flash',           pIn:0.00,  pOut:0.00,  ctx:'128K', note:'免费' },
   { provider:'zhipu', model:'CodeGeeX',              pIn:0.00,  pOut:0.00,  ctx:'128K', note:'代码/免费' },
 
-  // ── 讯飞星火 (CNY, ¥/1M) ──
-  { provider:'iflytek', model:'Spark 4.0',           pIn:3.00,  pOut:10.00, ctx:'8K',   note:'' },
-  { provider:'iflytek', model:'Spark Pro',           pIn:1.00,  pOut:3.00,  ctx:'8K',   note:'' },
+  // ── 讯飞星火 (CNY, ¥/1M, 无缓存=cRatio1) ──
+  { provider:'iflytek', model:'Spark 4.0',           pIn:3.00,  pOut:10.00, ctx:'8K',   note:'旗舰' },
+  { provider:'iflytek', model:'Spark Pro',           pIn:1.00,  pOut:3.00,  ctx:'8K',   note:'轻量' },
   { provider:'iflytek', model:'Spark Lite',          pIn:0.00,  pOut:0.00,  ctx:'8K',   note:'免费' },
 
-  // ── 腾讯混元 (CNY, ¥/1M) ──
-  { provider:'tencent', model:'Hunyuan-TurboS',      pIn:1.00,  pOut:3.00,  ctx:'32K',  note:'最新' },
-  { provider:'tencent', model:'Hunyuan-Pro',         pIn:3.00,  pOut:9.00,  ctx:'32K',  note:'' },
+  // ── 腾讯混元 (CNY, ¥/1M, 无缓存=cRatio1) ──
+  { provider:'tencent', model:'Hunyuan-TurboS',      pIn:1.00,  pOut:3.00,  ctx:'32K',  note:'最新/推荐' },
+  { provider:'tencent', model:'Hunyuan-Pro',         pIn:3.00,  pOut:9.00,  ctx:'32K',  note:'旧旗舰' },
   { provider:'tencent', model:'Hunyuan-Lite',        pIn:0.00,  pOut:0.00,  ctx:'32K',  note:'免费' },
 
-  // ── 百川智能 (CNY, ¥/1M) ──
-  { provider:'baichuan', model:'Baichuan4',          pIn:2.00,  pOut:6.00,  ctx:'32K',  note:'' },
-  { provider:'baichuan', model:'Baichuan3-Turbo',    pIn:1.00,  pOut:3.00,  ctx:'32K',  note:'' },
+  // ── 百川智能 (CNY, ¥/1M, 统一价不分I/O, 无缓存=cRatio1) ──
+  { provider:'baichuan', model:'Baichuan4',          pIn:100.00, pOut:100.00, ctx:'32K',  note:'统一价/太贵!' },
+  { provider:'baichuan', model:'Baichuan4-Turbo',    pIn:15.00,  pOut:15.00,  ctx:'32K',  note:'统一价/推荐' },
+  { provider:'baichuan', model:'Baichuan4-Air',      pIn:0.98,   pOut:0.98,   ctx:'32K',  note:'统一价/轻量' },
 
-  // ── MiniMax (CNY, ¥/1M) ──
-  { provider:'minimax', model:'abab6.5s',            pIn:1.00,  pOut:3.00,  ctx:'245K', note:'' },
-  { provider:'minimax', model:'abab6.5t',            pIn:0.50,  pOut:1.00,  ctx:'8K',   note:'' },
+  // ── MiniMax (CNY, ¥/1M, 缓存30%=cRatio0.3) ──
+  { provider:'minimax', model:'abab6.5s',            pIn:1.00,  pOut:3.00,  ctx:'245K', note:'推荐',        cRatio:0.3 },
+  { provider:'minimax', model:'abab6.5t',            pIn:0.70,  pOut:2.10,  ctx:'8K',   note:'轻量',        cRatio:0.3 },
 
-  // ── Meta Llama (USD, OpenRouter) ──
-  { provider:'meta', model:'Llama 3.1-405B',         pIn:2.50,  pOut:5.00,  ctx:'128K', note:'开源旗舰' },
-  { provider:'meta', model:'Llama 3.1-70B',          pIn:0.59,  pOut:0.79,  ctx:'128K', note:'' },
-  { provider:'meta', model:'Llama 3.1-8B',           pIn:0.06,  pOut:0.06,  ctx:'128K', note:'最轻量' },
+  // ── Meta Llama (USD, OpenRouter, 无缓存=cRatio1) ──
+  { provider:'meta', model:'Llama 4 Maverick',       pIn:0.15,  pOut:0.60,  ctx:'1M',   note:'🔥开源旗舰' },
+  { provider:'meta', model:'Llama 4 Scout',          pIn:0.08,  pOut:0.30,  ctx:'1M',   note:'开源轻量' },
+  { provider:'meta', model:'Llama 3.1-8B',           pIn:0.06,  pOut:0.06,  ctx:'128K', note:'旧版最小开源' },
 
-  // ── Mistral (USD) ──
-  { provider:'mistral', model:'Mistral Large 2',     pIn:2.00,  pOut:6.00,  ctx:'128K', note:'' },
-  { provider:'mistral', model:'Mistral Small 3',     pIn:0.20,  pOut:0.60,  ctx:'32K',  note:'' },
-  { provider:'mistral', model:'Codestral',           pIn:0.20,  pOut:0.60,  ctx:'32K',  note:'代码' },
+  // ── Mistral (USD, OpenRouter, 无缓存=cRatio1) ──
+  { provider:'mistral', model:'Mistral Large 3',     pIn:0.50,  pOut:1.50,  ctx:'256K', note:'推荐' },
+  { provider:'mistral', model:'Mistral Small 4',     pIn:0.15,  pOut:0.60,  ctx:'32K',  note:'小模型' },
+  { provider:'mistral', model:'Codestral',           pIn:0.30,  pOut:0.90,  ctx:'32K',  note:'代码' },
+  { provider:'mistral', model:'Mistral Medium 3.1',  pIn:0.40,  pOut:2.00,  ctx:'131K', note:'最新中端' },
 
-  // ── 月之暗面 (CNY, ¥/1M) ──
-  { provider:'moonshot', model:'Kimi-K2',            pIn:2.00,  pOut:6.00,  ctx:'128K', note:'最新' },
-  { provider:'moonshot', model:'Moonshot-v1-128k',   pIn:5.00,  pOut:10.00, ctx:'128K', note:'' },
+  // ── 月之暗面 Kimi (CNY, ¥/1M, 无缓存=cRatio1) ──
+  { provider:'moonshot', model:'Kimi-K2',            pIn:4.00,  pOut:16.00, ctx:'128K', note:'最新/推理' },
+  { provider:'moonshot', model:'Moonshot-v1-128k',   pIn:5.00,  pOut:10.00, ctx:'128K', note:'旧版' },
 
-  // ── 零一万物 (CNY, ¥/1M) ──
-  { provider:'01ai', model:'Yi-Large',               pIn:2.00,  pOut:6.00,  ctx:'32K',  note:'' },
+  // ── 零一万物 (CNY, ¥/1M, 无缓存) ──
+  { provider:'01ai', model:'Yi-Large',               pIn:2.00,  pOut:6.00,  ctx:'32K',  note:'旧' },
 
-  // ── xAI Grok (USD) ──
-  { provider:'xai', model:'Grok-3',                  pIn:2.00,  pOut:10.00, ctx:'128K', note:'最新' },
+  // ── xAI Grok (USD, 无缓存=cRatio1) ──
+  { provider:'xai', model:'Grok-4.3',                pIn:1.25,  pOut:2.50,  ctx:'1M',   note:'最新/推荐' },
+  { provider:'xai', model:'Grok Build 0.1',         pIn:1.00,  pOut:2.00,  ctx:'1M',   note:'新版尝鲜/推荐' },
 ];
 
 /* ═══════════════════════════════════════════════
@@ -600,7 +644,27 @@ class Model {
     this.context = raw.ctx || '';
     this.note = raw.note || '';
     this.fromAPI = !!raw.fromAPI;
-    this.cachePrice = raw.cache > 0 ? raw.cache : 0;  // native cache input price per 1M
+    this.cacheRatio = raw.cRatio > 0 ? raw.cRatio : 1; // cache multiplier (0.1=pay10%)
+    this.batchIn = raw.bIn > 0 ? raw.bIn : 0;         // native batch input price per 1M
+    this.batchOut = raw.bOut > 0 ? raw.bOut : 0;      // native batch output price per 1M
+    this.tiers = raw.tiers || null;                    // tiered pricing info for tooltip
+  }
+
+  // Effective cache ratio: provider-specific rules override static value
+  get effectiveCacheRatio() {
+    // Alibaba: Batch disables cache (mutex, 二选一)
+    if (this.providerId === 'alibaba' && STATE.batchMode) return 1;
+    // Alibaba via OpenRouter: fixed 0.3
+    if (this.providerId === 'alibaba' && this.fromAPI) return 0.3;
+    // Alibaba native: dynamic implicit(0.2)/explicit(0.1)
+    if (this.providerId === 'alibaba') return STATE.alibabaCacheMode === 'explicit' ? 0.1 : 0.2;
+    return this.cacheRatio;
+  }
+
+  // Cache hit price in native currency per 1M
+  get cachePrice() {
+    if (this.effectiveCacheRatio >= 1) return 0; // no cache discount
+    return this.nativeIn * this.effectiveCacheRatio;
   }
 
   // Get price in CNY per 1M tokens (converts if native is USD)
@@ -633,29 +697,59 @@ class Model {
     return this.nativeOut;
   }
 
+  get displayCache() {
+    if (this.cachePrice <= 0) return 0;
+    let price = this.provider.nativeCurrency === 'USD' ? this.cachePrice * STATE.rate : this.cachePrice;
+    if (STATE.displayCurrency === 'USD') price = price / STATE.rate;
+    return STATE.unit === '1K' ? price / 1000 : price;
+  }
+  get displayBatchIn() {
+    if (this.batchIn <= 0) return 0;
+    let price = this.provider.nativeCurrency === 'USD' ? this.batchIn * STATE.rate : this.batchIn;
+    if (STATE.displayCurrency === 'USD') price = price / STATE.rate;
+    return STATE.unit === '1K' ? price / 1000 : price;
+  }
+  get displayBatchOut() {
+    if (this.batchOut <= 0) return 0;
+    let price = this.provider.nativeCurrency === 'USD' ? this.batchOut * STATE.rate : this.batchOut;
+    if (STATE.displayCurrency === 'USD') price = price / STATE.rate;
+    return STATE.unit === '1K' ? price / 1000 : price;
+  }
+
   get sortIn() { return STATE.displayCurrency === 'CNY' ? this.cnyIn : this.usdIn; }
   get sortOut() { return STATE.displayCurrency === 'CNY' ? this.cnyOut : this.usdOut; }
+  get sortCache() { return this.cachePrice > 0 ? (this.provider.nativeCurrency === 'USD' ? this.cachePrice * STATE.rate : this.cachePrice) : 999999; }
 
-  // Total cost with caching
+  // Total cost with caching + optional Batch discount
   get totalCost() {
     if (!STATE.calcEnabled) return 0;
     const total = STATE.calcTokens;
     const hitRate = STATE.calcCacheRate / 100;
-    const inputFraction = STATE.calcIORatio;   // 0.75 = 75% input
-    const outputFraction = 1 - inputFraction;  // 0.25 = 25% output
+    const inputFraction = STATE.calcInputPct / 100;
+    const outputFraction = STATE.calcOutputPct / 100;
     const inputTokens = total * inputFraction;
     const outputTokens = total * outputFraction;
 
-    // Cache hit price: use actual cache price if set, otherwise 10% of input
-    const cachePrice = this.cachePrice > 0
+    // When Batch mode is on, use batch prices if available
+    const useBatch = STATE.batchMode && this.batchIn > 0 && this.batchOut > 0;
+    const inputPriceCNY  = useBatch
+      ? (this.provider.nativeCurrency === 'USD' ? this.batchIn * STATE.rate : this.batchIn)
+      : this.cnyIn;
+    const outputPriceCNY = useBatch
+      ? (this.provider.nativeCurrency === 'USD' ? this.batchOut * STATE.rate : this.batchOut)
+      : this.cnyOut;
+
+    // Cache hit price: computed from per-model cacheRatio (batch-aware native price)
+    const cachePriceCNY = this.cachePrice > 0
       ? (this.provider.nativeCurrency === 'USD' ? this.cachePrice * STATE.rate : this.cachePrice)
-      : this.cnyIn * 0.1;
+      : 0;
 
-    const cacheHitCost = inputTokens * hitRate * (cachePrice / 1_000_000);
-    const cacheMissCost = inputTokens * (1 - hitRate) * (this.cnyIn / 1_000_000);
-    const outputCost = outputTokens * (this.cnyOut / 1_000_000);
+    const cacheHitCost  = inputTokens * hitRate     * (cachePriceCNY / 1_000_000);
+    const cacheMissCost = inputTokens * (1 - hitRate) * (inputPriceCNY / 1_000_000);
+    const outputCost    = outputTokens               * (outputPriceCNY / 1_000_000);
 
-    return cacheHitCost + cacheMissCost + outputCost;
+    const costCNY = cacheHitCost + cacheMissCost + outputCost;
+    return STATE.displayCurrency === 'CNY' ? costCNY : costCNY / STATE.rate;
   }
 }
 
@@ -696,9 +790,13 @@ function renderTable() {
   tbody.innerHTML = STATE.filteredModels.map(m => {
     const inPrice = m.displayIn;
     const outPrice = m.displayOut;
+    const cachePrice = m.displayCache;
+    const bIn = m.displayBatchIn;
+    const bOut = m.displayBatchOut;
     const inClass = getPriceClass(m.cnyIn);
     const outClass = getPriceClass(m.cnyOut);
     const checked = STATE.compareSet.has(m.providerId + '|' + m.model) ? 'checked' : '';
+    const tierIcon = m.tiers ? `<span class="price-tier-icon">ⓘ<span class="tooltip">${m.tiers}</span></span>` : '';
 
     return `<tr>
       <td><input type="checkbox" class="compare-checkbox" ${checked}
@@ -707,18 +805,21 @@ function renderTable() {
         <span class="provider-dot" style="background:${m.provider.color}"></span>
         ${m.provider.name}
       </span></td>
-      <td><strong>${m.model}</strong></td>
+      <td><strong>${m.model}</strong>${tierIcon}</td>
       <td><span class="price-cell ${inClass}">${currencySymbol}${inPrice.toFixed(4)}</span></td>
+      <td>${cachePrice > 0 ? `<span class="price-cell cache-cell">${currencySymbol}${cachePrice.toFixed(4)}</span>` : `<span class="cache-cell">-</span>`}</td>
       <td><span class="price-cell ${outClass}">${currencySymbol}${outPrice.toFixed(4)}</span></td>
       <td class="hide-mobile">${m.context}</td>
       <td class="hide-mobile" style="color:var(--text-muted);font-size:0.8rem">${m.note}</td>
+      <td class="hide-mobile">${bIn > 0 ? `<span class="batch-cell">${currencySymbol}${bIn.toFixed(4)}</span>` : `<span class="batch-cell">-</span>`}</td>
+      <td class="hide-mobile">${bOut > 0 ? `<span class="batch-cell">${currencySymbol}${bOut.toFixed(4)}</span>` : `<span class="batch-cell">-</span>`}</td>
       ${STATE.calcEnabled ? `<td><span class="price-cell" style="color:var(--accent);font-weight:700">${currencySymbol}${m.totalCost.toFixed(2)}</span></td>` : ''}
     </tr>`;
   }).join('');
 
   // Stats
   const calcInfo = STATE.calcEnabled
-    ? `<span>🧮 ${(STATE.calcTokens/1e8).toFixed(2)}亿 tokens | 命中${STATE.calcCacheRate}% | 总费用见末列</span>`
+    ? `<span>🧮 ${(STATE.calcTokens/1e8).toFixed(2)}亿 tokens | 命中${STATE.calcCacheRate}% | 入${STATE.calcInputPct}% 出${STATE.calcOutputPct}%</span>`
     : '';
   document.getElementById('statsBar').innerHTML = `
     <span>📊 显示 ${STATE.filteredModels.length} / ${STATE.models.length} 个模型</span>
@@ -761,6 +862,10 @@ function renderMobileCards() {
           <div class="value ${inClass}">${currencySymbol}${m.displayIn.toFixed(4)}</div>
         </div>
         <div class="price-item">
+          <div class="label" style="color:var(--green)">缓存命中</div>
+          <div class="value cache-cell">${m.displayCache > 0 ? currencySymbol + m.displayCache.toFixed(4) : '-'}</div>
+        </div>
+        <div class="price-item">
           <div class="label">Output ${unitLabel}</div>
           <div class="value ${outClass}">${currencySymbol}${m.displayOut.toFixed(4)}</div>
         </div>
@@ -768,8 +873,9 @@ function renderMobileCards() {
       <div class="card-meta">
         <span>📐 ${m.context}</span>
         ${m.note ? `<span>📝 ${m.note}</span>` : ''}
+        ${m.displayBatchIn > 0 ? `<span>📦 Batch: ${currencySymbol}${m.displayBatchIn.toFixed(4)} / ${currencySymbol}${m.displayBatchOut.toFixed(4)}</span>` : ''}
       </div>
-      ${STATE.calcEnabled ? `<div class="card-prices" style="margin-top:6px;grid-template-columns:1fr"><div class="price-item"><div class="label">💰 总费用 (${(STATE.calcTokens/1e8).toFixed(2)}亿/${STATE.calcCacheRate}%)</div><div class="value" style="color:var(--accent)">${currencySymbol}${m.totalCost.toFixed(2)}</div></div></div>` : ''}
+      ${STATE.calcEnabled ? `<div class="card-prices" style="margin-top:6px;grid-template-columns:1fr"><div class="price-item"><div class="label">💰 总费用 (${(STATE.calcTokens/1e8).toFixed(2)}亿/命中${STATE.calcCacheRate}%/入${STATE.calcInputPct}%出${STATE.calcOutputPct}%)</div><div class="value" style="color:var(--accent)">${currencySymbol}${m.totalCost.toFixed(2)}</div></div></div>` : ''}
     </div>`;
   }).join('');
 }
@@ -803,7 +909,10 @@ function renderComparePanel() {
     return `<div class="compare-card">
       <h4><span class="provider-dot" style="background:${m.provider.color}"></span> ${m.provider.name} / ${m.model}</h4>
       <div class="row"><span class="label">Input</span><span class="price-cell ${getPriceClass(m.cnyIn)}">${currencySymbol}${m.displayIn.toFixed(4)} ${unitLabel}</span></div>
+      <div class="row"><span class="label">缓存命中</span><span class="price-cell cache-cell">${m.displayCache > 0 ? currencySymbol + m.displayCache.toFixed(4) : '-'}</span></div>
       <div class="row"><span class="label">Output</span><span class="price-cell ${getPriceClass(m.cnyOut)}">${currencySymbol}${m.displayOut.toFixed(4)} ${unitLabel}</span></div>
+      <div class="row"><span class="label">Batch输入</span><span class="price-cell batch-cell">${m.displayBatchIn > 0 ? currencySymbol + m.displayBatchIn.toFixed(4) : '-'}</span></div>
+      <div class="row"><span class="label">Batch输出</span><span class="price-cell batch-cell">${m.displayBatchOut > 0 ? currencySymbol + m.displayBatchOut.toFixed(4) : '-'}</span></div>
       <div class="row"><span class="label">上下文</span><span>${m.context}</span></div>
       <div class="row"><span class="label">备注</span><span>${m.note || '-'}</span></div>
       <div class="row"><span class="label">原生币种</span><span>${m.provider.nativeCurrency}</span></div>
@@ -820,7 +929,8 @@ function applyFilters() {
   if (STATE.calcEnabled) {
     STATE.calcTokens = parseInt(document.getElementById('calcTokens').value) || 100000000;
     STATE.calcCacheRate = parseFloat(document.getElementById('calcCacheRate').value) || 99;
-    STATE.calcIORatio = parseFloat(document.getElementById('calcIORatio').value) || 0.75;
+    STATE.calcInputPct = parseFloat(document.getElementById('calcInputPct').value) || 99.47;
+    STATE.calcOutputPct = parseFloat(document.getElementById('calcOutputPct').value) || 0.53;
   }
 
   const minVal = document.getElementById('priceMin').value;
@@ -859,6 +969,7 @@ function applyFilters() {
       case 'provider': va = a.provider.name; vb = b.provider.name; break;
       case 'model':    va = a.model; vb = b.model; break;
       case 'input':    va = a.sortIn; vb = b.sortIn; break;
+      case 'cache':    va = a.sortCache; vb = b.sortCache; break;
       case 'output':   va = a.sortOut; vb = b.sortOut; break;
       case 'totalCost': va = a.totalCost; vb = b.totalCost; break;
       case 'context':  va = a.context; vb = b.context; break;
@@ -950,7 +1061,8 @@ function toggleCalculator() {
   if (STATE.calcEnabled) {
     STATE.calcTokens = parseInt(document.getElementById('calcTokens').value) || 100000000;
     STATE.calcCacheRate = parseFloat(document.getElementById('calcCacheRate').value) || 99;
-    STATE.calcIORatio = parseFloat(document.getElementById('calcIORatio').value) || 0.75;
+    STATE.calcInputPct = parseFloat(document.getElementById('calcInputPct').value) || 99.47;
+    STATE.calcOutputPct = parseFloat(document.getElementById('calcOutputPct').value) || 0.53;
     document.getElementById('calcHeader').style.display = '';
   }
   applyFilters();
@@ -972,9 +1084,9 @@ function clearCompare() {
    ═══════════════════════════════════════════════ */
 function exportCSV() {
   const rows = STATE.filteredModels;
-  const header = '供应商,模型,Input价格(¥/1M),Output价格(¥/1M),Input($/1M),Output($/1M),上下文,备注';
+  const header = '供应商,模型,Input价格(¥/1M),缓存命中(¥/1M),Output价格(¥/1M),Batch输入(¥/1M),Batch输出(¥/1M),Input($/1M),Output($/1M),上下文,备注';
   const lines = rows.map(m =>
-    `"${m.provider.name}","${m.model}",${m.cnyIn.toFixed(2)},${m.cnyOut.toFixed(2)},${m.usdIn.toFixed(2)},${m.usdOut.toFixed(2)},"${m.context}","${m.note}"`
+    `"${m.provider.name}","${m.model}",${m.cnyIn.toFixed(2)},${m.cachePrice > 0 ? m.cachePrice.toFixed(2) : ''},${m.cnyOut.toFixed(2)},${m.batchIn > 0 ? m.batchIn.toFixed(2) : ''},${m.batchOut > 0 ? m.batchOut.toFixed(2) : ''},${m.usdIn.toFixed(2)},${m.usdOut.toFixed(2)},"${m.context}","${m.note}"`
   );
   downloadFile('llm_prices.csv', '﻿' + header + '\n' + lines.join('\n'), 'text/csv');
   showToast('CSV 已导出');
@@ -988,11 +1100,15 @@ function exportJSON() {
       provider: m.provider.name,
       model: m.model,
       input_cny_per_1M: m.cnyIn,
+      cache_cny_per_1M: m.cachePrice > 0 ? m.cachePrice : null,
       output_cny_per_1M: m.cnyOut,
+      batch_input_cny_per_1M: m.batchIn > 0 ? m.batchIn : null,
+      batch_output_cny_per_1M: m.batchOut > 0 ? m.batchOut : null,
       input_usd_per_1M: m.usdIn,
       output_usd_per_1M: m.usdOut,
       context: m.context,
       notes: m.note,
+      has_tiers: !!m.tiers,
     })),
   };
   downloadFile('llm_prices.json', JSON.stringify(data, null, 2), 'application/json');
@@ -1023,7 +1139,7 @@ function showToast(msg) {
 /* ═══════════════════════════════════════════════
    OpenRouter API
    ═══════════════════════════════════════════════ */
-const OR_CACHE_KEY = 'llm_or_cache_v2';
+const OR_CACHE_KEY = 'llm_or_cache_v3';
 const OR_CACHE_TIME_KEY = 'llm_or_cache_time_v2';
 const CACHE_VERSION = 2; // bump to invalidate old cache
 const CACHE_TTL = 6 * 60 * 60 * 1000; // 6 hours
@@ -1164,14 +1280,34 @@ function formatContext(len) {
 /* ═══════════════════════════════════════════════
    STARTUP
    ═══════════════════════════════════════════════ */
+async function fetchExchangeRate() {
+  try {
+    const resp = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+    const data = await resp.json();
+    const rate = data.rates?.CNY;
+    if (rate && rate > 0) {
+      STATE.rate = parseFloat(rate.toFixed(4));
+      document.getElementById('rateInput').value = STATE.rate;
+      localStorage.setItem('llm_rate', STATE.rate);
+      localStorage.setItem('llm_rate_time', Date.now());
+      applyFilters();
+    }
+  } catch {}
+}
+
 function init() {
   initModels();
 
-  // Restore saved rate
+  // Restore saved rate or auto-fetch
   const savedRate = localStorage.getItem('llm_rate');
-  if (savedRate) {
+  const savedTime = parseInt(localStorage.getItem('llm_rate_time') || '0');
+  const isToday = (Date.now() - savedTime) < 86400000; // 24h
+
+  if (savedRate && isToday) {
     const r = parseFloat(savedRate);
     if (r > 0) { STATE.rate = r; document.getElementById('rateInput').value = r; }
+  } else {
+    fetchExchangeRate();
   }
 
   // Clean old cache format
