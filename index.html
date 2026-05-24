@@ -252,16 +252,61 @@ tbody tr:hover { background: rgba(255,255,255,0.03); }
 }
 
 /* ═══════════════════════════════════════════════
-   Responsive
+   Mobile Cards
    ═══════════════════════════════════════════════ */
+.mobile-cards { display: none; }
+
 @media (max-width: 768px) {
   .header .container { flex-direction: column; align-items: flex-start; }
   .controls-row { flex-direction: column; align-items: stretch; }
   .search-box { min-width: 100%; }
-  .table-wrapper { font-size: 0.78rem; }
-  thead th, tbody td { padding: 6px 8px; }
   .compare-grid { grid-template-columns: 1fr; }
-  .hide-mobile { display: none; }
+
+  /* Hide desktop table, show cards */
+  .table-wrapper { display: none; }
+  .mobile-cards { display: block; }
+
+  .model-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px;
+    margin-bottom: 8px;
+  }
+  .model-card .card-header {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 10px; padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .model-card .card-header .provider-dot { width: 12px; height: 12px; }
+  .model-card .card-header .provider-name { font-size: 0.75rem; color: var(--text-secondary); }
+  .model-card .card-header .model-name { font-size: 0.95rem; font-weight: 700; flex: 1; }
+  .model-card .card-header .compare-cb { width: 20px; height: 20px; accent-color: var(--accent); flex-shrink: 0; }
+  .model-card .card-prices {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
+    font-size: 0.85rem;
+  }
+  .model-card .card-prices .price-item {
+    background: var(--bg-tertiary); border-radius: 6px; padding: 8px 10px;
+    text-align: center;
+  }
+  .model-card .card-prices .price-item .label {
+    font-size: 0.7rem; color: var(--text-muted); margin-bottom: 2px;
+  }
+  .model-card .card-prices .price-item .value {
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 1.05rem;
+  }
+  .model-card .card-meta {
+    display: flex; gap: 12px; margin-top: 8px;
+    font-size: 0.75rem; color: var(--text-muted);
+  }
+  .model-card .card-meta span { background: var(--bg-tertiary); padding: 2px 8px; border-radius: 4px; }
+
+  /* Header compact on mobile */
+  .header-actions { width: 100%; justify-content: space-between; }
+  .header-actions .rate-box { font-size: 0.75rem; }
+  .header-actions .btn-sm { font-size: 0.72rem; padding: 3px 8px; }
+  #fileProtocolBanner { font-size: 0.7rem; }
 }
 </style>
 </head>
@@ -271,9 +316,6 @@ tbody tr:hover { background: rgba(255,255,255,0.03); }
   <div class="container">
     <div class="logo"><span>⚡</span> AI Token 价格比价</div>
     <div class="header-actions">
-      <div id="fileProtocolBanner" style="display:none;background:#f8514922;border:1px solid var(--red);padding:6px 10px;border-radius:6px;font-size:0.78rem;color:var(--red);flex-basis:100%;text-align:center">
-        ⚠ 检测到通过 file:// 打开，OpenRouter 在线刷新功能不可用。<br>请使用本地服务器运行: <code style="background:var(--bg-tertiary);padding:2px 6px;border-radius:3px">npx serve .</code> 或 <code style="background:var(--bg-tertiary);padding:2px 6px;border-radius:3px">python -m http.server 8080</code>
-      </div>
       <div class="rate-box">
         <label for="rateInput">💱 USD → CNY:</label>
         <input type="number" id="rateInput" value="7.25" step="0.01" min="0" title="可手动编辑汇率">
@@ -306,6 +348,23 @@ tbody tr:hover { background: rgba(255,255,255,0.03); }
       <button class="btn" id="btnCompareToggle" onclick="toggleComparePanel()">⚖️ 比价模式 (<span id="compareCount">0</span>)</button>
       <button class="btn" onclick="exportCSV()">📥 CSV</button>
       <button class="btn" onclick="exportJSON()">📋 JSON</button>
+      <button class="btn" id="btnCalcToggle" onclick="toggleCalculator()">💰 费用计算</button>
+    </div>
+    <div class="controls-row" id="calcRow" style="display:none">
+      <div class="price-range-row">
+        <label>总 Token 数:</label>
+        <input type="number" id="calcTokens" value="100000000" step="1000000" onchange="applyFilters()" style="width:120px">
+        <label>缓存命中率:</label>
+        <input type="number" id="calcCacheRate" value="99" step="0.1" min="0" max="100" onchange="applyFilters()" style="width:70px">
+        <span>%</span>
+        <label style="margin-left:8px">输入/输出比:</label>
+        <select id="calcIORatio" onchange="applyFilters()">
+          <option value="1">纯输入</option>
+          <option value="1.33" selected>3:1 (输75/出25)</option>
+          <option value="2">1:1</option>
+        </select>
+        <span style="color:var(--text-muted);font-size:0.75rem">缓存价按标准价的10%估算</span>
+      </div>
     </div>
     <div class="controls-row">
       <div class="price-range-row">
@@ -338,11 +397,15 @@ tbody tr:hover { background: rgba(255,255,255,0.03); }
           <th data-sort="output" onclick="setSort('output')">Output 价格 <span class="sort-arrow"></span></th>
           <th data-sort="context" onclick="setSort('context')" class="hide-mobile">上下文 <span class="sort-arrow"></span></th>
           <th class="hide-mobile">备注</th>
+          <th id="calcHeader" style="display:none" data-sort="totalCost" onclick="setSort('totalCost')">总费用 <span class="sort-arrow"></span></th>
         </tr>
       </thead>
       <tbody id="tableBody"></tbody>
     </table>
   </div>
+
+  <!-- Mobile Cards -->
+  <div class="mobile-cards" id="mobileCards"></div>
 
   <!-- Footer -->
   <div class="footer">
@@ -379,6 +442,10 @@ const STATE = {
   compareSet: new Set(),
   models: [],         // all models
   filteredModels: [], // after filter+search
+  calcEnabled: false,
+  calcTokens: 100_000_000,
+  calcCacheRate: 99,
+  calcIORatio: 1.33,  // 3:1 means 3/4 input, 1/4 output
 };
 
 /* ═══════════════════════════════════════════════
@@ -590,6 +657,30 @@ class Model {
 
   get sortIn() { return STATE.displayCurrency === 'CNY' ? this.cnyIn : this.usdIn; }
   get sortOut() { return STATE.displayCurrency === 'CNY' ? this.cnyOut : this.usdOut; }
+
+  // Total cost with caching
+  get totalCost() {
+    if (!STATE.calcEnabled) return 0;
+    const total = STATE.calcTokens;
+    const hitRate = STATE.calcCacheRate / 100;
+    const ioRatio = STATE.calcIORatio; // >1 means more input than output
+    // ioRatio=1: all input; ioRatio=1.33: 3:1 ratio; ioRatio=2: 1:1
+    const inputFraction = ioRatio / (1 + ioRatio); // fraction that's input
+    const outputFraction = 1 / (1 + ioRatio);
+    const inputTokens = total * inputFraction;
+    const outputTokens = total * outputFraction;
+
+    // Cache hit uses 10% of input price (or actual cached price if set)
+    const cachePrice = this.cached_input_price > 0
+      ? this.cached_input_price
+      : this.cnyIn * 0.1;
+
+    const cacheHitCost = inputTokens * hitRate * (cachePrice / 1_000_000);
+    const cacheMissCost = inputTokens * (1 - hitRate) * (this.cnyIn / 1_000_000);
+    const outputCost = outputTokens * (this.cnyOut / 1_000_000);
+
+    return cacheHitCost + cacheMissCost + outputCost;
+  }
 }
 
 /* ═══════════════════════════════════════════════
@@ -645,19 +736,66 @@ function renderTable() {
       <td><span class="price-cell ${outClass}">${currencySymbol}${outPrice.toFixed(4)}</span></td>
       <td class="hide-mobile">${m.context}</td>
       <td class="hide-mobile" style="color:var(--text-muted);font-size:0.8rem">${m.note}</td>
+      ${STATE.calcEnabled ? `<td><span class="price-cell" style="color:var(--accent);font-weight:700">${currencySymbol}${m.totalCost.toFixed(2)}</span></td>` : ''}
     </tr>`;
   }).join('');
 
   // Stats
+  const calcInfo = STATE.calcEnabled
+    ? `<span>🧮 ${(STATE.calcTokens/1e8).toFixed(2)}亿 tokens | 命中${STATE.calcCacheRate}% | 总费用见末列</span>`
+    : '';
   document.getElementById('statsBar').innerHTML = `
     <span>📊 显示 ${STATE.filteredModels.length} / ${STATE.models.length} 个模型</span>
     <span>💱 1 USD ≈ ${STATE.rate.toFixed(2)} CNY</span>
     <span>📐 单位: ${unitLabel} tokens</span>
+    ${calcInfo}
   `;
 
   document.getElementById('compareCount').textContent = STATE.compareSet.size;
   updateSortArrows();
   document.getElementById('footerRate').textContent = `1 USD ≈ ${STATE.rate.toFixed(2)} CNY`;
+  // Show/hide calc header
+  document.getElementById('calcHeader').style.display = STATE.calcEnabled ? '' : 'none';
+
+  // Mobile cards
+  renderMobileCards();
+}
+
+function renderMobileCards() {
+  const container = document.getElementById('mobileCards');
+  const currencySymbol = STATE.displayCurrency === 'CNY' ? '¥' : '$';
+  const unitLabel = STATE.unit === '1K' ? '/1K' : '/1M';
+
+  container.innerHTML = STATE.filteredModels.map(m => {
+    const inClass = getPriceClass(m.cnyIn);
+    const outClass = getPriceClass(m.cnyOut);
+    const checked = STATE.compareSet.has(m.providerId + '|' + m.model) ? 'checked' : '';
+
+    return `<div class="model-card">
+      <div class="card-header">
+        <span class="provider-dot" style="background:${m.provider.color}"></span>
+        <span class="provider-name">${m.provider.name}</span>
+        <span class="model-name">${m.model}</span>
+        <input type="checkbox" class="compare-cb" ${checked}
+          onchange="toggleCompare('${m.providerId}','${m.model}')" title="比价">
+      </div>
+      <div class="card-prices">
+        <div class="price-item">
+          <div class="label">Input ${unitLabel}</div>
+          <div class="value ${inClass}">${currencySymbol}${m.displayIn.toFixed(4)}</div>
+        </div>
+        <div class="price-item">
+          <div class="label">Output ${unitLabel}</div>
+          <div class="value ${outClass}">${currencySymbol}${m.displayOut.toFixed(4)}</div>
+        </div>
+      </div>
+      <div class="card-meta">
+        <span>📐 ${m.context}</span>
+        ${m.note ? `<span>📝 ${m.note}</span>` : ''}
+      </div>
+      ${STATE.calcEnabled ? `<div class="card-prices" style="margin-top:6px;grid-template-columns:1fr"><div class="price-item"><div class="label">💰 总费用 (${(STATE.calcTokens/1e8).toFixed(2)}亿/${STATE.calcCacheRate}%)</div><div class="value" style="color:var(--accent)">${currencySymbol}${m.totalCost.toFixed(2)}</div></div></div>` : ''}
+    </div>`;
+  }).join('');
 }
 
 function updateSortArrows() {
@@ -703,6 +841,11 @@ function renderComparePanel() {
 function applyFilters() {
   STATE.query = document.getElementById('searchInput').value.toLowerCase().trim();
   STATE.unit = document.getElementById('unitSelect').value;
+  if (STATE.calcEnabled) {
+    STATE.calcTokens = parseInt(document.getElementById('calcTokens').value) || 100000000;
+    STATE.calcCacheRate = parseFloat(document.getElementById('calcCacheRate').value) || 99;
+    STATE.calcIORatio = parseFloat(document.getElementById('calcIORatio').value) || 1.33;
+  }
 
   const minVal = document.getElementById('priceMin').value;
   const maxVal = document.getElementById('priceMax').value;
@@ -741,6 +884,7 @@ function applyFilters() {
       case 'model':    va = a.model; vb = b.model; break;
       case 'input':    va = a.sortIn; vb = b.sortIn; break;
       case 'output':   va = a.sortOut; vb = b.sortOut; break;
+      case 'totalCost': va = a.totalCost; vb = b.totalCost; break;
       case 'context':  va = a.context; vb = b.context; break;
       default: va = a.provider.name; vb = b.provider.name;
     }
@@ -821,6 +965,19 @@ function toggleCompare(providerId, model) {
   }
   renderTable();
   renderComparePanel();
+}
+
+function toggleCalculator() {
+  STATE.calcEnabled = !STATE.calcEnabled;
+  document.getElementById('calcRow').style.display = STATE.calcEnabled ? '' : 'none';
+  document.getElementById('btnCalcToggle').classList.toggle('btn-primary', STATE.calcEnabled);
+  if (STATE.calcEnabled) {
+    STATE.calcTokens = parseInt(document.getElementById('calcTokens').value) || 100000000;
+    STATE.calcCacheRate = parseFloat(document.getElementById('calcCacheRate').value) || 99;
+    STATE.calcIORatio = parseFloat(document.getElementById('calcIORatio').value) || 1.33;
+    document.getElementById('calcHeader').style.display = '';
+  }
+  applyFilters();
 }
 
 function toggleComparePanel() {
@@ -1023,12 +1180,6 @@ function formatContext(len) {
    STARTUP
    ═══════════════════════════════════════════════ */
 function init() {
-  // Show warning if opened via file://
-  if (location.protocol === 'file:') {
-    document.getElementById('fileProtocolBanner').style.display = 'block';
-    document.getElementById('btnRefresh').title = 'file:// 协议不支持跨域请求，请用 HTTP 服务器打开';
-  }
-
   initModels();
 
   // Restore saved rate
