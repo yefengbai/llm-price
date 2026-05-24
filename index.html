@@ -661,10 +661,11 @@ class Model {
     return this.cacheRatio;
   }
 
-  // Cache hit price in native currency per 1M
+  // Cache hit price in native currency per 1M (batch-aware)
   get cachePrice() {
     if (this.effectiveCacheRatio >= 1) return 0; // no cache discount
-    return this.nativeIn * this.effectiveCacheRatio;
+    const baseInput = (STATE.batchMode && this.batchIn > 0) ? this.batchIn : this.nativeIn;
+    return baseInput * this.effectiveCacheRatio;
   }
 
   // Get price in CNY per 1M tokens (converts if native is USD)
