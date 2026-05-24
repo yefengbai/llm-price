@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AI 模型 Token 价格比价工具</title>
+<meta name="description" content="主流大语言模型 Token 价格对比工具，支持人民币/美元切换">
+<meta name="theme-color" content="#0d1117">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="AI比价">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="manifest" href="manifest.json">
+<style>
+/* ═══════════════════════════════════════════════
+   CSS Variables & Reset
+   ═══════════════════════════════════════════════ */
+:root {
+  --bg-primary: #0d1117;
+  --bg-secondary: #161b22;
+  --bg-tertiary: #21262d;
+  --bg-card: #1c2128;
+  --border: #30363d;
+  --text-primary: #e6edf3;
+  --text-secondary: #8b949e;
+  --text-muted: #6e7681;
+  --accent: #58a6ff;
+  --accent-dim: #1f6feb;
+  --green: #3fb950;
+  --yellow: #d2991d;
+  --red: #f85149;
+  --radius: 8px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+.container { max-width: 1400px; margin: 0 auto; padding: 16px; }
+
+/* ═══════════════════════════════════════════════
+   Header
+   ═══════════════════════════════════════════════ */
+.header {
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 0;
+  position: sticky; top: 0; z-index: 100;
+  backdrop-filter: blur(12px);
+}
+.header .container {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 12px;
+}
+.logo { font-size: 1.25rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+.logo span { color: var(--accent); }
+
+.rate-box {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--bg-tertiary); padding: 6px 12px; border-radius: var(--radius);
+  font-size: 0.85rem;
+}
+.rate-box label { color: var(--text-secondary); white-space: nowrap; }
+.rate-box input {
+  width: 60px; background: transparent; border: 1px solid var(--border);
+  color: var(--text-primary); text-align: center; padding: 4px; border-radius: 4px;
+  font-size: 0.85rem;
+}
+.currency-toggle {
+  display: flex; gap: 0; border-radius: var(--radius); overflow: hidden;
+  border: 1px solid var(--border);
+}
+.currency-toggle button {
+  background: var(--bg-tertiary); color: var(--text-secondary); border: none;
+  padding: 6px 14px; cursor: pointer; font-size: 0.85rem; transition: all .15s;
+}
+.currency-toggle button.active {
+  background: var(--accent-dim); color: #fff;
+}
+
+.header-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+/* ═══════════════════════════════════════════════
+   Controls
+   ═══════════════════════════════════════════════ */
+.controls {
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px; margin: 16px 0;
+}
+.controls-row {
+  display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+}
+.controls-row + .controls-row { margin-top: 12px; }
+
+.search-box {
+  flex: 1; min-width: 200px; position: relative;
+}
+.search-box input {
+  width: 100%; padding: 8px 12px 8px 36px;
+  background: var(--bg-primary); border: 1px solid var(--border);
+  color: var(--text-primary); border-radius: var(--radius); font-size: 0.9rem;
+}
+.search-box .search-icon {
+  position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+  color: var(--text-muted); font-size: 0.9rem;
+}
+
+select, .btn {
+  padding: 8px 14px; border-radius: var(--radius);
+  font-size: 0.85rem; cursor: pointer; transition: all .15s;
+}
+select {
+  background: var(--bg-primary); color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+.btn {
+  background: var(--bg-tertiary); color: var(--text-primary);
+  border: 1px solid var(--border); display: inline-flex; align-items: center; gap: 6px;
+  white-space: nowrap;
+}
+.btn:hover { background: var(--border); }
+.btn-primary { background: var(--accent-dim); border-color: var(--accent-dim); color: #fff; }
+.btn-primary:hover { background: var(--accent); }
+.btn-sm { padding: 4px 10px; font-size: 0.8rem; }
+
+.provider-filter {
+  display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;
+}
+.provider-chip {
+  padding: 4px 10px; border-radius: 20px; font-size: 0.78rem;
+  cursor: pointer; border: 1px solid transparent; transition: all .15s;
+  opacity: 0.5; user-select: none;
+}
+.provider-chip.active { opacity: 1; border-color: currentColor; }
+.provider-chip .dot {
+  display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+  margin-right: 4px;
+}
+
+.price-range-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.price-range-row label { color: var(--text-secondary); font-size: 0.85rem; }
+.price-range-row input {
+  width: 70px; padding: 6px; background: var(--bg-primary);
+  border: 1px solid var(--border); color: var(--text-primary);
+  border-radius: 4px; text-align: center; font-size: 0.85rem;
+}
+
+/* ═══════════════════════════════════════════════
+   Table
+   ═══════════════════════════════════════════════ */
+.table-wrapper {
+  overflow-x: auto; border-radius: var(--radius);
+  border: 1px solid var(--border); background: var(--bg-secondary);
+}
+table {
+  width: 100%; border-collapse: collapse; font-size: 0.88rem;
+}
+thead th {
+  background: var(--bg-tertiary); padding: 10px 14px;
+  text-align: left; font-weight: 600; white-space: nowrap;
+  cursor: pointer; user-select: none; position: sticky; top: 0;
+  border-bottom: 2px solid var(--border);
+}
+thead th:hover { background: var(--border); }
+thead th .sort-arrow { margin-left: 4px; font-size: 0.7rem; }
+thead th .sort-arrow.active { color: var(--accent); }
+
+tbody td {
+  padding: 8px 14px; border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+tbody tr:hover { background: rgba(255,255,255,0.03); }
+
+.provider-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-weight: 500;
+}
+.provider-dot {
+  width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+}
+
+.price-cell { font-family: 'JetBrains Mono', 'Fira Code', monospace; font-weight: 500; }
+.price-green { color: var(--green); }
+.price-yellow { color: var(--yellow); }
+.price-red { color: var(--red); }
+
+.compare-checkbox { width: 18px; height: 18px; cursor: pointer; accent-color: var(--accent); }
+
+/* ═══════════════════════════════════════════════
+   Compare Panel
+   ═══════════════════════════════════════════════ */
+.compare-panel {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--bg-secondary); border-top: 2px solid var(--accent);
+  padding: 16px; z-index: 200; transform: translateY(100%); transition: transform .3s;
+  max-height: 50vh; overflow-y: auto;
+}
+.compare-panel.open { transform: translateY(0); }
+.compare-panel h3 { margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.compare-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+.compare-card {
+  background: var(--bg-tertiary); border-radius: var(--radius);
+  padding: 14px; border: 1px solid var(--border);
+}
+.compare-card h4 { margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+.compare-card .row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 0.85rem; }
+.compare-card .row .label { color: var(--text-secondary); }
+.close-compare {
+  position: absolute; top: 12px; right: 16px;
+  background: none; border: none; color: var(--text-muted);
+  font-size: 1.5rem; cursor: pointer;
+}
+.compare-actions { margin-top: 12px; display: flex; gap: 8px; }
+
+/* ═══════════════════════════════════════════════
+   Footer & Stats
+   ═══════════════════════════════════════════════ */
+.footer {
+  text-align: center; padding: 20px; color: var(--text-muted);
+  font-size: 0.8rem; border-top: 1px solid var(--border); margin-top: 24px;
+}
+.footer .updated { color: var(--text-secondary); }
+.stats-bar {
+  display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+  padding: 8px; font-size: 0.82rem; color: var(--text-secondary);
+}
+.stats-bar span { background: var(--bg-tertiary); padding: 4px 10px; border-radius: 4px; }
+
+/* ═══════════════════════════════════════════════
+   Toast / Notifications
+   ═══════════════════════════════════════════════ */
+.toast {
+  position: fixed; top: 20px; right: 20px; z-index: 999;
+  background: var(--accent-dim); color: #fff; padding: 12px 20px;
+  border-radius: var(--radius); font-size: 0.9rem; animation: fadeInOut 2.5s forwards;
+}
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(-10px); }
+  15% { opacity: 1; transform: translateY(0); }
+  80% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* ═══════════════════════════════════════════════
+   Responsive
+   ═══════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .header .container { flex-direction: column; align-items: flex-start; }
+  .controls-row { flex-direction: column; align-items: stretch; }
+  .search-box { min-width: 100%; }
+  .table-wrapper { font-size: 0.78rem; }
+  thead th, tbody td { padding: 6px 8px; }
+  .compare-grid { grid-template-columns: 1fr; }
+  .hide-mobile { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="container">
+    <div class="logo"><span>⚡</span> AI Token 价格比价</div>
+    <div class="header-actions">
+      <div id="fileProtocolBanner" style="display:none;background:#f8514922;border:1px solid var(--red);padding:6px 10px;border-radius:6px;font-size:0.78rem;color:var(--red);flex-basis:100%;text-align:center">
+        ⚠ 检测到通过 file:// 打开，OpenRouter 在线刷新功能不可用。<br>请使用本地服务器运行: <code style="background:var(--bg-tertiary);padding:2px 6px;border-radius:3px">npx serve .</code> 或 <code style="background:var(--bg-tertiary);padding:2px 6px;border-radius:3px">python -m http.server 8080</code>
+      </div>
+      <div class="rate-box">
+        <label for="rateInput">💱 USD → CNY:</label>
+        <input type="number" id="rateInput" value="7.25" step="0.01" min="0" title="可手动编辑汇率">
+      </div>
+      <div class="currency-toggle">
+        <button id="btnCNY" class="active" onclick="setDisplayCurrency('CNY')">¥ 人民币</button>
+        <button id="btnUSD" onclick="setDisplayCurrency('USD')">$ 美元</button>
+      </div>
+      <button class="btn btn-primary btn-sm" id="btnRefresh" onclick="fetchOpenRouter()" title="从 OpenRouter 获取最新价格 (需要 HTTP 服务器打开本文件)">
+        🔄 刷新价格
+      </button>
+      <span style="font-size:0.7rem;color:var(--text-muted);max-width:180px;line-height:1.2">需用本地服务器打开<br>如: npx serve . 或 python -m http.server</span>
+      <span style="font-size:0.78rem;color:var(--text-muted)" id="updateTime"></span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <!-- Controls -->
+  <div class="controls">
+    <div class="controls-row">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="搜索模型名或供应商..." oninput="applyFilters()">
+      </div>
+      <select id="unitSelect" onchange="applyFilters()">
+        <option value="1M">每 1M tokens</option>
+        <option value="1K">每 1K tokens</option>
+      </select>
+      <button class="btn" id="btnCompareToggle" onclick="toggleComparePanel()">⚖️ 比价模式 (<span id="compareCount">0</span>)</button>
+      <button class="btn" onclick="exportCSV()">📥 CSV</button>
+      <button class="btn" onclick="exportJSON()">📋 JSON</button>
+    </div>
+    <div class="controls-row">
+      <div class="price-range-row">
+        <label>输出价格区间 (¥/1M):</label>
+        <input type="number" id="priceMin" placeholder="最低" step="0.01" onchange="applyFilters()">
+        <span>—</span>
+        <input type="number" id="priceMax" placeholder="最高" step="0.01" onchange="applyFilters()">
+        <button class="btn btn-sm" onclick="clearPriceRange()">清除</button>
+        <label style="margin-left:12px">快速筛选:</label>
+        <button class="btn btn-sm price-preset" data-min="0" data-max="4" onclick="setPriceRange(0,4)">≤ ¥4/M</button>
+        <button class="btn btn-sm price-preset" data-min="4" data-max="36" onclick="setPriceRange(4,36)">¥4-36/M</button>
+        <button class="btn btn-sm price-preset" data-min="36" data-max="999" onclick="setPriceRange(36,999)">≥ ¥36/M</button>
+      </div>
+    </div>
+    <div class="provider-filter" id="providerFilter"></div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-bar" id="statsBar"></div>
+
+  <!-- Table -->
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:40px" title="比价选择">⚖️</th>
+          <th data-sort="provider" onclick="setSort('provider')">供应商 <span class="sort-arrow"></span></th>
+          <th data-sort="model" onclick="setSort('model')">模型 <span class="sort-arrow"></span></th>
+          <th data-sort="input" onclick="setSort('input')">Input 价格 <span class="sort-arrow"></span></th>
+          <th data-sort="output" onclick="setSort('output')">Output 价格 <span class="sort-arrow"></span></th>
+          <th data-sort="context" onclick="setSort('context')" class="hide-mobile">上下文 <span class="sort-arrow"></span></th>
+          <th class="hide-mobile">备注</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="updated">数据最后更新: <span id="lastUpdated">2026-05-24 (内置数据 + OpenRouter)</span></div>
+    <div style="margin-top:4px">价格仅供参考，以各供应商官网为准 | 汇率: <span id="footerRate">1 USD ≈ 7.25 CNY</span></div>
+  </div>
+</div>
+
+<!-- Compare Panel -->
+<div class="compare-panel" id="comparePanel">
+  <button class="close-compare" onclick="toggleComparePanel()">✕</button>
+  <h3>⚖️ 模型对比</h3>
+  <div class="compare-grid" id="compareGrid"></div>
+  <div class="compare-actions">
+    <button class="btn" onclick="clearCompare()">清空对比</button>
+    <button class="btn btn-primary" onclick="toggleComparePanel()">关闭</button>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════
+   STATE
+   ═══════════════════════════════════════════════ */
+const STATE = {
+  displayCurrency: 'CNY',
+  rate: 7.25,
+  unit: '1M',        // '1M' or '1K'
+  sortKey: 'provider',
+  sortDir: 'asc',
+  query: '',
+  priceMin: null,
+  priceMax: null,
+  activeProviders: new Set(),
+  compareSet: new Set(),
+  models: [],         // all models
+  filteredModels: [], // after filter+search
+};
+
+/* ═══════════════════════════════════════════════
+   PROVIDER CONFIG
+   ═══════════════════════════════════════════════ */
+const PROVIDERS = [
+  { id:'openai',       name:'OpenAI',       color:'#00A67E', nativeCurrency:'USD' },
+  { id:'anthropic',    name:'Anthropic',    color:'#D97757', nativeCurrency:'USD' },
+  { id:'google',       name:'Google',       color:'#4285F4', nativeCurrency:'USD' },
+  { id:'deepseek',     name:'DeepSeek',     color:'#4D6BFE', nativeCurrency:'CNY' },
+  { id:'alibaba',      name:'阿里云',        color:'#FF6A00', nativeCurrency:'CNY' },
+  { id:'bytedance',    name:'字节跳动',      color:'#3252A8', nativeCurrency:'CNY' },
+  { id:'baidu',        name:'百度',          color:'#2932E1', nativeCurrency:'CNY' },
+  { id:'zhipu',        name:'智谱AI',        color:'#1677FF', nativeCurrency:'CNY' },
+  { id:'iflytek',      name:'讯飞星火',      color:'#1E5EFF', nativeCurrency:'CNY' },
+  { id:'tencent',      name:'腾讯混元',      color:'#0066CC', nativeCurrency:'CNY' },
+  { id:'baichuan',     name:'百川智能',      color:'#F97316', nativeCurrency:'CNY' },
+  { id:'minimax',      name:'MiniMax',      color:'#6366F1', nativeCurrency:'CNY' },
+  { id:'meta',         name:'Meta',         color:'#1877F2', nativeCurrency:'USD' },
+  { id:'mistral',      name:'Mistral',      color:'#F97316', nativeCurrency:'USD' },
+  { id:'moonshot',     name:'月之暗面',      color:'#A78BFA', nativeCurrency:'CNY' },
+  { id:'01ai',         name:'零一万物',      color:'#34D399', nativeCurrency:'CNY' },
+  { id:'stepfun',      name:'阶跃星辰',      color:'#F472B6', nativeCurrency:'CNY' },
+  { id:'xai',          name:'xAI',          color:'#E5E7EB', nativeCurrency:'USD' },
+  { id:'deepmind',     name:'DeepMind',     color:'#22D3EE', nativeCurrency:'USD' },
+];
+
+const providerMap = Object.fromEntries(PROVIDERS.map(p => [p.id, p]));
+
+/* ═══════════════════════════════════════════════
+   BUILT-IN DATA  (native currency prices per 1M tokens)
+   ═══════════════════════════════════════════════ */
+const BUILTIN_DATA = [
+  // ── OpenAI ──
+  { provider:'openai', model:'GPT-4o',             pIn:2.50,  pOut:10.00, ctx:'128K', note:'' },
+  { provider:'openai', model:'GPT-4o-mini',         pIn:0.15,  pOut:0.60,  ctx:'128K', note:'' },
+  { provider:'openai', model:'o1',                  pIn:15.00, pOut:60.00, ctx:'200K', note:'推理模型' },
+  { provider:'openai', model:'o1-mini',             pIn:3.00,  pOut:12.00, ctx:'200K', note:'推理模型' },
+  { provider:'openai', model:'o3-mini',             pIn:1.10,  pOut:4.40,  ctx:'200K', note:'推理模型' },
+  { provider:'openai', model:'GPT-4 Turbo',         pIn:10.00, pOut:30.00, ctx:'128K', note:'旧版' },
+  { provider:'openai', model:'GPT-3.5 Turbo',       pIn:0.50,  pOut:1.50,  ctx:'16K',  note:'旧版' },
+  { provider:'openai', model:'GPT-4.1',             pIn:2.50,  pOut:10.00, ctx:'1M',   note:'最新' },
+  { provider:'openai', model:'GPT-4.1 Mini',        pIn:0.40,  pOut:1.60,  ctx:'1M',   note:'' },
+  { provider:'openai', model:'GPT-4.1 Nano',        pIn:0.10,  pOut:0.40,  ctx:'1M',   note:'最便宜' },
+
+  // ── Anthropic ──
+  { provider:'anthropic', model:'Claude 4 Sonnet',   pIn:3.00,  pOut:15.00, ctx:'200K', note:'Claude 4 系列' },
+  { provider:'anthropic', model:'Claude 3 Opus',     pIn:15.00, pOut:75.00, ctx:'200K', note:'旧旗舰' },
+  { provider:'anthropic', model:'Claude 3.5 Sonnet', pIn:3.00,  pOut:15.00, ctx:'200K', note:'推荐' },
+  { provider:'anthropic', model:'Claude 3 Haiku',    pIn:0.25,  pOut:1.25,  ctx:'200K', note:'轻量' },
+  { provider:'anthropic', model:'Claude 3.5 Haiku',  pIn:0.80,  pOut:4.00,  ctx:'200K', note:'' },
+
+  // ── Google Gemini ──
+  { provider:'google', model:'Gemini 2.5 Pro',       pIn:1.25,  pOut:10.00, ctx:'1M',   note:'最新旗舰' },
+  { provider:'google', model:'Gemini 2.5 Flash',     pIn:0.15,  pOut:0.60,  ctx:'1M',   note:'' },
+  { provider:'google', model:'Gemini 2.0 Pro',       pIn:1.25,  pOut:5.00,  ctx:'2M',   note:'' },
+  { provider:'google', model:'Gemini 2.0 Flash',     pIn:0.10,  pOut:0.40,  ctx:'1M',   note:'性价比' },
+  { provider:'google', model:'Gemini 1.5 Pro',       pIn:1.25,  pOut:5.00,  ctx:'2M',   note:'旧版' },
+  { provider:'google', model:'Gemini 1.5 Flash',     pIn:0.075, pOut:0.30,  ctx:'1M',   note:'旧版' },
+
+  // ── DeepSeek ──
+  { provider:'deepseek', model:'DeepSeek V3',        pIn:2.00,  pOut:8.00,  ctx:'128K', note:'' },
+  { provider:'deepseek', model:'DeepSeek R1',        pIn:4.00,  pOut:16.00, ctx:'128K', note:'推理模型' },
+  { provider:'deepseek', model:'DeepSeek Coder',     pIn:1.00,  pOut:2.00,  ctx:'128K', note:'代码专用' },
+  { provider:'deepseek', model:'DeepSeek Chat',      pIn:1.00,  pOut:2.00,  ctx:'64K',  note:'' },
+
+  // ── 阿里云 通义千问 ──
+  { provider:'alibaba', model:'Qwen-Max',            pIn:20.00, pOut:60.00, ctx:'32K',  note:'旗舰' },
+  { provider:'alibaba', model:'Qwen-Plus',           pIn:2.00,  pOut:6.00,  ctx:'131K', note:'推荐' },
+  { provider:'alibaba', model:'Qwen-Turbo',          pIn:0.50,  pOut:1.50,  ctx:'131K', note:'轻量' },
+  { provider:'alibaba', model:'Qwen2.5-72B',         pIn:4.00,  pOut:12.00, ctx:'131K', note:'' },
+  { provider:'alibaba', model:'Qwen2.5-32B',         pIn:3.50,  pOut:7.00,  ctx:'131K', note:'' },
+  { provider:'alibaba', model:'Qwen2.5-14B',         pIn:2.00,  pOut:4.00,  ctx:'131K', note:'' },
+  { provider:'alibaba', model:'Qwen2.5-7B',          pIn:1.00,  pOut:2.00,  ctx:'131K', note:'' },
+  { provider:'alibaba', model:'Qwen2.5-1.5B',        pIn:0.00,  pOut:0.00,  ctx:'32K',  note:'免费' },
+  { provider:'alibaba', model:'Qwen2.5-0.5B',        pIn:0.00,  pOut:0.00,  ctx:'32K',  note:'免费' },
+  { provider:'alibaba', model:'Qwen-Coder-Plus',     pIn:3.50,  pOut:7.00,  ctx:'131K', note:'代码' },
+  { provider:'alibaba', model:'Qwen-VL-Max',         pIn:3.00,  pOut:9.00,  ctx:'32K',  note:'多模态' },
+
+  // ── 字节跳动 豆包 ──
+  { provider:'bytedance', model:'Doubao-pro-32k',    pIn:0.80,  pOut:2.00,  ctx:'32K',  note:'推荐' },
+  { provider:'bytedance', model:'Doubao-pro-128k',   pIn:5.00,  pOut:9.00,  ctx:'128K', note:'' },
+  { provider:'bytedance', model:'Doubao-lite-32k',   pIn:0.30,  pOut:0.60,  ctx:'32K',  note:'轻量' },
+  { provider:'bytedance', model:'Doubao-lite-128k',  pIn:0.80,  pOut:1.00,  ctx:'128K', note:'' },
+  { provider:'bytedance', model:'Doubao-pro-256k',   pIn:5.00,  pOut:9.00,  ctx:'256K', note:'' },
+  { provider:'bytedance', model:'Doubao-vision-pro', pIn:3.00,  pOut:9.00,  ctx:'32K',  note:'多模态' },
+
+  // ── 百度 文心一言 ──
+  { provider:'baidu', model:'ERNIE 4.0',             pIn:30.00, pOut:90.00, ctx:'8K',   note:'旗舰' },
+  { provider:'baidu', model:'ERNIE 3.5',             pIn:12.00, pOut:36.00, ctx:'8K',   note:'' },
+  { provider:'baidu', model:'ERNIE Speed',           pIn:0.00,  pOut:0.00,  ctx:'8K',   note:'免费' },
+  { provider:'baidu', model:'ERNIE Lite',            pIn:0.00,  pOut:0.00,  ctx:'8K',   note:'免费' },
+  { provider:'baidu', model:'ERNIE Tiny',            pIn:0.00,  pOut:0.00,  ctx:'8K',   note:'免费' },
+  { provider:'baidu', model:'ERNIE 4.5',             pIn:20.00, pOut:60.00, ctx:'128K', note:'最新' },
+
+  // ── 智谱 GLM ──
+  { provider:'zhipu', model:'GLM-4-Plus',            pIn:5.00,  pOut:5.00,  ctx:'128K', note:'旗舰' },
+  { provider:'zhipu', model:'GLM-4',                 pIn:1.00,  pOut:1.00,  ctx:'128K', note:'' },
+  { provider:'zhipu', model:'GLM-4-Air',             pIn:0.50,  pOut:0.50,  ctx:'128K', note:'推荐' },
+  { provider:'zhipu', model:'GLM-4-Flash',           pIn:0.00,  pOut:0.00,  ctx:'128K', note:'免费' },
+  { provider:'zhipu', model:'GLM-4-Long',            pIn:1.00,  pOut:1.00,  ctx:'1M',   note:'超长上下文' },
+  { provider:'zhipu', model:'CodeGeeX',              pIn:0.00,  pOut:0.00,  ctx:'128K', note:'代码/免费' },
+  { provider:'zhipu', model:'GLM-4V-Plus',           pIn:5.00,  pOut:5.00,  ctx:'8K',   note:'多模态' },
+
+  // ── 讯飞星火 ──
+  { provider:'iflytek', model:'Spark 4.0',           pIn:3.00,  pOut:10.00, ctx:'8K',   note:'' },
+  { provider:'iflytek', model:'Spark 3.5',           pIn:1.50,  pOut:5.00,  ctx:'8K',   note:'' },
+  { provider:'iflytek', model:'Spark Max',           pIn:2.00,  pOut:8.00,  ctx:'8K',   note:'' },
+  { provider:'iflytek', model:'Spark Pro',           pIn:1.00,  pOut:3.00,  ctx:'8K',   note:'' },
+  { provider:'iflytek', model:'Spark Lite',          pIn:0.00,  pOut:0.00,  ctx:'8K',   note:'免费' },
+
+  // ── 腾讯混元 ──
+  { provider:'tencent', model:'Hunyuan-Pro',         pIn:3.00,  pOut:9.00,  ctx:'32K',  note:'' },
+  { provider:'tencent', model:'Hunyuan-Turbo',       pIn:1.00,  pOut:3.00,  ctx:'32K',  note:'' },
+  { provider:'tencent', model:'Hunyuan-Lite',        pIn:0.00,  pOut:0.00,  ctx:'32K',  note:'免费' },
+  { provider:'tencent', model:'Hunyuan-Standard',    pIn:0.50,  pOut:1.00,  ctx:'32K',  note:'' },
+  { provider:'tencent', model:'Hunyuan-Vision',      pIn:3.00,  pOut:9.00,  ctx:'8K',   note:'多模态' },
+
+  // ── 百川智能 ──
+  { provider:'baichuan', model:'Baichuan4',          pIn:2.00,  pOut:6.00,  ctx:'32K',  note:'' },
+  { provider:'baichuan', model:'Baichuan3-Turbo',    pIn:1.00,  pOut:3.00,  ctx:'32K',  note:'' },
+  { provider:'baichuan', model:'Baichuan3-Turbo-128k',pIn:2.00, pOut:6.00,  ctx:'128K', note:'' },
+  { provider:'baichuan', model:'Baichuan2-Turbo',    pIn:0.50,  pOut:1.00,  ctx:'8K',   note:'旧版' },
+
+  // ── MiniMax ──
+  { provider:'minimax', model:'abab6.5s',            pIn:1.00,  pOut:3.00,  ctx:'245K', note:'' },
+  { provider:'minimax', model:'abab6.5t',            pIn:0.50,  pOut:1.00,  ctx:'8K',   note:'' },
+  { provider:'minimax', model:'abab5.5',             pIn:0.50,  pOut:2.00,  ctx:'16K',  note:'' },
+
+  // ── Meta Llama (via OpenRouter) ──
+  { provider:'meta', model:'Llama 3.1-405B',         pIn:2.50,  pOut:5.00,  ctx:'128K', note:'开源旗舰' },
+  { provider:'meta', model:'Llama 3.1-70B',          pIn:0.59,  pOut:0.79,  ctx:'128K', note:'' },
+  { provider:'meta', model:'Llama 3.1-8B',           pIn:0.06,  pOut:0.06,  ctx:'128K', note:'最轻量' },
+  { provider:'meta', model:'Llama 3.2-90B',          pIn:0.90,  pOut:0.90,  ctx:'128K', note:'多模态' },
+
+  // ── Mistral ──
+  { provider:'mistral', model:'Mistral Large',       pIn:2.00,  pOut:6.00,  ctx:'128K', note:'' },
+  { provider:'mistral', model:'Mistral Small',       pIn:0.20,  pOut:0.60,  ctx:'32K',  note:'' },
+  { provider:'mistral', model:'Mistral Nemo',        pIn:0.15,  pOut:0.15,  ctx:'128K', note:'' },
+  { provider:'mistral', model:'Codestral',           pIn:0.20,  pOut:0.60,  ctx:'32K',  note:'代码' },
+
+  // ── 月之暗面 Moonshot ──
+  { provider:'moonshot', model:'Moonshot-v1-8k',     pIn:1.00,  pOut:2.00,  ctx:'8K',   note:'' },
+  { provider:'moonshot', model:'Moonshot-v1-32k',    pIn:2.00,  pOut:4.00,  ctx:'32K',  note:'' },
+  { provider:'moonshot', model:'Moonshot-v1-128k',   pIn:5.00,  pOut:10.00, ctx:'128K', note:'' },
+
+  // ── 零一万物 ──
+  { provider:'01ai', model:'Yi-Large',               pIn:2.00,  pOut:6.00,  ctx:'32K',  note:'' },
+  { provider:'01ai', model:'Yi-Medium',              pIn:1.00,  pOut:3.00,  ctx:'16K',  note:'' },
+  { provider:'01ai', model:'Yi-Spark',               pIn:0.00,  pOut:0.00,  ctx:'16K',  note:'免费' },
+  { provider:'01ai', model:'Yi-Vision',              pIn:2.00,  pOut:6.00,  ctx:'8K',   note:'多模态' },
+
+  // ── 阶跃星辰 StepFun ──
+  { provider:'stepfun', model:'Step-2-16k',          pIn:2.00,  pOut:6.00,  ctx:'16K',  note:'' },
+  { provider:'stepfun', model:'Step-1-8k',           pIn:1.00,  pOut:2.00,  ctx:'8K',   note:'' },
+  { provider:'stepfun', model:'Step-1V',             pIn:2.00,  pOut:8.00,  ctx:'8K',   note:'多模态' },
+
+  // ── xAI Grok ──
+  { provider:'xai', model:'Grok-2',                  pIn:2.00,  pOut:10.00, ctx:'128K', note:'' },
+
+  // ── DeepMind ──
+  { provider:'deepmind', model:'Gemini 2.5 Pro',     pIn:1.25,  pOut:10.00, ctx:'1M',   note:'DeepMind/Google' },
+];
+
+/* ═══════════════════════════════════════════════
+   MODEL CLASS
+   ═══════════════════════════════════════════════ */
+class Model {
+  constructor(raw) {
+    this.providerId = raw.provider;
+    this.provider = providerMap[raw.provider];
+    this.model = raw.model;
+    this.nativeIn = raw.pIn;    // price per 1M in native currency
+    this.nativeOut = raw.pOut;
+    this.context = raw.ctx || '';
+    this.note = raw.note || '';
+    this.fromAPI = !!raw.fromAPI;
+  }
+
+  // Get price in CNY per 1M tokens (converts if native is USD)
+  get cnyIn() {
+    if (this.provider.nativeCurrency === 'USD') return this.nativeIn * STATE.rate;
+    return this.nativeIn;
+  }
+  get cnyOut() {
+    if (this.provider.nativeCurrency === 'USD') return this.nativeOut * STATE.rate;
+    return this.nativeOut;
+  }
+
+  // Get display price based on current settings
+  get displayIn() {
+    let price = STATE.displayCurrency === 'CNY' ? this.cnyIn : this.usdIn;
+    return STATE.unit === '1K' ? price / 1000 : price;
+  }
+  get displayOut() {
+    let price = STATE.displayCurrency === 'CNY' ? this.cnyOut : this.usdOut;
+    return STATE.unit === '1K' ? price / 1000 : price;
+  }
+
+  // Get price in USD per 1M tokens (converts if native is CNY)
+  get usdIn() {
+    if (this.provider.nativeCurrency === 'CNY') return this.nativeIn / STATE.rate;
+    return this.nativeIn;
+  }
+  get usdOut() {
+    if (this.provider.nativeCurrency === 'CNY') return this.nativeOut / STATE.rate;
+    return this.nativeOut;
+  }
+
+  get sortIn() { return STATE.displayCurrency === 'CNY' ? this.cnyIn : this.usdIn; }
+  get sortOut() { return STATE.displayCurrency === 'CNY' ? this.cnyOut : this.usdOut; }
+}
+
+/* ═══════════════════════════════════════════════
+   INIT
+   ═══════════════════════════════════════════════ */
+function initModels() {
+  STATE.models = BUILTIN_DATA.map(d => new Model(d));
+}
+
+/* ═══════════════════════════════════════════════
+   RENDER
+   ═══════════════════════════════════════════════ */
+function getPriceClass(priceCNYPer1M) {
+  if (priceCNYPer1M <= 4) return 'price-green';
+  if (priceCNYPer1M <= 36) return 'price-yellow';
+  return 'price-red';
+}
+
+function renderProviderChips() {
+  const container = document.getElementById('providerFilter');
+  const allActive = STATE.activeProviders.size === 0;
+  container.innerHTML = PROVIDERS.map(p => {
+    const active = STATE.activeProviders.has(p.id) || allActive;
+    return `<span class="provider-chip${active?' active':''}"
+      style="color:${p.color};border-color:${p.color}"
+      onclick="toggleProvider('${p.id}')">
+      <span class="dot" style="background:${p.color}"></span>${p.name}
+    </span>`;
+  }).join('');
+}
+
+function renderTable() {
+  const tbody = document.getElementById('tableBody');
+  const currencySymbol = STATE.displayCurrency === 'CNY' ? '¥' : '$';
+  const unitLabel = STATE.unit === '1K' ? '/1K' : '/1M';
+
+  tbody.innerHTML = STATE.filteredModels.map(m => {
+    const inPrice = m.displayIn;
+    const outPrice = m.displayOut;
+    const inClass = getPriceClass(m.cnyIn);
+    const outClass = getPriceClass(m.cnyOut);
+    const checked = STATE.compareSet.has(m.providerId + '|' + m.model) ? 'checked' : '';
+
+    return `<tr>
+      <td><input type="checkbox" class="compare-checkbox" ${checked}
+            onchange="toggleCompare('${m.providerId}','${m.model}')" title="加入对比"></td>
+      <td><span class="provider-badge">
+        <span class="provider-dot" style="background:${m.provider.color}"></span>
+        ${m.provider.name}
+      </span></td>
+      <td><strong>${m.model}</strong></td>
+      <td><span class="price-cell ${inClass}">${currencySymbol}${inPrice.toFixed(4)}</span></td>
+      <td><span class="price-cell ${outClass}">${currencySymbol}${outPrice.toFixed(4)}</span></td>
+      <td class="hide-mobile">${m.context}</td>
+      <td class="hide-mobile" style="color:var(--text-muted);font-size:0.8rem">${m.note}</td>
+    </tr>`;
+  }).join('');
+
+  // Stats
+  document.getElementById('statsBar').innerHTML = `
+    <span>📊 显示 ${STATE.filteredModels.length} / ${STATE.models.length} 个模型</span>
+    <span>💱 1 USD ≈ ${STATE.rate.toFixed(2)} CNY</span>
+    <span>📐 单位: ${unitLabel} tokens</span>
+  `;
+
+  document.getElementById('compareCount').textContent = STATE.compareSet.size;
+  updateSortArrows();
+  document.getElementById('footerRate').textContent = `1 USD ≈ ${STATE.rate.toFixed(2)} CNY`;
+}
+
+function updateSortArrows() {
+  document.querySelectorAll('thead th .sort-arrow').forEach(a => a.classList.remove('active'));
+  document.querySelectorAll('thead th[data-sort]').forEach(th => {
+    const key = th.dataset.sort;
+    const arrow = th.querySelector('.sort-arrow');
+    if (key === STATE.sortKey) {
+      arrow.classList.add('active');
+      arrow.textContent = STATE.sortDir === 'asc' ? ' ▲' : ' ▼';
+    } else {
+      arrow.textContent = '';
+    }
+  });
+}
+
+function renderComparePanel() {
+  const grid = document.getElementById('compareGrid');
+  if (STATE.compareSet.size === 0) {
+    grid.innerHTML = '<p style="color:var(--text-muted);grid-column:1/-1;text-align:center">请在表格中勾选模型进行对比（最多 4 个）</p>';
+    return;
+  }
+  const currencySymbol = STATE.displayCurrency === 'CNY' ? '¥' : '$';
+  const unitLabel = STATE.unit === '1K' ? '/1K' : '/1M';
+
+  grid.innerHTML = [...STATE.compareSet].map(key => {
+    const m = STATE.models.find(x => (x.providerId + '|' + x.model) === key);
+    if (!m) return '';
+    return `<div class="compare-card">
+      <h4><span class="provider-dot" style="background:${m.provider.color}"></span> ${m.provider.name} / ${m.model}</h4>
+      <div class="row"><span class="label">Input</span><span class="price-cell ${getPriceClass(m.cnyIn)}">${currencySymbol}${m.displayIn.toFixed(4)} ${unitLabel}</span></div>
+      <div class="row"><span class="label">Output</span><span class="price-cell ${getPriceClass(m.cnyOut)}">${currencySymbol}${m.displayOut.toFixed(4)} ${unitLabel}</span></div>
+      <div class="row"><span class="label">上下文</span><span>${m.context}</span></div>
+      <div class="row"><span class="label">备注</span><span>${m.note || '-'}</span></div>
+      <div class="row"><span class="label">原生币种</span><span>${m.provider.nativeCurrency}</span></div>
+    </div>`;
+  }).join('');
+}
+
+/* ═══════════════════════════════════════════════
+   FILTER & SORT
+   ═══════════════════════════════════════════════ */
+function applyFilters() {
+  STATE.query = document.getElementById('searchInput').value.toLowerCase().trim();
+  STATE.unit = document.getElementById('unitSelect').value;
+
+  const minVal = document.getElementById('priceMin').value;
+  const maxVal = document.getElementById('priceMax').value;
+  STATE.priceMin = minVal !== '' ? parseFloat(minVal) : null;
+  STATE.priceMax = maxVal !== '' ? parseFloat(maxVal) : null;
+
+  let filtered = [...STATE.models];
+
+  // Search
+  if (STATE.query) {
+    filtered = filtered.filter(m =>
+      m.model.toLowerCase().includes(STATE.query) ||
+      m.provider.name.toLowerCase().includes(STATE.query) ||
+      m.providerId.includes(STATE.query)
+    );
+  }
+
+  // Provider filter
+  if (STATE.activeProviders.size > 0) {
+    filtered = filtered.filter(m => STATE.activeProviders.has(m.providerId));
+  }
+
+  // Price range (filter by CNY output price per 1M)
+  if (STATE.priceMin !== null) {
+    filtered = filtered.filter(m => m.cnyOut >= STATE.priceMin);
+  }
+  if (STATE.priceMax !== null) {
+    filtered = filtered.filter(m => m.cnyOut <= STATE.priceMax);
+  }
+
+  // Sort
+  filtered.sort((a, b) => {
+    let va, vb;
+    switch (STATE.sortKey) {
+      case 'provider': va = a.provider.name; vb = b.provider.name; break;
+      case 'model':    va = a.model; vb = b.model; break;
+      case 'input':    va = a.sortIn; vb = b.sortIn; break;
+      case 'output':   va = a.sortOut; vb = b.sortOut; break;
+      case 'context':  va = a.context; vb = b.context; break;
+      default: va = a.provider.name; vb = b.provider.name;
+    }
+    if (typeof va === 'string') {
+      return STATE.sortDir === 'asc' ? va.localeCompare(vb) : vb.localeCompare(va);
+    }
+    return STATE.sortDir === 'asc' ? va - vb : vb - va;
+  });
+
+  STATE.filteredModels = filtered;
+  renderTable();
+  renderComparePanel();
+}
+
+function setSort(key) {
+  if (STATE.sortKey === key) {
+    STATE.sortDir = STATE.sortDir === 'asc' ? 'desc' : 'asc';
+  } else {
+    STATE.sortKey = key;
+    STATE.sortDir = 'asc';
+  }
+  applyFilters();
+}
+
+function toggleProvider(providerId) {
+  if (STATE.activeProviders.has(providerId)) {
+    STATE.activeProviders.delete(providerId);
+  } else {
+    STATE.activeProviders.add(providerId);
+  }
+  renderProviderChips();
+  applyFilters();
+}
+
+function setPriceRange(min, max) {
+  document.getElementById('priceMin').value = min;
+  document.getElementById('priceMax').value = max;
+  applyFilters();
+}
+
+function clearPriceRange() {
+  document.getElementById('priceMin').value = '';
+  document.getElementById('priceMax').value = '';
+  applyFilters();
+}
+
+/* ═══════════════════════════════════════════════
+   CURRENCY & UNIT
+   ═══════════════════════════════════════════════ */
+function setDisplayCurrency(curr) {
+  STATE.displayCurrency = curr;
+  document.getElementById('btnCNY').classList.toggle('active', curr === 'CNY');
+  document.getElementById('btnUSD').classList.toggle('active', curr === 'USD');
+  applyFilters();
+}
+
+document.getElementById('rateInput').addEventListener('input', function() {
+  const v = parseFloat(this.value);
+  if (v > 0) {
+    STATE.rate = v;
+    applyFilters();
+  }
+});
+
+/* ═══════════════════════════════════════════════
+   COMPARE MODE
+   ═══════════════════════════════════════════════ */
+function toggleCompare(providerId, model) {
+  const key = providerId + '|' + model;
+  if (STATE.compareSet.has(key)) {
+    STATE.compareSet.delete(key);
+  } else {
+    if (STATE.compareSet.size >= 4) {
+      showToast('最多对比 4 个模型');
+      return;
+    }
+    STATE.compareSet.add(key);
+  }
+  renderTable();
+  renderComparePanel();
+}
+
+function toggleComparePanel() {
+  const panel = document.getElementById('comparePanel');
+  panel.classList.toggle('open');
+}
+
+function clearCompare() {
+  STATE.compareSet.clear();
+  renderTable();
+  renderComparePanel();
+}
+
+/* ═══════════════════════════════════════════════
+   EXPORT
+   ═══════════════════════════════════════════════ */
+function exportCSV() {
+  const rows = STATE.filteredModels;
+  const header = '供应商,模型,Input价格(¥/1M),Output价格(¥/1M),Input($/1M),Output($/1M),上下文,备注';
+  const lines = rows.map(m =>
+    `"${m.provider.name}","${m.model}",${m.cnyIn.toFixed(2)},${m.cnyOut.toFixed(2)},${m.usdIn.toFixed(2)},${m.usdOut.toFixed(2)},"${m.context}","${m.note}"`
+  );
+  downloadFile('llm_prices.csv', '﻿' + header + '\n' + lines.join('\n'), 'text/csv');
+  showToast('CSV 已导出');
+}
+
+function exportJSON() {
+  const data = {
+    updated: new Date().toISOString(),
+    rate: STATE.rate,
+    models: STATE.filteredModels.map(m => ({
+      provider: m.provider.name,
+      model: m.model,
+      input_cny_per_1M: m.cnyIn,
+      output_cny_per_1M: m.cnyOut,
+      input_usd_per_1M: m.usdIn,
+      output_usd_per_1M: m.usdOut,
+      context: m.context,
+      notes: m.note,
+    })),
+  };
+  downloadFile('llm_prices.json', JSON.stringify(data, null, 2), 'application/json');
+  showToast('JSON 已导出');
+}
+
+function downloadFile(filename, content, mimeType) {
+  const blob = new Blob([content], { type: mimeType });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+/* ═══════════════════════════════════════════════
+   TOAST
+   ═══════════════════════════════════════════════ */
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 2600);
+}
+
+/* ═══════════════════════════════════════════════
+   OpenRouter API
+   ═══════════════════════════════════════════════ */
+const OR_CACHE_KEY = 'llm_or_cache';
+const OR_CACHE_TIME_KEY = 'llm_or_cache_time';
+const CACHE_TTL = 6 * 60 * 60 * 1000; // 6 hours
+
+async function fetchOpenRouter() {
+  const btn = document.getElementById('btnRefresh');
+  btn.textContent = '⏳ 获取中...';
+  btn.disabled = true;
+
+  try {
+    const resp = await fetch('https://openrouter.ai/api/v1/models', {
+      headers: { 'Accept': 'application/json' },
+    });
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+
+    const payload = await resp.json();
+    // OpenRouter returns { data: [...] } (OpenAI-compatible format)
+    const data = Array.isArray(payload) ? payload : (payload.data || []);
+    if (!Array.isArray(data)) throw new Error('响应格式异常');
+
+    const orModels = data
+      .filter(m => m.pricing && (parseFloat(m.pricing.prompt) > 0 || parseFloat(m.pricing.completion) > 0))
+      .map(m => {
+        const providerName = (m.id || '').split('/')[0];
+        const providerId = guessProviderId(providerName, m.id);
+        return new Model({
+          provider: providerId,
+          model: m.name || m.id,
+          pIn: parseFloat(m.pricing.prompt) * 1_000_000,    // per-token → per-1M
+          pOut: parseFloat(m.pricing.completion) * 1_000_000,
+          ctx: formatContext(m.context_length),
+          note: 'OpenRouter',
+          fromAPI: true,
+        });
+      });
+
+    // Merge: replace matching models, add new ones
+    const builtinKeys = new Set(STATE.models.filter(m => !m.fromAPI).map(m => m.providerId + '|' + m.model));
+    const merged = STATE.models.filter(m => !m.fromAPI);
+
+    for (const orm of orModels) {
+      const key = orm.providerId + '|' + orm.model;
+      if (!builtinKeys.has(key)) {
+        merged.push(orm);
+        builtinKeys.add(key);
+      }
+    }
+
+    STATE.models = merged;
+
+    // Cache
+    localStorage.setItem(OR_CACHE_KEY, JSON.stringify(orModels.map(m => ({
+      provider: m.providerId, model: m.model,
+      pIn: m.nativeIn, pOut: m.nativeOut, ctx: m.context,
+      note: 'OpenRouter (缓存)', fromAPI: true,
+    }))));
+    localStorage.setItem(OR_CACHE_TIME_KEY, Date.now().toString());
+
+    document.getElementById('lastUpdated').textContent =
+      new Date().toLocaleString('zh-CN') + ' (OpenRouter 在线更新)';
+    showToast(`从 OpenRouter 获取了 ${orModels.length} 个模型价格`);
+    applyFilters();
+  } catch (e) {
+    console.error('OpenRouter fetch failed:', e);
+    const msg = e.message || String(e);
+    if (msg.includes('NetworkError') || msg.includes('Failed to fetch') || msg.includes('Load failed')) {
+      showToast('⚠ 网络不通，请用本地服务器打开 (如 npx serve . 或 python -m http.server)');
+    } else if (msg.includes('HTTP 4')) {
+      showToast('⚠ OpenRouter 请求被拒 (' + msg + ')，可能需要 API Key');
+    } else {
+      showToast('⚠ 获取失败: ' + msg + '，尝试使用缓存');
+    }
+
+    // Fallback to cache
+    const cached = localStorage.getItem(OR_CACHE_KEY);
+    if (cached) {
+      try {
+        const cachedModels = JSON.parse(cached);
+        const models = cachedModels.map(d => new Model(d));
+        const builtinKeys = new Set(STATE.models.filter(m => !m.fromAPI).map(m => m.providerId + '|' + m.model));
+        const merged = STATE.models.filter(m => !m.fromAPI);
+        for (const cm of models) {
+          const key = cm.providerId + '|' + cm.model;
+          if (!builtinKeys.has(key)) { merged.push(cm); builtinKeys.add(key); }
+        }
+        STATE.models = merged;
+        const cacheTime = new Date(parseInt(localStorage.getItem(OR_CACHE_TIME_KEY) || '0'));
+        document.getElementById('lastUpdated').textContent =
+          cacheTime.toLocaleString('zh-CN') + ' (本地缓存)';
+        showToast('已加载本地缓存数据');
+        applyFilters();
+      } catch {}
+    }
+  } finally {
+    btn.textContent = '🔄 刷新价格';
+    btn.disabled = false;
+  }
+}
+
+function guessProviderId(providerName, modelId) {
+  const name = (providerName + modelId).toLowerCase();
+  if (name.includes('openai') || name.includes('gpt') || name.includes('o1') || name.includes('o3')) return 'openai';
+  if (name.includes('anthropic') || name.includes('claude')) return 'anthropic';
+  if (name.includes('google') || name.includes('gemini') || name.includes('palm')) return 'google';
+  if (name.includes('deepseek')) return 'deepseek';
+  if (name.includes('meta') || name.includes('llama')) return 'meta';
+  if (name.includes('mistral')) return 'mistral';
+  if (name.includes('qwen') || name.includes('alibaba')) return 'alibaba';
+  if (name.includes('doubao') || name.includes('bytedance')) return 'bytedance';
+  if (name.includes('ernie') || name.includes('baidu')) return 'baidu';
+  if (name.includes('glm') || name.includes('zhipu') || name.includes('codegeex')) return 'zhipu';
+  if (name.includes('spark') || name.includes('iflytek')) return 'iflytek';
+  if (name.includes('hunyuan') || name.includes('tencent')) return 'tencent';
+  if (name.includes('baichuan')) return 'baichuan';
+  if (name.includes('minimax') || name.includes('abab')) return 'minimax';
+  if (name.includes('moonshot') || name.includes('kimi')) return 'moonshot';
+  if (name.includes('yi-') || name.includes('01ai')) return '01ai';
+  if (name.includes('step-') || name.includes('stepfun')) return 'stepfun';
+  if (name.includes('grok') || name.includes('xai')) return 'xai';
+  return 'openai'; // fallback
+}
+
+function formatContext(len) {
+  if (!len) return '';
+  if (len >= 1_000_000) return (len / 1_000_000).toFixed(1) + 'M';
+  if (len >= 1_000) return (len / 1_000).toFixed(0) + 'K';
+  return String(len);
+}
+
+/* ═══════════════════════════════════════════════
+   STARTUP
+   ═══════════════════════════════════════════════ */
+function init() {
+  // Show warning if opened via file://
+  if (location.protocol === 'file:') {
+    document.getElementById('fileProtocolBanner').style.display = 'block';
+    document.getElementById('btnRefresh').title = 'file:// 协议不支持跨域请求，请用 HTTP 服务器打开';
+  }
+
+  initModels();
+
+  // Restore saved rate
+  const savedRate = localStorage.getItem('llm_rate');
+  if (savedRate) {
+    const r = parseFloat(savedRate);
+    if (r > 0) { STATE.rate = r; document.getElementById('rateInput').value = r; }
+  }
+
+  // Load cached OpenRouter data if available
+  const cached = localStorage.getItem(OR_CACHE_KEY);
+  const cacheTime = parseInt(localStorage.getItem(OR_CACHE_TIME_KEY) || '0');
+  if (cached && (Date.now() - cacheTime < CACHE_TTL)) {
+    try {
+      const cachedModels = JSON.parse(cached);
+      const orModels = cachedModels.map(d => new Model(d));
+      const builtinKeys = new Set(STATE.models.map(m => m.providerId + '|' + m.model));
+      for (const cm of orModels) {
+        const key = cm.providerId + '|' + cm.model;
+        if (!builtinKeys.has(key)) {
+          STATE.models.push(cm);
+          builtinKeys.add(key);
+        }
+      }
+      document.getElementById('lastUpdated').textContent =
+        new Date(cacheTime).toLocaleString('zh-CN') + ' (本地缓存)';
+    } catch {}
+  }
+
+  STATE.activeProviders = new Set();
+  applyFilters();
+  renderProviderChips();
+}
+
+// Save rate to localStorage when changed
+document.getElementById('rateInput').addEventListener('change', function() {
+  localStorage.setItem('llm_rate', this.value);
+});
+
+document.addEventListener('DOMContentLoaded', init);
+
+// Register Service Worker for PWA
+if ('serviceWorker' in navigator && location.protocol === 'https:') {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+}
+
+// PWA install prompt
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  // Show install button after 2 seconds if not already installed
+  setTimeout(() => {
+    if (deferredPrompt && !window.matchMedia('(display-mode: standalone)').matches) {
+      const installBtn = document.createElement('button');
+      installBtn.textContent = '📲 安装到手机';
+      installBtn.className = 'btn btn-primary btn-sm';
+      installBtn.style.cssText = 'position:fixed;bottom:20px;right:20px;z-index:300;animation:fadeInOut 0.3s';
+      installBtn.onclick = () => {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(() => { deferredPrompt = null; installBtn.remove(); });
+      };
+      document.body.appendChild(installBtn);
+    }
+  }, 3000);
+});
+</script>
+</body>
+</html>
