@@ -348,6 +348,8 @@ tbody tr:hover { background: rgba(255,255,255,0.03); }
       <button class="btn" id="btnCompareToggle" onclick="toggleComparePanel()">⚖️ 比价模式 (<span id="compareCount">0</span>)</button>
       <button class="btn" onclick="exportCSV()">📥 CSV</button>
       <button class="btn" onclick="exportJSON()">📋 JSON</button>
+      <button class="btn btn-sm" onclick="setSort('output');if(STATE.sortDir==='desc')applyFilters()" title="价格从低到高">⬆️ 价格升序</button>
+      <button class="btn btn-sm" onclick="STATE.sortKey='output';STATE.sortDir='desc';applyFilters()" title="价格从高到低">⬇️ 价格降序</button>
       <button class="btn" id="btnCalcToggle" onclick="toggleCalculator()">💰 费用计算</button>
     </div>
     <div class="controls-row" id="calcRow" style="display:none">
