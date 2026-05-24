@@ -1023,8 +1023,9 @@ function showToast(msg) {
 /* ═══════════════════════════════════════════════
    OpenRouter API
    ═══════════════════════════════════════════════ */
-const OR_CACHE_KEY = 'llm_or_cache';
-const OR_CACHE_TIME_KEY = 'llm_or_cache_time';
+const OR_CACHE_KEY = 'llm_or_cache_v2';
+const OR_CACHE_TIME_KEY = 'llm_or_cache_time_v2';
+const CACHE_VERSION = 2; // bump to invalidate old cache
 const CACHE_TTL = 6 * 60 * 60 * 1000; // 6 hours
 
 async function fetchOpenRouter() {
@@ -1048,10 +1049,13 @@ async function fetchOpenRouter() {
       .map(m => {
         const providerName = (m.id || '').split('/')[0];
         const providerId = guessProviderId(providerName, m.id);
+        // Clean model name: strip "Provider: " prefix
+        let modelName = m.name || m.id;
+        modelName = modelName.replace(/^[^:]+:\s*/, '');
         return new Model({
           provider: providerId,
-          model: m.name || m.id,
-          pIn: parseFloat(m.pricing.prompt) * 1_000_000,    // per-token → per-1M
+          model: modelName,
+          pIn: parseFloat(m.pricing.prompt) * 1_000_000,
           pOut: parseFloat(m.pricing.completion) * 1_000_000,
           ctx: formatContext(m.context_length),
           note: 'OpenRouter',
@@ -1073,12 +1077,13 @@ async function fetchOpenRouter() {
 
     STATE.models = merged;
 
-    // Cache
+    // Cache (model name already cleaned above)
     localStorage.setItem(OR_CACHE_KEY, JSON.stringify(orModels.map(m => ({
       provider: m.providerId, model: m.model,
       pIn: m.nativeIn, pOut: m.nativeOut, ctx: m.context,
       note: 'OpenRouter (缓存)', fromAPI: true,
     }))));
+    localStorage.setItem('llm_cache_version', CACHE_VERSION);
     localStorage.setItem(OR_CACHE_TIME_KEY, Date.now().toString());
 
     document.getElementById('lastUpdated').textContent =
@@ -1101,7 +1106,11 @@ async function fetchOpenRouter() {
     if (cached) {
       try {
         const cachedModels = JSON.parse(cached);
-        const models = cachedModels.map(d => new Model(d));
+        // Normalize model names from cache too
+        const models = cachedModels.map(d => {
+          d.model = (d.model || '').replace(/^[^:]+:\s*/, '');
+          return new Model(d);
+        });
         const builtinKeys = new Set(STATE.models.filter(m => !m.fromAPI).map(m => m.providerId + '|' + m.model));
         const merged = STATE.models.filter(m => !m.fromAPI);
         for (const cm of models) {
@@ -1165,13 +1174,20 @@ function init() {
     if (r > 0) { STATE.rate = r; document.getElementById('rateInput').value = r; }
   }
 
+  // Clean old cache format
+  localStorage.removeItem('llm_or_cache');
+  localStorage.removeItem('llm_or_cache_time');
+
   // Load cached OpenRouter data if available
   const cached = localStorage.getItem(OR_CACHE_KEY);
   const cacheTime = parseInt(localStorage.getItem(OR_CACHE_TIME_KEY) || '0');
   if (cached && (Date.now() - cacheTime < CACHE_TTL)) {
     try {
       const cachedModels = JSON.parse(cached);
-      const orModels = cachedModels.map(d => new Model(d));
+      const orModels = cachedModels.map(d => {
+        d.model = (d.model || '').replace(/^[^:]+:\s*/, ''); // normalize name
+        return new Model(d);
+      });
       const builtinKeys = new Set(STATE.models.map(m => m.providerId + '|' + m.model));
       for (const cm of orModels) {
         const key = cm.providerId + '|' + cm.model;
