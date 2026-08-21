@@ -371,6 +371,12 @@ class DeepSeekScraper(BaseScraper):
                 input_usd=round(1.50/rate, 4), output_usd=round(4.50/rate, 4),
             ),
             ModelPrice(
+                provider="DeepSeek", model="DeepSeek V4 Flash Vision Exp",
+                input_price=1.50, output_price=4.50, context_window="1M",
+                notes="✨视觉实验版/与V4 Flash同价", cached_input_price=0.05,
+                input_usd=round(1.50/rate, 4), output_usd=round(4.50/rate, 4),
+            ),
+            ModelPrice(
                 provider="DeepSeek", model="DeepSeek V3.2",
                 input_price=2.00, output_price=3.00, context_window="164K",
                 notes="", cached_input_price=0,

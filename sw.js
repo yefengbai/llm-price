@@ -1,5 +1,5 @@
 // Service Worker for AI Token 价格比价 — offline cache
-const CACHE_NAME = 'llm-price-v5';
+const CACHE_NAME = 'llm-price-v6';
 const ASSETS = [
   './',
   './index.html',

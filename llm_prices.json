@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-21T19:20:24.000000",
+  "updated": "2026-08-21T23:12:26.000000",
   "currency": "CNY (人民币)",
   "unit": "每百万 Token",
   "models": [
@@ -450,6 +450,17 @@
       "output_price": 4.5,
       "context_window": "1M",
       "notes": "空闲价(高峰¥3/9),缓存¥0.05",
+      "cached_input_price": 0.05,
+      "input_usd": 0.2212,
+      "output_usd": 0.6637
+    },
+    {
+      "provider": "DeepSeek",
+      "model": "DeepSeek V4 Flash Vision Exp",
+      "input_price": 1.5,
+      "output_price": 4.5,
+      "context_window": "1M",
+      "notes": "✨视觉实验版/与V4 Flash同价,单图≤384token",
       "cached_input_price": 0.05,
       "input_usd": 0.2212,
       "output_usd": 0.6637
