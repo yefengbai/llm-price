@@ -409,7 +409,7 @@ tbody tr:hover { background: var(--row-hover); }
       <button class="btn btn-primary btn-sm" id="btnRefresh" onclick="fetchOpenRouter()" title="从 OpenRouter 获取最新价格 (需要 HTTP 服务器打开本文件)">
         🔄 刷新价格
       </button>
-      <span style="font-size:0.7rem;color:var(--text-muted);max-width:180px;line-height:1.2">需用本地服务器打开<br>如: npx serve . 或 python -m http.server</span>
+      <span id="fileProtocolBanner" style="font-size:0.7rem;color:var(--text-muted);max-width:180px;line-height:1.2">需用本地服务器打开<br>如: npx serve . 或 python -m http.server</span>
       <span style="font-size:0.78rem;color:var(--text-muted)" id="updateTime"></span>
     </div>
   </div>
@@ -1423,6 +1423,12 @@ function toggleTheme() {
 
 function init() {
   initModels();
+
+  // 仅在 file:// 下提示"需用本地服务器打开"（http/https 下会隐藏）
+  if (location.protocol !== 'file:') {
+    const banner = document.getElementById('fileProtocolBanner');
+    if (banner) banner.style.display = 'none';
+  }
 
   // 主题: 默认深色, 与 <head> 内联脚本保持同步
   document.getElementById('themeToggle').textContent =
