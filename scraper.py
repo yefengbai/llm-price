@@ -361,19 +361,19 @@ class DeepSeekScraper(BaseScraper):
             ModelPrice(
                 provider="DeepSeek", model="DeepSeek V4 Pro",
                 input_price=4.50, output_price=13.50, context_window="1M",
-                notes="🔥空闲价(高峰¥9/27)", cached_input_price=0.15,
+                notes="🔥空闲¥4.5/13.5·缓存0.15 ｜ 高峰(9-12,14-18点)¥9/27·缓存0.30", cached_input_price=0.15,
                 input_usd=round(4.50/rate, 4), output_usd=round(13.50/rate, 4),
             ),
             ModelPrice(
                 provider="DeepSeek", model="DeepSeek V4 Flash",
                 input_price=1.50, output_price=4.50, context_window="1M",
-                notes="空闲价(高峰¥3/9)", cached_input_price=0.05,
+                notes="空闲¥1.5/4.5·缓存0.05 ｜ 高峰(9-12,14-18点)¥3/9·缓存0.10", cached_input_price=0.05,
                 input_usd=round(1.50/rate, 4), output_usd=round(4.50/rate, 4),
             ),
             ModelPrice(
                 provider="DeepSeek", model="DeepSeek V4 Flash Vision Exp",
                 input_price=1.50, output_price=4.50, context_window="1M",
-                notes="✨视觉实验版/与V4 Flash同价", cached_input_price=0.05,
+                notes="✨视觉版/同V4Flash价·图≤384token ｜ 空闲¥1.5/4.5 高峰¥3/9", cached_input_price=0.05,
                 input_usd=round(1.50/rate, 4), output_usd=round(4.50/rate, 4),
             ),
             ModelPrice(
