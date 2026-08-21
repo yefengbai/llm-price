@@ -30,7 +30,38 @@
   --green: #3fb950;
   --yellow: #d2991d;
   --red: #f85149;
-  --radius: 8px;
+  --radius: 10px;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.35);
+  --row-hover: rgba(255, 255, 255, 0.04);
+  --row-hover-strong: rgba(255, 255, 255, 0.09);
+  --hover-strong: #30363d;
+  --focus-ring: rgba(88, 166, 255, 0.35);
+  --scrollbar-thumb: #2d333b;
+}
+
+/* ── 浅色主题 ──────────────────────────────── */
+[data-theme="light"] {
+  --bg-primary: #f6f8fa;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #eef1f4;
+  --bg-card: #ffffff;
+  --border: #d1d9e0;
+  --text-primary: #1f2328;
+  --text-secondary: #59636e;
+  --text-muted: #818b98;
+  --accent: #0969da;
+  --accent-dim: #218bff;
+  --green: #1a7f37;
+  --yellow: #9a6700;
+  --red: #cf222e;
+  --shadow-sm: 0 1px 3px rgba(31, 35, 40, 0.08);
+  --shadow-md: 0 4px 16px rgba(31, 35, 40, 0.14);
+  --row-hover: rgba(31, 35, 40, 0.04);
+  --row-hover-strong: rgba(31, 35, 40, 0.09);
+  --hover-strong: #d1d9e0;
+  --focus-ring: rgba(9, 105, 218, 0.25);
+  --scrollbar-thumb: #c9d1d9;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -45,6 +76,23 @@ body {
 
 .container { max-width: 1400px; margin: 0 auto; padding: 16px; }
 
+/* 滚动条 */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb); border-radius: 5px;
+  border: 2px solid transparent; background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover { background-color: var(--border); }
+
+/* 输入/选择器聚焦 */
+input:focus, select:focus {
+  outline: none; border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--focus-ring);
+  transition: border-color .15s, box-shadow .15s;
+}
+button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
 /* ═══════════════════════════════════════════════
    Header
    ═══════════════════════════════════════════════ */
@@ -54,6 +102,7 @@ body {
   padding: 16px 0;
   position: sticky; top: 0; z-index: 100;
   backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-sm);
 }
 .header .container {
   display: flex; align-items: center; justify-content: space-between;
@@ -93,6 +142,7 @@ body {
 .controls {
   background: var(--bg-secondary); border: 1px solid var(--border);
   border-radius: var(--radius); padding: 16px; margin: 16px 0;
+  box-shadow: var(--shadow-sm);
 }
 .controls-row {
   display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
@@ -125,7 +175,8 @@ select {
   border: 1px solid var(--border); display: inline-flex; align-items: center; gap: 6px;
   white-space: nowrap;
 }
-.btn:hover { background: var(--border); }
+.btn:hover { background: var(--hover-strong); transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
 .btn-primary { background: var(--accent-dim); border-color: var(--accent-dim); color: #fff; }
 .btn-primary:hover { background: var(--accent); }
 .btn-sm { padding: 4px 10px; font-size: 0.8rem; }
@@ -139,6 +190,7 @@ select {
   opacity: 0.5; user-select: none;
 }
 .provider-chip.active { opacity: 1; border-color: currentColor; }
+.provider-chip:hover { opacity: 0.9; transform: scale(1.05); }
 .provider-chip .dot {
   display: inline-block; width: 8px; height: 8px; border-radius: 50%;
   margin-right: 4px;
@@ -159,6 +211,7 @@ select {
   overflow-x: auto; overflow-y: auto; max-height: 80vh;
   border-radius: var(--radius);
   border: 1px solid var(--border); background: var(--bg-secondary);
+  box-shadow: var(--shadow-sm);
 }
 table {
   width: 100%; border-collapse: collapse; font-size: 0.88rem;
@@ -170,7 +223,7 @@ thead th {
   border-bottom: 2px solid var(--border); z-index: 10;
 }
 thead th:first-child { z-index: 20; }
-thead th:hover { background: var(--border); }
+thead th:hover { background: var(--hover-strong); }
 thead th .sort-arrow { margin-left: 4px; font-size: 0.7rem; }
 thead th .sort-arrow.active { color: var(--accent); }
 
@@ -180,9 +233,10 @@ tbody td {
 }
 tbody td:first-child { position: sticky; left: 0; background: var(--bg-secondary); z-index: 5; }
 tbody td:nth-child(3) { position: sticky; left: 56px; background: var(--bg-secondary); z-index: 5; }
+tbody tr { transition: background .12s; }
 tbody tr:hover td:first-child,
-tbody tr:hover td:nth-child(3) { background: rgba(255,255,255,0.05); }
-tbody tr:hover { background: rgba(255,255,255,0.03); }
+tbody tr:hover td:nth-child(3) { background: var(--row-hover-strong); }
+tbody tr:hover { background: var(--row-hover); }
 
 .cache-cell { color: var(--green); font-size: 0.78rem; }
 .batch-cell { color: var(--text-muted); font-size: 0.78rem; }
@@ -210,7 +264,7 @@ tbody tr:hover { background: rgba(255,255,255,0.03); }
   width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
 }
 
-.price-cell { font-family: 'JetBrains Mono', 'Fira Code', monospace; font-weight: 500; }
+.price-cell { font-family: 'JetBrains Mono', 'Fira Code', monospace; font-weight: 500; font-variant-numeric: tabular-nums; }
 .price-green { color: var(--green); }
 .price-yellow { color: var(--yellow); }
 .price-red { color: var(--red); }
@@ -224,7 +278,7 @@ tbody tr:hover { background: rgba(255,255,255,0.03); }
   position: fixed; bottom: 0; left: 0; right: 0;
   background: var(--bg-secondary); border-top: 2px solid var(--accent);
   padding: 16px; z-index: 200; transform: translateY(100%); transition: transform .3s;
-  max-height: 50vh; overflow-y: auto;
+  max-height: 50vh; overflow-y: auto; box-shadow: var(--shadow-md);
 }
 .compare-panel.open { transform: translateY(0); }
 .compare-panel h3 { margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
@@ -234,7 +288,7 @@ tbody tr:hover { background: rgba(255,255,255,0.03); }
 }
 .compare-card {
   background: var(--bg-tertiary); border-radius: var(--radius);
-  padding: 14px; border: 1px solid var(--border);
+  padding: 14px; border: 1px solid var(--border); box-shadow: var(--shadow-sm);
 }
 .compare-card h4 { margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
 .compare-card .row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 0.85rem; }
@@ -267,6 +321,7 @@ tbody tr:hover { background: rgba(255,255,255,0.03); }
   position: fixed; top: 20px; right: 20px; z-index: 999;
   background: var(--accent-dim); color: #fff; padding: 12px 20px;
   border-radius: var(--radius); font-size: 0.9rem; animation: fadeInOut 2.5s forwards;
+  box-shadow: var(--shadow-md);
 }
 @keyframes fadeInOut {
   0% { opacity: 0; transform: translateY(-10px); }
@@ -296,6 +351,7 @@ tbody tr:hover { background: rgba(255,255,255,0.03); }
     border-radius: var(--radius);
     padding: 12px;
     margin-bottom: 8px;
+    box-shadow: var(--shadow-sm);
   }
   .model-card .card-header {
     display: flex; align-items: center; gap: 8px;
@@ -333,6 +389,7 @@ tbody tr:hover { background: rgba(255,255,255,0.03); }
   #fileProtocolBanner { font-size: 0.7rem; }
 }
 </style>
+<script>if (localStorage.getItem('llm_theme') === 'light') document.documentElement.dataset.theme = 'light';</script>
 </head>
 <body>
 
@@ -340,9 +397,10 @@ tbody tr:hover { background: rgba(255,255,255,0.03); }
   <div class="container">
     <div class="logo"><span>⚡</span> AI Token 价格比价</div>
     <div class="header-actions">
+      <button class="btn btn-sm" id="themeToggle" onclick="toggleTheme()" title="切换浅色/深色主题">☀️</button>
       <div class="rate-box">
         <label for="rateInput">💱 USD → CNY:</label>
-        <input type="number" id="rateInput" value="7.25" step="0.01" min="0" title="可手动编辑汇率">
+        <input type="number" id="rateInput" value="6.78" step="0.01" min="0" title="可手动编辑汇率">
       </div>
       <div class="currency-toggle">
         <button id="btnCNY" class="active" onclick="setDisplayCurrency('CNY')">¥ 人民币</button>
@@ -450,8 +508,8 @@ tbody tr:hover { background: rgba(255,255,255,0.03); }
 
   <!-- Footer -->
   <div class="footer">
-    <div class="updated">数据最后更新: <span id="lastUpdated">2026-05-24 (内置数据 + OpenRouter)</span></div>
-    <div style="margin-top:4px;color:var(--text-muted);font-size:0.75rem">美元兑人民币参考汇率：<span id="footerRate">1 USD ≈ 7.25 CNY</span> | 每日自动更新 (exchangerate-api.com)</div>
+    <div class="updated">数据最后更新: <span id="lastUpdated">2026-08-21 (内置数据 + OpenRouter)</span></div>
+    <div style="margin-top:4px;color:var(--text-muted);font-size:0.75rem">美元兑人民币参考汇率：<span id="footerRate">1 USD ≈ 6.78 CNY</span> | 每日自动更新 (exchangerate-api.com)</div>
   </div>
 </div>
 
@@ -472,7 +530,7 @@ tbody tr:hover { background: rgba(255,255,255,0.03); }
    ═══════════════════════════════════════════════ */
 const STATE = {
   displayCurrency: 'CNY',
-  rate: 6.81,
+  rate: 6.78,
   unit: '1M',        // '1M' or '1K'
   sortKey: 'provider',
   sortDir: 'asc',
@@ -513,6 +571,7 @@ const PROVIDERS = [
   { id:'moonshot',     name:'月之暗面',      color:'#A78BFA', nativeCurrency:'CNY' },
   { id:'01ai',         name:'零一万物',      color:'#34D399', nativeCurrency:'CNY' },
   { id:'stepfun',      name:'阶跃星辰',      color:'#F472B6', nativeCurrency:'CNY' },
+  { id:'xiaomi',       name:'小米',          color:'#FF6900', nativeCurrency:'CNY' },
   { id:'xai',          name:'xAI',          color:'#E5E7EB', nativeCurrency:'USD' },
   { id:'cohere',        name:'Cohere',        color:'#39594D', nativeCurrency:'USD' },
   { id:'perplexity',    name:'Perplexity',    color:'#1DB954', nativeCurrency:'USD' },
@@ -527,57 +586,57 @@ const providerMap = Object.fromEntries(PROVIDERS.map(p => [p.id, p]));
    BUILT-IN DATA  (native currency prices per 1M tokens)
    ═══════════════════════════════════════════════ */
 const BUILTIN_DATA = [
-  // ── OpenAI (2026-05 最新, USD, GPT-5缓存90%off=0.1, GPT-4缓存50%off=0.5, Batch=50%折扣) ──
-  { provider:'openai', model:'GPT-5.5',             pIn:5.00,  pOut:30.00, ctx:'1M',   note:'最新旗舰',        cRatio:0.1, bIn:2.50,  bOut:15.00 },
-  { provider:'openai', model:'GPT-5',               pIn:1.25,  pOut:10.00, ctx:'272K', note:'性价比旗舰',      cRatio:0.1, bIn:0.625, bOut:5.00 },
-  { provider:'openai', model:'GPT-5.4',             pIn:2.50,  pOut:15.00, ctx:'1M',   note:'推荐中端',        cRatio:0.1, bIn:1.25,  bOut:7.50 },
-  { provider:'openai', model:'GPT-5.4 Mini',        pIn:0.25,  pOut:2.00,  ctx:'1M',   note:'',               cRatio:0.1, bIn:0.125, bOut:1.00 },
-  { provider:'openai', model:'GPT-5.4 Nano',        pIn:0.10,  pOut:0.40,  ctx:'1M',   note:'最便宜',          cRatio:0.1, bIn:0.05,  bOut:0.20 },
-  { provider:'openai', model:'GPT-4o',              pIn:2.50,  pOut:10.00, ctx:'128K', note:'多模态',          cRatio:0.5, bIn:1.25,  bOut:5.00 },
+  // ── OpenAI (2026-08 最新, USD, 缓存90%off=cRatio0.1, Batch=50%折扣) ──
+  { provider:'openai', model:'GPT-5.5 Pro',          pIn:30.00, pOut:180.00, ctx:'1M',   note:'🔥顶级旗舰',      cRatio:0.1, bIn:15.00, bOut:90.00 },
+  { provider:'openai', model:'GPT-5.5',              pIn:5.00,  pOut:30.00, ctx:'1M',   note:'最新旗舰',        cRatio:0.1, bIn:2.50,  bOut:15.00 },
+  { provider:'openai', model:'GPT-5.5 Mini',         pIn:0.50,  pOut:3.00,  ctx:'1M',   note:'旗舰轻量',        cRatio:0.1, bIn:0.25,  bOut:1.50 },
+  { provider:'openai', model:'GPT-5.6 Sol',          pIn:5.00,  pOut:30.00, ctx:'1M',   note:'🔥最新GA(7月)/同5.5', cRatio:0.1, bIn:2.50,  bOut:15.00 },
+  { provider:'openai', model:'GPT-5.6 Terra',        pIn:2.00,  pOut:12.00, ctx:'1M',   note:'最新GA/性价比',   cRatio:0.1, bIn:1.00,  bOut:6.00 },
+  { provider:'openai', model:'GPT-5.6 Luna',         pIn:0.20,  pOut:1.20,  ctx:'1M',   note:'最新GA/轻量低价', cRatio:0.1, bIn:0.10,  bOut:0.60 },
+  { provider:'openai', model:'GPT-5',                pIn:1.25,  pOut:10.00, ctx:'272K', note:'性价比旗舰',      cRatio:0.1, bIn:0.625, bOut:5.00 },
+  { provider:'openai', model:'GPT-5.4',              pIn:2.50,  pOut:15.00, ctx:'1M',   note:'推荐中端',        cRatio:0.1, bIn:1.25,  bOut:7.50 },
+  { provider:'openai', model:'GPT-5.4 Mini',         pIn:0.75,  pOut:4.50,  ctx:'400K', note:'轻量',            cRatio:0.1, bIn:0.375, bOut:2.25 },
+  { provider:'openai', model:'GPT-5.4 Nano',         pIn:0.20,  pOut:1.25,  ctx:'400K', note:'入门',            cRatio:0.1, bIn:0.10,  bOut:0.625 },
   { provider:'openai', model:'GPT-4.1',             pIn:2.00,  pOut:8.00,  ctx:'1M',   note:'长上下文',        cRatio:0.5, bIn:1.00,  bOut:4.00 },
   { provider:'openai', model:'GPT-4.1 Mini',        pIn:0.40,  pOut:1.60,  ctx:'1M',   note:'',               cRatio:0.5, bIn:0.20,  bOut:0.80 },
-  { provider:'openai', model:'GPT-4.1 Nano',        pIn:0.10,  pOut:0.40,  ctx:'1M',   note:'',               cRatio:0.5, bIn:0.05,  bOut:0.20 },
-  { provider:'openai', model:'o3-pro',              pIn:20.00, pOut:80.00, ctx:'200K', note:'推理旗舰',        cRatio:0.1, bIn:10.00, bOut:40.00 },
+  { provider:'openai', model:'GPT-4.1 Nano',        pIn:0.10,  pOut:0.40,  ctx:'1M',   note:'最便宜',          cRatio:0.5, bIn:0.05,  bOut:0.20 },
+  { provider:'openai', model:'o4',                  pIn:10.00, pOut:40.00, ctx:'200K', note:'推理旗舰',        cRatio:0.1, bIn:5.00,  bOut:20.00 },
   { provider:'openai', model:'o4-mini',             pIn:1.10,  pOut:4.40,  ctx:'200K', note:'推理轻量',        cRatio:0.1, bIn:0.55,  bOut:2.20 },
-  { provider:'openai', model:'GPT-5 Nano',          pIn:0.05,  pOut:0.40,  ctx:'1M',   note:'极致轻量',      cRatio:0.1, bIn:0.025, bOut:0.20 },
-  { provider:'openai', model:'o3-mini',             pIn:1.10,  pOut:4.40,  ctx:'200K', note:'推理中端',      cRatio:0.1, bIn:0.55,  bOut:2.20 },
-  { provider:'openai', model:'o1-mini',             pIn:1.10,  pOut:4.40,  ctx:'128K', note:'旧推理轻量',    cRatio:0.1, bIn:0.55,  bOut:2.20 },
-  { provider:'openai', model:'o1',                  pIn:15.00, pOut:60.00, ctx:'200K', note:'推理旗舰(旧)', cRatio:0.1, bIn:7.50,  bOut:30.00 },
-  { provider:'openai', model:'GPT-4o Mini',         pIn:0.15,  pOut:0.60,  ctx:'128K', note:'多模态轻量',    cRatio:0.5, bIn:0.075, bOut:0.30 },
+  { provider:'openai', model:'o3-pro',              pIn:20.00, pOut:80.00, ctx:'200K', note:'旧推理旗舰',      cRatio:0.1, bIn:10.00, bOut:40.00 },
+  { provider:'openai', model:'o3-mini',             pIn:1.10,  pOut:4.40,  ctx:'200K', note:'旧推理中端',      cRatio:0.1, bIn:0.55,  bOut:2.20 },
 
-  // ── Anthropic (2026-05 最新, USD, 缓存10%=cRatio0.1, Batch=50%折扣) ──
-  { provider:'anthropic', model:'Claude Opus 4.7',   pIn:5.00,  pOut:25.00, ctx:'1M',   note:'🔥最新旗舰',    cRatio:0.1, bIn:2.50,  bOut:12.50 },
-  { provider:'anthropic', model:'Claude Opus 4.6',   pIn:5.00,  pOut:25.00, ctx:'1M',   note:'上代旗舰',      cRatio:0.1, bIn:2.50,  bOut:12.50 },
-  { provider:'anthropic', model:'Claude Opus 4.6 Fast', pIn:30.00, pOut:150.00, ctx:'1M', note:'极速模式6x价',  cRatio:0.1, bIn:15.00, bOut:75.00 },
-  { provider:'anthropic', model:'Claude Opus 4.5',   pIn:5.00,  pOut:25.00, ctx:'200K', note:'旧旗舰',        cRatio:0.1, bIn:2.50,  bOut:12.50 },
-  { provider:'anthropic', model:'Claude Opus 4.1',   pIn:15.00, pOut:75.00, ctx:'200K', note:'旧旗舰/太贵',   cRatio:0.1, bIn:7.50,  bOut:37.50 },
-  { provider:'anthropic', model:'Claude Sonnet 4.6', pIn:3.00,  pOut:15.00, ctx:'1M',   note:'🔥生产推荐',    cRatio:0.1, bIn:1.50,  bOut:7.50 },
-  { provider:'anthropic', model:'Claude Sonnet 4.5', pIn:3.00,  pOut:15.00, ctx:'200K', note:'上代生产',      cRatio:0.1, bIn:1.50,  bOut:7.50 },
-  { provider:'anthropic', model:'Claude Sonnet 4',   pIn:3.00,  pOut:15.00, ctx:'200K', note:'旧版生产',      cRatio:0.1, bIn:1.50,  bOut:7.50 },
-  { provider:'anthropic', model:'Claude Haiku 4.5',  pIn:1.00,  pOut:5.00,  ctx:'200K', note:'轻量推荐',      cRatio:0.1, bIn:0.50,  bOut:2.50 },
-  { provider:'anthropic', model:'Claude Haiku 3.5',  pIn:0.80,  pOut:4.00,  ctx:'200K', note:'旧版轻量',      cRatio:0.1, bIn:0.40,  bOut:2.00 },
-  { provider:'anthropic', model:'Claude Haiku 3',    pIn:0.25,  pOut:1.25,  ctx:'200K', note:'极致便宜/将退役', cRatio:0.1, bIn:0.125, bOut:0.625 },
-  { provider:'anthropic', model:'Claude 3 Opus',     pIn:15.00, pOut:75.00, ctx:'200K', note:'远古旗舰/太贵',  cRatio:0.1, bIn:7.50,  bOut:37.50 },
-  { provider:'anthropic', model:'Mythos Preview',    pIn:25.00, pOut:125.00, ctx:'1M',  note:'研究预览/邀请制', cRatio:0.1 },
+  // ── Anthropic (2026-08 最新, USD, 缓存10%=cRatio0.1, Batch=50%折扣) ──
+  { provider:'anthropic', model:'Claude Fable 5',     pIn:5.00,  pOut:25.00, ctx:'1M',   note:'🔥最新旗舰',    cRatio:0.1, bIn:2.50,  bOut:12.50 },
+  { provider:'anthropic', model:'Claude Opus 4.8',    pIn:5.00,  pOut:25.00, ctx:'1M',   note:'最新旗舰',      cRatio:0.1, bIn:2.50,  bOut:12.50 },
+  { provider:'anthropic', model:'Claude Opus 4.8 Fast',pIn:10.00, pOut:50.00, ctx:'1M',  note:'快速模式2.5x',  cRatio:0.1, bIn:5.00,  bOut:25.00 },
+  { provider:'anthropic', model:'Claude Opus 4.7',    pIn:5.00,  pOut:25.00, ctx:'1M',   note:'上代旗舰',      cRatio:0.1, bIn:2.50,  bOut:12.50 },
+  { provider:'anthropic', model:'Claude Sonnet 4.6',  pIn:3.00,  pOut:15.00, ctx:'1M',   note:'🔥生产推荐',    cRatio:0.1, bIn:1.50,  bOut:7.50 },
+  { provider:'anthropic', model:'Claude Sonnet 4.5',  pIn:3.00,  pOut:15.00, ctx:'200K', note:'上代生产',      cRatio:0.1, bIn:1.50,  bOut:7.50 },
+  { provider:'anthropic', model:'Claude Sonnet 4',    pIn:3.00,  pOut:15.00, ctx:'200K', note:'旧版生产',      cRatio:0.1, bIn:1.50,  bOut:7.50 },
+  { provider:'anthropic', model:'Claude Haiku 4.5',   pIn:1.00,  pOut:5.00,  ctx:'200K', note:'轻量推荐',      cRatio:0.1, bIn:0.50,  bOut:2.50 },
+  { provider:'anthropic', model:'Claude Haiku 3.5',   pIn:0.80,  pOut:4.00,  ctx:'200K', note:'旧版轻量',      cRatio:0.1, bIn:0.40,  bOut:2.00 },
+  { provider:'anthropic', model:'Claude Haiku 3',     pIn:0.25,  pOut:1.25,  ctx:'200K', note:'极致便宜/将退役', cRatio:0.1, bIn:0.125, bOut:0.625 },
+  { provider:'anthropic', model:'Claude 3 Opus',      pIn:15.00, pOut:75.00, ctx:'200K', note:'远古旗舰/太贵',  cRatio:0.1, bIn:7.50,  bOut:37.50 },
+  { provider:'anthropic', model:'Mythos Preview',     pIn:25.00, pOut:125.00, ctx:'1M',  note:'研究预览/邀请制', cRatio:0.1 },
 
-  // ── Google Gemini (2026-05 最新, USD, 缓存10%=cRatio0.1) ──
+  // ── Google Gemini (2026-08 最新, USD, 缓存10%=cRatio0.1) ──
+  { provider:'google', model:'Gemini 3.5 Pro',       pIn:3.50,  pOut:21.00, ctx:'2M',   note:'🔥最新旗舰', cRatio:0.1 },
+  { provider:'google', model:'Gemini 3.6 Flash',     pIn:1.50,  pOut:7.50,  ctx:'1M',   note:'🔥最新(7月)/输出降17%', cRatio:0.1 },
   { provider:'google', model:'Gemini 3.5 Flash',     pIn:1.50,  pOut:9.00,  ctx:'1M',   note:'最新',      cRatio:0.1 },
+  { provider:'google', model:'Gemini 3.5 Flash-Lite',pIn:0.30,  pOut:2.50,  ctx:'1M',   note:'最新轻量',  cRatio:0.1 },
   { provider:'google', model:'Gemini 3.1 Pro',       pIn:2.00,  pOut:12.00, ctx:'2M',   note:'旗舰',      cRatio:0.1 },
   { provider:'google', model:'Gemini 3 Flash',       pIn:0.50,  pOut:3.00,  ctx:'1M',   note:'性价比',    cRatio:0.1 },
   { provider:'google', model:'Gemini 3.1 Flash Lite',pIn:0.25,  pOut:1.50,  ctx:'1M',   note:'最便宜',    cRatio:0.1 },
   { provider:'google', model:'Gemini 2.5 Pro',       pIn:1.25,  pOut:10.00, ctx:'1M',   note:'旧旗舰',    cRatio:0.1 },
   { provider:'google', model:'Gemini 2.5 Flash',     pIn:0.30,  pOut:2.50,  ctx:'1M',   note:'旧性价比',  cRatio:0.1 },
-  { provider:'google', model:'Gemini 2.5 Flash-Lite',pIn:0.10,  pOut:0.40,  ctx:'1M',   note:'旧版',      cRatio:0.1 },
-  { provider:'google', model:'Gemini 3.5 Flash-Lite', pIn:0.10,  pOut:0.40,  ctx:'1M',   note:'极致便宜',    cRatio:0.1 },
-  { provider:'google', model:'Gemini 2.5 Ultra',      pIn:2.50,  pOut:15.00, ctx:'1M',   note:'最强多模态>200K涨价', cRatio:0.1 },
-  { provider:'google', model:'Gemini 2.0 Flash',      pIn:0.10,  pOut:0.40,  ctx:'1M',   note:'旧版Flash',    cRatio:0.1 },
-  { provider:'google', model:'Gemini 2.0 Flash-Lite', pIn:0.075, pOut:0.30,  ctx:'1M',   note:'旧版最便宜',    cRatio:0.1 },
-  { provider:'google', model:'Gemma 4 31B',           pIn:0.12,  pOut:0.37,  ctx:'262K', note:'开源Gemma',     cRatio:0.1 },
-  { provider:'google', model:'Gemma 3 27B',           pIn:0.08,  pOut:0.16,  ctx:'128K', note:'开源Gemma',     cRatio:0.1 },
+  { provider:'google', model:'Gemini 2.5 Flash-Lite',pIn:0.10,  pOut:0.40,  ctx:'1M',   note:'旧版/10月退役', cRatio:0.1 },
 
-  // ── DeepSeek (2026-05 永久原价1/4, CNY ¥/1M, 缓存命中=官方绝对值) ──
-  { provider:'deepseek', model:'DeepSeek V4 Pro',    pIn:3.00,  pOut:6.00,  ctx:'1M',   note:'🔥永久原价1/4! 缓存¥0.025', cRatio:0.0083 },
-  { provider:'deepseek', model:'DeepSeek V4 Flash',  pIn:1.00,  pOut:2.00,  ctx:'1M',   note:'轻量/极低价 缓存¥0.02',    cRatio:0.02 },
+  // ── DeepSeek (2026-08-17 起峰谷分时定价, CNY ¥/1M, 高峰=空闲x2) ──
+  // 空闲时段17h(9:00-12:00/14:00-18:00之外), 高峰时段价格为下列值x2
+  { provider:'deepseek', model:'DeepSeek V4 Pro',    pIn:4.50,  pOut:13.50, ctx:'1M',   note:'🔥空闲价(高峰¥9/27),缓存¥0.15', cRatio:0.03333,
+    tiers:'空闲时段(17h)：输入¥4.50 / 输出¥13.50 / 缓存¥0.15\n高峰时段(9-12/14-18点)：输入¥9.00 / 输出¥27.00 / 缓存¥0.30' },
+  { provider:'deepseek', model:'DeepSeek V4 Flash',  pIn:1.50,  pOut:4.50,  ctx:'1M',   note:'空闲价(高峰¥3/9),缓存¥0.05',   cRatio:0.03333,
+    tiers:'空闲时段(17h)：输入¥1.50 / 输出¥4.50 / 缓存¥0.05\n高峰时段(9-12/14-18点)：输入¥3.00 / 输出¥9.00 / 缓存¥0.10' },
   { provider:'deepseek', model:'DeepSeek V3.2',      pIn:2.00,  pOut:3.00,  ctx:'131K', note:'旧版性价比',                 cRatio:0.01 },
   { provider:'deepseek', model:'DeepSeek R1-0528',   pIn:4.00,  pOut:16.00, ctx:'164K', note:'推理专用',                   cRatio:0.01 },
   { provider:'deepseek', model:'DeepSeek Coder V2',  pIn:1.00,  pOut:2.00,  ctx:'128K', note:'代码专用',                   cRatio:0.01 },
@@ -595,20 +654,24 @@ const BUILTIN_DATA = [
   { provider:'alibaba', model:'Qwen-Coder',          pIn:1.00,  pOut:4.00,  ctx:'1M',   note:'代码' },
   { provider:'alibaba', model:'Qwen-Long',           pIn:0.50,  pOut:2.00,  ctx:'10M',  note:'超长上下文' },
 
-  // ── 字节跳动 豆包 (CNY, ¥/1M, 缓存20%=cRatio0.2) ──
-  { provider:'bytedance', model:'Doubao-seed-2.0-pro(32K)',  pIn:6.40,  pOut:32.00, ctx:'32K',  note:'旗舰',         cRatio:0.2 },
-  { provider:'bytedance', model:'Doubao-seed-2.0-pro(128K)', pIn:9.60,  pOut:48.00, ctx:'128K', note:'旗舰长文/贵!', cRatio:0.2 },
-  { provider:'bytedance', model:'Doubao-seed-2.0-lite(32K)', pIn:1.20,  pOut:7.20,  ctx:'32K',  note:'轻量',         cRatio:0.2 },
-  { provider:'bytedance', model:'Doubao-seed-2.0-lite(128K)',pIn:1.80,  pOut:10.80, ctx:'128K', note:'轻量长文',     cRatio:0.2 },
+  // ── 字节跳动 豆包 (CNY, ¥/1M, 普通公网API, 缓存20%=cRatio0.2) ──
+  { provider:'bytedance', model:'Doubao-seed-2.0-pro(32K)',  pIn:3.20,  pOut:16.00, ctx:'32K',  note:'旗舰',         cRatio:0.2 },
+  { provider:'bytedance', model:'Doubao-seed-2.0-pro(128K)', pIn:4.80,  pOut:24.00, ctx:'128K', note:'旗舰长文',     cRatio:0.2 },
+  { provider:'bytedance', model:'Doubao-seed-2.0-lite(32K)', pIn:0.60,  pOut:3.60,  ctx:'32K',  note:'轻量',         cRatio:0.2 },
+  { provider:'bytedance', model:'Doubao-seed-2.0-lite(128K)',pIn:0.90,  pOut:5.40,  ctx:'128K', note:'轻量长文',     cRatio:0.2 },
 
-  // ── 百度 文心一言 (CNY, ¥/1M, 无缓存=cRatio1) ──
-  { provider:'baidu', model:'ERNIE 4.5',             pIn:20.00, pOut:60.00, ctx:'128K', note:'最新/贵!' },
+  // ── 百度 文心一言 (CNY, ¥/1M) ──
+  { provider:'baidu', model:'ERNIE 5.1',             pIn:4.00,  pOut:18.00, ctx:'128K', note:'🔥最新旗舰' },
+  { provider:'baidu', model:'ERNIE 4.5 Turbo',       pIn:0.80,  pOut:3.20,  ctx:'128K', note:'性价比之选',     cRatio:0.25 },
+  { provider:'baidu', model:'ERNIE 4.5',             pIn:4.00,  pOut:16.00, ctx:'8K',   note:'标准版' },
   { provider:'baidu', model:'ERNIE 4.0',             pIn:30.00, pOut:90.00, ctx:'8K',   note:'旧旗舰/太贵!' },
   { provider:'baidu', model:'ERNIE Speed',           pIn:0.00,  pOut:0.00,  ctx:'8K',   note:'免费' },
   { provider:'baidu', model:'ERNIE Lite',            pIn:0.00,  pOut:0.00,  ctx:'8K',   note:'免费' },
 
   // ── 智谱 GLM (CNY, ¥/1M, 缓存25%=cRatio0.25) ──
-  { provider:'zhipu', model:'GLM-5.1',               pIn:5.00,  pOut:25.00, ctx:'1M',   note:'🔥顶级编程',     cRatio:0.25 },
+  { provider:'zhipu', model:'GLM-5.2',               pIn:8.00,  pOut:28.00, ctx:'1M',   note:'🔥最新旗舰',     cRatio:0.25 },
+  { provider:'zhipu', model:'GLM-5.1',               pIn:6.00,  pOut:24.00, ctx:'200K', note:'🔥顶级编程',     cRatio:0.25 },
+  { provider:'zhipu', model:'GLM-5',                 pIn:4.00,  pOut:18.00, ctx:'128K', note:'旗舰',            cRatio:0.25 },
   { provider:'zhipu', model:'GLM-4-Plus',            pIn:5.00,  pOut:5.00,  ctx:'128K', note:'推荐',            cRatio:0.25 },
   { provider:'zhipu', model:'GLM-4-Air',             pIn:0.60,  pOut:0.60,  ctx:'128K', note:'轻量',            cRatio:0.25 },
   { provider:'zhipu', model:'GLM-4-Flash',           pIn:0.00,  pOut:0.00,  ctx:'128K', note:'免费' },
@@ -619,8 +682,9 @@ const BUILTIN_DATA = [
   { provider:'iflytek', model:'Spark Pro',           pIn:1.00,  pOut:3.00,  ctx:'8K',   note:'轻量' },
   { provider:'iflytek', model:'Spark Lite',          pIn:0.00,  pOut:0.00,  ctx:'8K',   note:'免费' },
 
-  // ── 腾讯混元 (CNY, ¥/1M, 无缓存=cRatio1) ──
-  { provider:'tencent', model:'Hunyuan-TurboS',      pIn:1.00,  pOut:3.00,  ctx:'32K',  note:'最新/推荐' },
+  // ── 腾讯混元 (CNY, ¥/1M) ──
+  { provider:'tencent', model:'Hy3 preview',         pIn:2.00,  pOut:8.00,  ctx:'256K', note:'🔥最新Coding/Agent', cRatio:0.4 },
+  { provider:'tencent', model:'Hunyuan-TurboS',      pIn:1.00,  pOut:3.00,  ctx:'32K',  note:'推荐' },
   { provider:'tencent', model:'Hunyuan-Pro',         pIn:3.00,  pOut:9.00,  ctx:'32K',  note:'旧旗舰' },
   { provider:'tencent', model:'Hunyuan-Lite',        pIn:0.00,  pOut:0.00,  ctx:'32K',  note:'免费' },
 
@@ -653,8 +717,8 @@ const BUILTIN_DATA = [
   { provider:'mistral', model:'Mistral Nemo',       pIn:0.02,  pOut:0.03,  ctx:'131K', note:'极致便宜/最小' },
   { provider:'mistral', model:'Ministral 3 8B',     pIn:0.15,  pOut:0.15,  ctx:'262K', note:'边缘端侧' },
 
-  // ── 月之暗面 Kimi (CNY, ¥/1M, 无缓存=cRatio1) ──
-  { provider:'moonshot', model:'Kimi-K2',            pIn:4.00,  pOut:16.00, ctx:'128K', note:'最新/推理' },
+  // ── 月之暗面 Kimi (CNY, ¥/1M, K2已于2026-05-25下线) ──
+  { provider:'moonshot', model:'Kimi-K2.6',          pIn:6.50,  pOut:27.00, ctx:'262K', note:'🔥最新Agent旗舰', cRatio:0.169 },
   { provider:'moonshot', model:'Moonshot-v1-128k',   pIn:5.00,  pOut:10.00, ctx:'128K', note:'旧版' },
 
   // ── 零一万物 (CNY, ¥/1M, 无缓存) ──
@@ -664,6 +728,7 @@ const BUILTIN_DATA = [
   { provider:'cohere', model:'Command R+',           pIn:1.50,  pOut:4.50,  ctx:'128K', note:'企业级长文本' },
 
   // ── xAI Grok (USD, 缓存16%=cRatio0.16, cache $0.20/1M) ──
+  { provider:'xai', model:'Grok 4.5',                pIn:2.00,  pOut:6.00,  ctx:'256K', note:'🔥最新旗舰', cRatio:0.16 },
   { provider:'xai', model:'Grok-4.3',                pIn:1.25,  pOut:2.50,  ctx:'1M',   note:'最新/推荐', cRatio:0.16 },
   { provider:'xai', model:'Grok Build 0.1',         pIn:1.00,  pOut:2.00,  ctx:'1M',   note:'新版尝鲜/推荐', cRatio:0.16 },
   { provider:'xai', model:'Grok 4.1',               pIn:0.75,  pOut:1.50,  ctx:'128K', note:'上代/性价比',   cRatio:0.16 },
@@ -677,6 +742,10 @@ const BUILTIN_DATA = [
 
   // ── Fireworks AI (USD) ──
   { provider:'fireworks', model:'Llama 4 Scout',   pIn:0.08,  pOut:0.30,  ctx:'1M', note:'开源托管' },
+
+  // ── 小米 MiMo (CNY, ¥/1M, 2026-05-27永久降价, 不再区分上下文长度) ──
+  { provider:'xiaomi', model:'MiMo-V2.5-Pro',   pIn:3.00,  pOut:6.00,  ctx:'1M', note:'降57~99%/推荐', cRatio:0.0083 },
+  { provider:'xiaomi', model:'MiMo-V2.5',       pIn:1.00,  pOut:2.00,  ctx:'1M', note:'降64~98%/推荐',     cRatio:0.02 },
 ];
 
 /* ═══════════════════════════════════════════════
@@ -1309,9 +1378,10 @@ function guessProviderId(providerName, modelId) {
   if (name.includes('ernie') || name.includes('baidu')) return 'baidu';
   if (name.includes('glm') || name.includes('zhipu') || name.includes('codegeex')) return 'zhipu';
   if (name.includes('spark') || name.includes('iflytek')) return 'iflytek';
-  if (name.includes('hunyuan') || name.includes('tencent')) return 'tencent';
+  if (name.includes('hunyuan') || name.includes('tencent') || name.includes('hy3')) return 'tencent';
   if (name.includes('baichuan')) return 'baichuan';
   if (name.includes('minimax') || name.includes('abab')) return 'minimax';
+  if (name.includes('mimo') || name.includes('xiaomi')) return 'xiaomi';
   if (name.includes('moonshot') || name.includes('kimi')) return 'moonshot';
   if (name.includes('yi-') || name.includes('01ai')) return '01ai';
   if (name.includes('step-') || name.includes('stepfun')) return 'stepfun';
@@ -1344,8 +1414,19 @@ async function fetchExchangeRate() {
   } catch {}
 }
 
+function toggleTheme() {
+  const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+  document.documentElement.dataset.theme = next;
+  localStorage.setItem('llm_theme', next);
+  document.getElementById('themeToggle').textContent = next === 'light' ? '🌙' : '☀️';
+}
+
 function init() {
   initModels();
+
+  // 主题: 默认深色, 与 <head> 内联脚本保持同步
+  document.getElementById('themeToggle').textContent =
+    document.documentElement.dataset.theme === 'light' ? '🌙' : '☀️';
 
   // Restore saved rate or auto-fetch
   const savedRate = localStorage.getItem('llm_rate');

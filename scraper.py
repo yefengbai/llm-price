@@ -18,8 +18,8 @@ import requests
 from bs4 import BeautifulSoup
 
 # ── 汇率 ────────────────────────────────────────────────
-# 默认美元 → 人民币汇率 (实时抓取失败时的兜底值)
-DEFAULT_USD_TO_CNY = 7.25
+# 默认美元 → 人民币汇率 (实时抓取失败时的兜底值, 2026-08 中价 6.78)
+DEFAULT_USD_TO_CNY = 6.78
 
 
 def fetch_exchange_rate() -> float:
@@ -205,16 +205,23 @@ class OpenAIScraper(BaseScraper):
 
     def _offline_data(self) -> list[ModelPrice]:
         return [
+            make_price("OpenAI", "GPT-5.5 Pro",        30.00, 180.00, "1M",   "顶级旗舰",         self.rate, cached_input_usd=3.00),
             make_price("OpenAI", "GPT-5.5",             5.00, 30.00, "1M",    "最新旗舰",        self.rate, cached_input_usd=0.50),
+            make_price("OpenAI", "GPT-5.5 Mini",        0.50,  3.00, "1M",    "旗舰轻量",        self.rate),
+            make_price("OpenAI", "GPT-5.6 Sol",         5.00, 30.00, "1M",    "最新GA/同5.5",    self.rate, cached_input_usd=0.50),
+            make_price("OpenAI", "GPT-5.6 Terra",       2.00, 12.00, "1M",    "最新GA/性价比",   self.rate, cached_input_usd=0.20),
+            make_price("OpenAI", "GPT-5.6 Luna",        0.20,  1.20, "1M",    "最新GA/轻量",     self.rate),
             make_price("OpenAI", "GPT-5",               1.25, 10.00, "272K",  "性价比旗舰",      self.rate),
             make_price("OpenAI", "GPT-5.4",             2.50, 15.00, "1M",    "推荐中端",        self.rate, cached_input_usd=0.25),
-            make_price("OpenAI", "GPT-5.4 Mini",        0.25,  2.00, "1M",    "最便宜",          self.rate),
-            make_price("OpenAI", "GPT-5.4 Nano",        0.20,  1.25, "1M",    "",                self.rate),
+            make_price("OpenAI", "GPT-5.4 Mini",        0.75,  4.50, "400K",  "轻量",            self.rate),
+            make_price("OpenAI", "GPT-5.4 Nano",        0.20,  1.25, "400K",  "入门",            self.rate),
             make_price("OpenAI", "GPT-4.1",             2.00,  8.00, "1M",    "长上下文",         self.rate),
             make_price("OpenAI", "GPT-4.1 Mini",        0.40,  1.60, "1M",    "",                self.rate),
             make_price("OpenAI", "GPT-4.1 Nano",        0.10,  0.40, "1M",    "",                self.rate),
-            make_price("OpenAI", "o3-pro",             20.00, 80.00, "200K",  "推理旗舰",         self.rate),
+            make_price("OpenAI", "o4",                 10.00, 40.00, "200K",  "推理旗舰",         self.rate),
             make_price("OpenAI", "o4-mini",             1.10,  4.40, "200K",  "推理轻量",         self.rate),
+            make_price("OpenAI", "o3-pro",             20.00, 80.00, "200K",  "推理旧旗舰",       self.rate),
+            make_price("OpenAI", "o3-mini",             1.10,  4.40, "200K",  "旧推理中端",       self.rate),
         ]
 
 
@@ -249,12 +256,18 @@ class AnthropicScraper(BaseScraper):
 
     def _offline_data(self) -> list[ModelPrice]:
         return [
-            make_price("Anthropic", "Claude Opus 4.7",    5.00, 25.00, "1M",   "最新旗舰",     self.rate, cached_input_usd=0.50),
-            make_price("Anthropic", "Claude Sonnet 4.6",  3.00, 15.00, "1M",   "生产推荐",     self.rate, cached_input_usd=0.30),
-            make_price("Anthropic", "Claude Sonnet 4.5",  3.00, 15.00, "200K", "",             self.rate),
-            make_price("Anthropic", "Claude Haiku 4.5",   1.00,  5.00, "200K", "轻量",         self.rate),
-            make_price("Anthropic", "Claude 3.5 Haiku",   0.80,  4.00, "200K", "",             self.rate),
-            make_price("Anthropic", "Claude 3 Opus",      15.00, 75.00, "200K", "旧旗舰",        self.rate),
+            make_price("Anthropic", "Claude Fable 5",       5.00, 25.00, "1M",   "最新旗舰",      self.rate, cached_input_usd=0.50),
+            make_price("Anthropic", "Claude Opus 4.8",      5.00, 25.00, "1M",   "旗舰",          self.rate, cached_input_usd=0.50),
+            make_price("Anthropic", "Claude Opus 4.8 Fast", 10.00, 50.00, "1M",   "快速模式2.5x",  self.rate, cached_input_usd=1.00),
+            make_price("Anthropic", "Claude Opus 4.7",      5.00, 25.00, "1M",   "旧旗舰",        self.rate, cached_input_usd=0.50),
+            make_price("Anthropic", "Claude Sonnet 4.6",    3.00, 15.00, "1M",   "生产推荐",      self.rate, cached_input_usd=0.30),
+            make_price("Anthropic", "Claude Sonnet 4.5",    3.00, 15.00, "200K", "",              self.rate),
+            make_price("Anthropic", "Claude Sonnet 4",      3.00, 15.00, "200K", "旧版生产",      self.rate),
+            make_price("Anthropic", "Claude Haiku 4.5",     1.00,  5.00, "200K", "轻量",          self.rate),
+            make_price("Anthropic", "Claude Haiku 3.5",     0.80,  4.00, "200K", "",              self.rate),
+            make_price("Anthropic", "Claude Haiku 3",       0.25,  1.25, "200K", "极致便宜/将退役", self.rate),
+            make_price("Anthropic", "Claude 3 Opus",       15.00, 75.00, "200K", "旧旗舰",        self.rate),
+            make_price("Anthropic", "Mythos Preview",      25.00, 125.00, "1M",  "研究预览/邀请制", self.rate),
         ]
 
 
@@ -291,13 +304,16 @@ class GoogleScraper(BaseScraper):
 
     def _offline_data(self) -> list[ModelPrice]:
         return [
-            make_price("Google", "Gemini 3.5 Flash",          1.50,  9.00, "1M",   "最新",          self.rate, cached_input_usd=0.15),
-            make_price("Google", "Gemini 3.1 Pro",            2.00, 12.00, "2M",   "旗舰",          self.rate),
-            make_price("Google", "Gemini 3 Flash",            0.50,  3.00, "1M",   "性价比",        self.rate),
-            make_price("Google", "Gemini 3.1 Flash Lite",     0.25,  1.50, "1M",   "最便宜",        self.rate),
-            make_price("Google", "Gemini 2.5 Pro",            1.25, 10.00, "1M",   "",              self.rate),
-            make_price("Google", "Gemini 2.5 Flash",          0.30,  2.50, "1M",   "",              self.rate),
-            make_price("Google", "Gemini 2.5 Flash-Lite",     0.10,  0.40, "1M",   "旧版",          self.rate),
+            make_price("Google", "Gemini 3.5 Pro",            3.50, 21.00, "2M",   "最新旗舰",       self.rate),
+            make_price("Google", "Gemini 3.6 Flash",          1.50,  7.50, "1M",   "最新(7月)/输出降17%", self.rate, cached_input_usd=0.15),
+            make_price("Google", "Gemini 3.5 Flash",          1.50,  9.00, "1M",   "最新",           self.rate, cached_input_usd=0.15),
+            make_price("Google", "Gemini 3.5 Flash-Lite",     0.30,  2.50, "1M",   "最新轻量",       self.rate),
+            make_price("Google", "Gemini 3.1 Pro",            2.00, 12.00, "2M",   "旗舰",           self.rate),
+            make_price("Google", "Gemini 3 Flash",            0.50,  3.00, "1M",   "性价比",         self.rate),
+            make_price("Google", "Gemini 3.1 Flash Lite",     0.25,  1.50, "1M",   "最便宜",         self.rate),
+            make_price("Google", "Gemini 2.5 Pro",            1.25, 10.00, "1M",   "",               self.rate),
+            make_price("Google", "Gemini 2.5 Flash",          0.30,  2.50, "1M",   "",               self.rate),
+            make_price("Google", "Gemini 2.5 Flash-Lite",     0.10,  0.40, "1M",   "旧版/10月退役",   self.rate),
         ]
 
 
@@ -339,19 +355,20 @@ class DeepSeekScraper(BaseScraper):
     def _offline_data(self) -> list[ModelPrice]:
         # DeepSeek 官网以人民币标价，直接用 CNY 值构造 ModelPrice
         # input_price / output_price 字段存人民币，input_usd / output_usd 存美元等价
+        # 2026-08-17 起峰谷分时定价: 下列为空闲时段价, 高峰时段(9-12/14-18点)x2
         rate = self.rate
         return [
             ModelPrice(
                 provider="DeepSeek", model="DeepSeek V4 Pro",
-                input_price=3.00, output_price=6.00, context_window="1M",
-                notes="🔥永久2.5折!", cached_input_price=0.025,
-                input_usd=round(3.00/rate, 4), output_usd=round(6.00/rate, 4),
+                input_price=4.50, output_price=13.50, context_window="1M",
+                notes="🔥空闲价(高峰¥9/27)", cached_input_price=0.15,
+                input_usd=round(4.50/rate, 4), output_usd=round(13.50/rate, 4),
             ),
             ModelPrice(
                 provider="DeepSeek", model="DeepSeek V4 Flash",
-                input_price=1.00, output_price=2.00, context_window="1M",
-                notes="轻量", cached_input_price=0.02,
-                input_usd=round(1.00/rate, 4), output_usd=round(2.00/rate, 4),
+                input_price=1.50, output_price=4.50, context_window="1M",
+                notes="空闲价(高峰¥3/9)", cached_input_price=0.05,
+                input_usd=round(1.50/rate, 4), output_usd=round(4.50/rate, 4),
             ),
             ModelPrice(
                 provider="DeepSeek", model="DeepSeek V3.2",
@@ -396,6 +413,168 @@ class CloudPriceScraper(BaseScraper):
             out = self._clean_price(row[3]) if len(row) > 3 else 0
             results.append(make_price(provider, model, inp, out, rate=self.rate))
         return results
+
+
+class MistralScraper(BaseScraper):
+    """Mistral API 定价 (USD)"""
+
+    provider = "Mistral"
+    URL = "https://mistral.ai/pricing"
+
+    def scrape(self) -> list[ModelPrice]:
+        print(f"[{self.provider}] 正在抓取 {self.URL} ...")
+        html = fetch_html(self.URL)
+        if not html:
+            print(f"[{self.provider}] 抓取失败，使用离线数据")
+            return self._offline_data()
+        # 官网为动态渲染页面，暂以离线数据为准
+        return self._offline_data()
+
+    def _offline_data(self) -> list[ModelPrice]:
+        return [
+            make_price("Mistral", "Mistral Large 3",     0.50,  1.50, "256K", "推荐",       self.rate),
+            make_price("Mistral", "Mistral Large 2",     2.00,  6.00, "128K", "上代旗舰",   self.rate),
+            make_price("Mistral", "Mistral Medium 3.5",  1.50,  7.50, "256K", "最新中端旗舰", self.rate),
+            make_price("Mistral", "Mistral Medium 3.1",  0.40,  2.00, "131K", "中端",       self.rate),
+            make_price("Mistral", "Mistral Small 4",     0.15,  0.60, "32K",  "小模型",     self.rate),
+            make_price("Mistral", "Mistral Small 3.1",   0.10,  0.30, "128K", "性价比轻量", self.rate),
+            make_price("Mistral", "Mistral Tiny",        0.15,  0.40, "32K",  "极致便宜",   self.rate),
+            make_price("Mistral", "Codestral",           0.30,  0.90, "32K",  "代码",       self.rate),
+            make_price("Mistral", "Mistral Nemo",        0.02,  0.03, "131K", "极致便宜/最小", self.rate),
+            make_price("Mistral", "Ministral 3 8B",      0.15,  0.15, "262K", "边缘端侧",   self.rate),
+        ]
+
+
+class XAIScraper(BaseScraper):
+    """xAI Grok API 定价 (USD)"""
+
+    provider = "xAI"
+    URL = "https://docs.x.ai/docs/models"
+
+    def scrape(self) -> list[ModelPrice]:
+        print(f"[{self.provider}] 正在抓取 {self.URL} ...")
+        html = fetch_html(self.URL)
+        if not html:
+            print(f"[{self.provider}] 抓取失败，使用离线数据")
+            return self._offline_data()
+        return self._offline_data()
+
+    def _offline_data(self) -> list[ModelPrice]:
+        return [
+            make_price("xAI", "Grok 4.5",      2.00,  6.00, "256K", "最新旗舰", self.rate),
+            make_price("xAI", "Grok-4.3",      1.25,  2.50, "1M",   "最新/推荐", self.rate, cached_input_usd=0.20),
+            make_price("xAI", "Grok Build 0.1", 1.00, 2.00, "1M",   "新版尝鲜", self.rate, cached_input_usd=0.16),
+            make_price("xAI", "Grok 4.1",      0.75,  1.50, "128K", "上代/性价比", self.rate),
+        ]
+
+
+class CohereScraper(BaseScraper):
+    """Cohere API 定价 (USD)"""
+
+    provider = "Cohere"
+    URL = "https://cohere.com/pricing"
+
+    def scrape(self) -> list[ModelPrice]:
+        print(f"[{self.provider}] 正在抓取 {self.URL} ...")
+        html = fetch_html(self.URL)
+        if not html:
+            print(f"[{self.provider}] 抓取失败，使用离线数据")
+            return self._offline_data()
+        return self._offline_data()
+
+    def _offline_data(self) -> list[ModelPrice]:
+        return [
+            make_price("Cohere", "Command R+", 1.50, 4.50, "128K", "企业级长文本", self.rate),
+        ]
+
+
+class AlibabaScraper(BaseScraper):
+    """阿里云通义千问 API 定价 (CNY)"""
+
+    provider = "阿里云"
+    URL = "https://help.aliyun.com/zh/model-studio/models"
+
+    def scrape(self) -> list[ModelPrice]:
+        print(f"[{self.provider}] 正在抓取 {self.URL} ...")
+        html = fetch_html(self.URL)
+        if not html:
+            print(f"[{self.provider}] 抓取失败，使用离线数据")
+            return self._offline_data()
+        return self._offline_data()
+
+    def _offline_data(self) -> list[ModelPrice]:
+        rate = self.rate
+        return [ModelPrice(
+            provider=self.provider, model=m, input_price=i, output_price=o,
+            context_window=ctx, notes=note,
+            input_usd=round(i/rate, 4), output_usd=round(o/rate, 4),
+        ) for m, i, o, ctx, note in [
+            ("Qwen3.7-Max",  6.00, 18.00, "256K", "🔥5折!原¥12/36"),
+            ("Qwen3-Max",    2.50, 10.00, "252K", "上代旗舰"),
+            ("Qwen3.6-Plus", 2.00, 12.00, "1M",   "最新推荐"),
+            ("Qwen3.5-Plus", 0.80,  4.80, "1M",   "推荐(上代)"),
+            ("Qwen-Plus",    0.80,  2.00, "131K", "旧推荐"),
+            ("Qwen-Turbo",   0.37,  1.47, "1M",   "极低价"),
+            ("Qwen-Coder",   1.00,  4.00, "1M",   "代码"),
+            ("Qwen-Long",    0.50,  2.00, "10M",  "超长上下文"),
+        ]]
+
+
+class ZhipuScraper(BaseScraper):
+    """智谱 GLM API 定价 (CNY)"""
+
+    provider = "智谱AI"
+    URL = "https://open.bigmodel.cn/pricing"
+
+    def scrape(self) -> list[ModelPrice]:
+        print(f"[{self.provider}] 正在抓取 {self.URL} ...")
+        html = fetch_html(self.URL)
+        if not html:
+            print(f"[{self.provider}] 抓取失败，使用离线数据")
+            return self._offline_data()
+        return self._offline_data()
+
+    def _offline_data(self) -> list[ModelPrice]:
+        rate = self.rate
+        return [ModelPrice(
+            provider=self.provider, model=m, input_price=i, output_price=o,
+            context_window=ctx, notes=note,
+            input_usd=round(i/rate, 4), output_usd=round(o/rate, 4),
+        ) for m, i, o, ctx, note in [
+            ("GLM-5.2",     8.00, 28.00, "1M",   "🔥最新旗舰"),
+            ("GLM-5.1",     6.00, 24.00, "200K", "🔥顶级编程"),
+            ("GLM-5",       4.00, 18.00, "128K", "旗舰"),
+            ("GLM-4-Plus",  5.00,  5.00, "128K", "推荐"),
+            ("GLM-4-Air",   0.60,  0.60, "128K", "轻量"),
+            ("GLM-4-Flash", 0.00,  0.00, "128K", "免费"),
+            ("CodeGeeX",    0.00,  0.00, "128K", "代码/免费"),
+        ]]
+
+
+class MoonshotScraper(BaseScraper):
+    """月之暗面 Kimi API 定价 (CNY)"""
+
+    provider = "月之暗面"
+    URL = "https://platform.moonshot.cn/docs/pricing"
+
+    def scrape(self) -> list[ModelPrice]:
+        print(f"[{self.provider}] 正在抓取 {self.URL} ...")
+        html = fetch_html(self.URL)
+        if not html:
+            print(f"[{self.provider}] 抓取失败，使用离线数据")
+            return self._offline_data()
+        return self._offline_data()
+
+    def _offline_data(self) -> list[ModelPrice]:
+        rate = self.rate
+        return [ModelPrice(
+            provider=self.provider, model=m, input_price=i, output_price=o,
+            context_window=ctx, notes=note, cached_input_price=cached,
+            input_usd=round(i/rate, 4), output_usd=round(o/rate, 4),
+        ) for m, i, o, ctx, note, cached in [
+            ("Kimi-K2.6",       6.50, 27.00, "262K", "🔥最新Agent旗舰", 1.10),
+            ("Moonshot-v1-128k", 5.00, 10.00, "128K", "旧版", 0),
+        ]]
 
 
 # ── 输出格式化 ──────────────────────────────────────────
@@ -489,6 +668,12 @@ def scrape_all(rate: float) -> list[ModelPrice]:
         AnthropicScraper(rate),
         GoogleScraper(rate),
         DeepSeekScraper(rate),
+        MistralScraper(rate),
+        XAIScraper(rate),
+        CohereScraper(rate),
+        AlibabaScraper(rate),
+        ZhipuScraper(rate),
+        MoonshotScraper(rate),
         CloudPriceScraper(rate),
     ]
 
@@ -549,7 +734,10 @@ def main():
         print("📴 离线模式 — 仅使用内置数据\n")
         all_prices = []
         for scraper in [OpenAIScraper(rate), AnthropicScraper(rate),
-                        GoogleScraper(rate), DeepSeekScraper(rate)]:
+                        GoogleScraper(rate), DeepSeekScraper(rate),
+                        MistralScraper(rate), XAIScraper(rate),
+                        CohereScraper(rate), AlibabaScraper(rate),
+                        ZhipuScraper(rate), MoonshotScraper(rate)]:
             all_prices.extend(scraper._offline_data())
     elif args.provider:
         scraper_map = {
