@@ -14,54 +14,76 @@
 <link rel="manifest" href="manifest.json">
 <style>
 /* ═══════════════════════════════════════════════
-   CSS Variables & Reset
+   Design Tokens
    ═══════════════════════════════════════════════ */
 :root {
-  --bg-primary: #0d1117;
-  --bg-secondary: #161b22;
-  --bg-tertiary: #21262d;
-  --bg-card: #1c2128;
-  --border: #30363d;
-  --text-primary: #e6edf3;
-  --text-secondary: #8b949e;
-  --text-muted: #6e7681;
-  --accent: #58a6ff;
-  --accent-dim: #1f6feb;
-  --green: #3fb950;
-  --yellow: #d2991d;
-  --red: #f85149;
-  --radius: 10px;
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.25);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.35);
-  --row-hover: rgba(255, 255, 255, 0.04);
-  --row-hover-strong: rgba(255, 255, 255, 0.09);
-  --hover-strong: #30363d;
-  --focus-ring: rgba(88, 166, 255, 0.35);
-  --scrollbar-thumb: #2d333b;
+  color-scheme: dark;
+  --bg-primary:   #08090d;
+  --bg-secondary: #0f1116;
+  --bg-tertiary:  #171a21;
+  --bg-elevated:  #1e222b;
+  --bg-card:      #0f1116;
+
+  --border:        #232833;
+  --border-soft:   rgba(255,255,255,0.055);
+  --border-strong: #333a47;
+
+  --text-primary:   #e9edf4;
+  --text-secondary: #98a2b3;
+  --text-muted:     #626c7d;
+
+  --accent:      #4d9cff;
+  --accent-dim:  #1f6fe0;
+  --accent-soft: rgba(77,156,255,0.12);
+  --accent-line: rgba(77,156,255,0.40);
+
+  --green:  #3fbf7f;
+  --yellow: #d9a441;
+  --red:    #ef5f5f;
+
+  --radius-sm: 6px;
+  --radius:    10px;
+  --radius-lg: 14px;
+
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.45);
+  --shadow-md: 0 10px 32px rgba(0,0,0,0.55);
+
+  --row-hover:        rgba(255,255,255,0.035);
+  --row-hover-strong: rgba(255,255,255,0.065);
+  --hover-strong:     #262c37;
+  --focus-ring:       rgba(77,156,255,0.28);
+  --scrollbar-thumb:  #2b313d;
+
+  --font-num: ui-monospace, 'SF Mono', 'JetBrains Mono', 'Cascadia Mono', Consolas, monospace;
 }
 
-/* ── 浅色主题 ──────────────────────────────── */
 [data-theme="light"] {
-  --bg-primary: #f6f8fa;
+  color-scheme: light;
+  --bg-primary:   #f7f8fa;
   --bg-secondary: #ffffff;
-  --bg-tertiary: #eef1f4;
-  --bg-card: #ffffff;
-  --border: #d1d9e0;
-  --text-primary: #1f2328;
-  --text-secondary: #59636e;
-  --text-muted: #818b98;
-  --accent: #0969da;
-  --accent-dim: #218bff;
-  --green: #1a7f37;
+  --bg-tertiary:  #f1f3f6;
+  --bg-elevated:  #ffffff;
+  --bg-card:      #ffffff;
+  --border:        #e3e7ee;
+  --border-soft:   rgba(15,23,42,0.07);
+  --border-strong: #cdd5e0;
+  --text-primary:   #111827;
+  --text-secondary: #5b6675;
+  --text-muted:     #8b95a5;
+  --accent:      #1f6fe0;
+  --accent-dim:  #1660c9;
+  --accent-soft: rgba(31,111,224,0.09);
+  --accent-line: rgba(31,111,224,0.35);
+  --green:  #10893f;
   --yellow: #9a6700;
-  --red: #cf222e;
-  --shadow-sm: 0 1px 3px rgba(31, 35, 40, 0.08);
-  --shadow-md: 0 4px 16px rgba(31, 35, 40, 0.14);
-  --row-hover: rgba(31, 35, 40, 0.04);
-  --row-hover-strong: rgba(31, 35, 40, 0.09);
-  --hover-strong: #d1d9e0;
-  --focus-ring: rgba(9, 105, 218, 0.25);
-  --scrollbar-thumb: #c9d1d9;
+  --red:    #cf222e;
+  --shadow-sm: 0 1px 2px rgba(15,23,42,0.06);
+  --shadow-md: 0 10px 32px rgba(15,23,42,0.12);
+  --row-hover:        rgba(15,23,42,0.035);
+  --row-hover-strong: rgba(15,23,42,0.07);
+  --hover-strong:     #e8ecf2;
+  --focus-ring:       rgba(31,111,224,0.22);
+  --scrollbar-thumb:  #c8cfd9;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -69,23 +91,24 @@
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
   background: var(--bg-primary);
+  background-image: radial-gradient(1100px 380px at 50% -120px, var(--accent-soft), transparent 72%);
+  background-repeat: no-repeat;
   color: var(--text-primary);
   line-height: 1.5;
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
 }
 
-.container { max-width: 1400px; margin: 0 auto; padding: 16px; }
+.container { max-width: 1440px; margin: 0 auto; padding: 20px 24px 8px; }
 
-/* 滚动条 */
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
   background: var(--scrollbar-thumb); border-radius: 5px;
   border: 2px solid transparent; background-clip: content-box;
 }
-::-webkit-scrollbar-thumb:hover { background-color: var(--border); }
+::-webkit-scrollbar-thumb:hover { background-color: var(--border-strong); }
 
-/* 输入/选择器聚焦 */
 input:focus, select:focus {
   outline: none; border-color: var(--accent);
   box-shadow: 0 0 0 3px var(--focus-ring);
@@ -97,231 +120,293 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
    Header
    ═══════════════════════════════════════════════ */
 .header {
-  background: var(--bg-secondary);
-  border-bottom: 1px solid var(--border);
-  padding: 16px 0;
   position: sticky; top: 0; z-index: 100;
-  backdrop-filter: blur(12px);
-  box-shadow: var(--shadow-sm);
+  background: color-mix(in srgb, var(--bg-primary) 82%, transparent);
+  backdrop-filter: blur(14px) saturate(150%);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  border-bottom: 1px solid var(--border);
 }
 .header .container {
   display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: 12px;
+  flex-wrap: wrap; gap: 14px; padding-top: 13px; padding-bottom: 13px;
 }
-.logo { font-size: 1.25rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+.logo {
+  font-size: 1.02rem; font-weight: 650; letter-spacing: -0.01em;
+  display: flex; align-items: center; gap: 10px;
+}
 .logo span { color: var(--accent); }
+.logo .logo-mark {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: 8px;
+  background: linear-gradient(145deg, var(--accent), #7b5cff);
+  color: #fff; font-size: 0.9rem; font-weight: 700;
+  box-shadow: 0 2px 10px rgba(77,156,255,0.35);
+}
 
 .rate-box {
   display: flex; align-items: center; gap: 8px;
-  background: var(--bg-tertiary); padding: 6px 12px; border-radius: var(--radius);
-  font-size: 0.85rem;
+  background: var(--bg-tertiary); padding: 6px 12px;
+  border: 1px solid var(--border); border-radius: 999px;
+  font-size: 0.8rem;
 }
 .rate-box label { color: var(--text-secondary); white-space: nowrap; }
 .rate-box input {
-  width: 60px; background: transparent; border: 1px solid var(--border);
-  color: var(--text-primary); text-align: center; padding: 4px; border-radius: 4px;
-  font-size: 0.85rem;
+  width: 58px; background: transparent; border: 1px solid transparent;
+  color: var(--text-primary); text-align: center; padding: 3px 4px;
+  border-radius: var(--radius-sm); font-size: 0.82rem;
+  font-family: var(--font-num); font-variant-numeric: tabular-nums;
 }
+.rate-box input:hover { border-color: var(--border); }
+
 .currency-toggle {
-  display: flex; gap: 0; border-radius: var(--radius); overflow: hidden;
-  border: 1px solid var(--border);
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--bg-tertiary); border: 1px solid var(--border);
+  border-radius: 999px;
 }
 .currency-toggle button {
-  background: var(--bg-tertiary); color: var(--text-secondary); border: none;
-  padding: 6px 14px; cursor: pointer; font-size: 0.85rem; transition: all .15s;
+  background: transparent; color: var(--text-secondary); border: none;
+  padding: 5px 14px; cursor: pointer; font-size: 0.8rem;
+  border-radius: 999px; transition: all .18s;
 }
+.currency-toggle button:hover { color: var(--text-primary); }
 .currency-toggle button.active {
   background: var(--accent-dim); color: #fff;
+  box-shadow: 0 2px 8px rgba(31,111,224,0.35);
 }
 
-.header-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.header-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 
 /* ═══════════════════════════════════════════════
    Controls
    ═══════════════════════════════════════════════ */
 .controls {
-  background: var(--bg-secondary); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 16px; margin: 16px 0;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px; margin: 20px 0 16px;
   box-shadow: var(--shadow-sm);
 }
 .controls-row {
-  display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+  display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
 }
-.controls-row + .controls-row { margin-top: 12px; }
+.controls-row + .controls-row {
+  margin-top: 14px; padding-top: 14px;
+  border-top: 1px solid var(--border-soft);
+}
 
-.search-box {
-  flex: 1; min-width: 200px; position: relative;
-}
+.search-box { flex: 1; min-width: 220px; position: relative; }
 .search-box input {
-  width: 100%; padding: 8px 12px 8px 36px;
+  width: 100%; padding: 10px 14px 10px 38px;
   background: var(--bg-primary); border: 1px solid var(--border);
-  color: var(--text-primary); border-radius: var(--radius); font-size: 0.9rem;
+  color: var(--text-primary); border-radius: var(--radius);
+  font-size: 0.9rem; transition: border-color .15s;
 }
+.search-box input::placeholder { color: var(--text-muted); }
 .search-box .search-icon {
-  position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
-  color: var(--text-muted); font-size: 0.9rem;
+  position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
+  color: var(--text-muted); font-size: 0.9rem; pointer-events: none;
 }
 
 select, .btn {
-  padding: 8px 14px; border-radius: var(--radius);
-  font-size: 0.85rem; cursor: pointer; transition: all .15s;
+  padding: 9px 14px; border-radius: var(--radius);
+  font-size: 0.82rem; cursor: pointer; transition: all .15s;
+  font-family: inherit;
 }
 select {
-  background: var(--bg-primary); color: var(--text-primary);
+  background: var(--bg-tertiary); color: var(--text-primary);
   border: 1px solid var(--border);
 }
+select:hover { border-color: var(--border-strong); }
 .btn {
   background: var(--bg-tertiary); color: var(--text-primary);
-  border: 1px solid var(--border); display: inline-flex; align-items: center; gap: 6px;
-  white-space: nowrap;
+  border: 1px solid var(--border);
+  display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
 }
-.btn:hover { background: var(--hover-strong); transform: translateY(-1px); }
-.btn:active { transform: translateY(0); }
-.btn-primary { background: var(--accent-dim); border-color: var(--accent-dim); color: #fff; }
+.btn:hover { background: var(--hover-strong); border-color: var(--border-strong); }
+.btn:active { transform: translateY(1px); }
+.btn-primary {
+  background: var(--accent-dim); border-color: transparent; color: #fff;
+  font-weight: 500;
+}
 .btn-primary:hover { background: var(--accent); }
-.btn-sm { padding: 4px 10px; font-size: 0.8rem; }
+.btn-sm { padding: 6px 11px; font-size: 0.78rem; }
 
 .provider-filter {
-  display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;
+  display: flex; flex-wrap: wrap; gap: 7px; margin-top: 14px;
 }
 .provider-chip {
-  padding: 4px 10px; border-radius: 20px; font-size: 0.78rem;
-  cursor: pointer; border: 1px solid transparent; transition: all .15s;
-  opacity: 0.5; user-select: none;
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 5px 11px; border-radius: 999px; font-size: 0.76rem;
+  cursor: pointer; border: 1px solid var(--border); background: var(--bg-tertiary);
+  color: var(--text-muted);
+  opacity: 1; user-select: none;
+  transition: background .15s, border-color .15s, color .15s;
 }
-.provider-chip.active { opacity: 1; border-color: currentColor; }
-.provider-chip:hover { opacity: 0.9; transform: scale(1.05); }
+.provider-chip:hover { background: var(--hover-strong); }
+".provider-chip.active {
+  color: var(--pcolor, var(--text-primary));
+  border-color: color-mix(in srgb, var(--pcolor, var(--border)) 45%, transparent);
+  background: color-mix(in srgb, var(--pcolor, var(--border)) 12%, transparent);
+}
 .provider-chip .dot {
-  display: inline-block; width: 8px; height: 8px; border-radius: 50%;
-  margin-right: 4px;
+  display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+  flex-shrink: 0;
 }
 
 .price-range-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-.price-range-row label { color: var(--text-secondary); font-size: 0.85rem; }
+.price-range-row label { color: var(--text-secondary); font-size: 0.82rem; }
 .price-range-row input {
-  width: 70px; padding: 6px; background: var(--bg-primary);
+  width: 72px; padding: 7px 8px; background: var(--bg-primary);
   border: 1px solid var(--border); color: var(--text-primary);
-  border-radius: 4px; text-align: center; font-size: 0.85rem;
+  border-radius: var(--radius-sm); text-align: center; font-size: 0.82rem;
+  font-family: var(--font-num); font-variant-numeric: tabular-nums;
+}
+
+.stats-bar {
+  display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+  padding: 2px 2px 14px; font-size: 0.8rem; color: var(--text-secondary);
+}
+.stats-bar span {
+  background: var(--bg-tertiary); border: 1px solid var(--border);
+  padding: 4px 11px; border-radius: 999px;
 }
 
 /* ═══════════════════════════════════════════════
    Table
    ═══════════════════════════════════════════════ */
 .table-wrapper {
-  overflow-x: auto; overflow-y: auto; max-height: 80vh;
-  border-radius: var(--radius);
-  border: 1px solid var(--border); background: var(--bg-secondary);
+  overflow: auto; max-height: 78vh;
+  border: 1px solid var(--border); border-radius: var(--radius-lg);
+  background: var(--bg-secondary);
   box-shadow: var(--shadow-sm);
 }
-table {
-  width: 100%; border-collapse: collapse; font-size: 0.88rem;
-}
+table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 0.85rem; }
+
 thead th {
-  background: var(--bg-tertiary); padding: 10px 14px;
-  text-align: left; font-weight: 600; white-space: nowrap;
-  cursor: pointer; user-select: none; position: sticky; top: 0;
-  border-bottom: 2px solid var(--border); z-index: 10;
+  position: sticky; top: 0; z-index: 10;
+  background: var(--bg-elevated);
+  padding: 12px 16px; text-align: left; white-space: nowrap;
+  font-size: 0.74rem; font-weight: 600; letter-spacing: 0.04em;
+  color: var(--text-secondary);
+  cursor: pointer; user-select: none;
+  border-bottom: 1px solid var(--border-strong);
+  transition: color .15s, background .15s;
 }
-thead th:first-child { z-index: 20; }
-thead th:hover { background: var(--hover-strong); }
-thead th .sort-arrow { margin-left: 4px; font-size: 0.7rem; }
+thead th:first-child { z-index: 20; border-top-left-radius: var(--radius-lg); }
+thead th:last-child  { border-top-right-radius: var(--radius-lg); }
+thead th:hover { color: var(--text-primary); background: var(--bg-tertiary); }
+thead th .sort-arrow { margin-left: 5px; font-size: 0.66rem; color: var(--text-muted); }
 thead th .sort-arrow.active { color: var(--accent); }
 
 tbody td {
-  padding: 8px 14px; border-bottom: 1px solid var(--border);
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-soft);
   white-space: nowrap;
+  vertical-align: middle;
 }
-tbody td:first-child { position: sticky; left: 0; background: var(--bg-secondary); z-index: 5; }
-tbody td:nth-child(3) { position: sticky; left: 56px; background: var(--bg-secondary); z-index: 5; }
-tbody tr { transition: background .12s; }
+tbody tr:last-child td { border-bottom: none; }
+tbody td:first-child {
+  position: sticky; left: 0; background: var(--bg-secondary); z-index: 5;
+  box-shadow: inset 2px 0 0 var(--pcolor, transparent);
+}
+tbody tr:hover td:first-child { box-shadow: inset 3px 0 0 var(--pcolor, transparent); }
+tbody td:nth-child(2),
+tbody td:nth-child(3) { position: sticky; background: var(--bg-secondary); z-index: 5; }
+tbody td:nth-child(2) { left: 0; }
+tbody td:nth-child(3) { left: 56px; box-shadow: 1px 0 0 var(--border-soft); }
+tbody tr { transition: background .12s ease; }
 tbody tr:hover td:first-child,
-tbody tr:hover td:nth-child(3) { background: var(--row-hover-strong); }
-tbody tr:hover { background: var(--row-hover); }
+tbody tr:hover td:nth-child(2),
+tbody tr:hover td:nth-child(3) { background: var(--bg-secondary); }
+tbody tr:hover td { background-color: var(--row-hover); }
 
-.cache-cell { color: var(--green); font-size: 0.78rem; }
-.batch-cell { color: var(--text-muted); font-size: 0.78rem; }
+/* 数字列：等宽 + 右对齐，竖向可对比 */
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
 
-/* Tier tooltip */
+.cache-cell { color: var(--text-secondary); font-size: 0.8rem; }
+.batch-cell { color: var(--text-muted); font-size: 0.8rem; }
+
 .price-tier-icon {
-  display: inline-block; color: var(--accent-dim); cursor: help;
-  font-size: 0.7rem; margin-left: 2px; position: relative;
+  display: inline-block; color: var(--text-muted); cursor: help;
+  font-size: 0.72rem; margin-left: 4px; position: relative;
 }
+.price-tier-icon:hover { color: var(--accent); }
 .price-tier-icon .tooltip {
-  display: none; position: absolute; bottom: 120%; left: 50%;
-  transform: translateX(-50%); background: var(--bg-tertiary);
-  color: var(--text-primary); font-size: 0.72rem; padding: 6px 10px;
-  border-radius: 4px; border: 1px solid var(--border);
-  white-space: pre-line; z-index: 999; min-width: 180px;
+  display: none; position: absolute; bottom: 130%; left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg-elevated); color: var(--text-primary);
+  font-size: 0.74rem; padding: 9px 12px; line-height: 1.6;
+  border-radius: var(--radius); border: 1px solid var(--border-strong);
+  white-space: pre-line; z-index: 999; min-width: 190px; max-width: 340px;
   pointer-events: none; text-align: left; font-weight: 400;
+  box-shadow: var(--shadow-md);
 }
 .price-tier-icon:hover .tooltip { display: block; }
 
-.provider-badge {
-  display: inline-flex; align-items: center; gap: 6px;
-  font-weight: 500;
-}
-.provider-dot {
-  width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
-}
+.provider-badge { display: inline-flex; align-items: center; gap: 7px; font-weight: 450; color: var(--text-secondary); }
+.provider-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 
-.price-cell { font-family: 'JetBrains Mono', 'Fira Code', monospace; font-weight: 500; font-variant-numeric: tabular-nums; }
+.price-cell {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-weight: 450;
+  letter-spacing: -0.01em;
+}
 .price-green { color: var(--green); }
 .price-yellow { color: var(--yellow); }
 .price-red { color: var(--red); }
 
-.compare-checkbox { width: 18px; height: 18px; cursor: pointer; accent-color: var(--accent); }
+.compare-checkbox {
+  width: 16px; height: 16px; cursor: pointer;
+  accent-color: var(--accent); vertical-align: middle;
+  border-radius: 4px; opacity: .55;
+  transition: opacity .15s;
+}
+tbody tr:hover .compare-checkbox { opacity: 1; }
+.compare-checkbox:checked { opacity: 1; }
 
 /* ═══════════════════════════════════════════════
    Compare Panel
    ═══════════════════════════════════════════════ */
 .compare-panel {
   position: fixed; bottom: 0; left: 0; right: 0;
-  background: var(--bg-secondary); border-top: 2px solid var(--accent);
-  padding: 16px; z-index: 200; transform: translateY(100%); transition: transform .3s;
-  max-height: 50vh; overflow-y: auto; box-shadow: var(--shadow-md);
+  background: var(--bg-secondary); border-top: 1px solid var(--accent-line);
+  padding: 18px 22px; z-index: 200; transform: translateY(100%);
+  transition: transform .28s cubic-bezier(.22,1,.36,1);
+  max-height: 52vh; overflow-y: auto; box-shadow: var(--shadow-md);
 }
 .compare-panel.open { transform: translateY(0); }
-.compare-panel h3 { margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-.compare-grid {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 16px;
-}
+.compare-panel h3 { margin-bottom: 14px; font-size: 0.95rem; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+.compare-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
 .compare-card {
   background: var(--bg-tertiary); border-radius: var(--radius);
-  padding: 14px; border: 1px solid var(--border); box-shadow: var(--shadow-sm);
+  padding: 16px; border: 1px solid var(--border);
 }
-.compare-card h4 { margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
-.compare-card .row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 0.85rem; }
+.compare-card h4 { margin-bottom: 10px; font-size: 0.88rem; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+.compare-card .row { display: flex; justify-content: space-between; padding: 5px 0; font-size: 0.82rem; }
 .compare-card .row .label { color: var(--text-secondary); }
 .close-compare {
-  position: absolute; top: 12px; right: 16px;
+  position: absolute; top: 14px; right: 18px;
   background: none; border: none; color: var(--text-muted);
-  font-size: 1.5rem; cursor: pointer;
+  font-size: 1.5rem; line-height: 1; cursor: pointer;
 }
-.compare-actions { margin-top: 12px; display: flex; gap: 8px; }
+.close-compare:hover { color: var(--text-primary); }
+.compare-actions { margin-top: 14px; display: flex; gap: 8px; }
 
 /* ═══════════════════════════════════════════════
-   Footer & Stats
+   Footer / Toast
    ═══════════════════════════════════════════════ */
 .footer {
-  text-align: center; padding: 20px; color: var(--text-muted);
-  font-size: 0.8rem; border-top: 1px solid var(--border); margin-top: 24px;
+  text-align: center; padding: 26px 20px; color: var(--text-muted);
+  font-size: 0.78rem; border-top: 1px solid var(--border-soft); margin-top: 26px;
 }
 .footer .updated { color: var(--text-secondary); }
-.stats-bar {
-  display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
-  padding: 8px; font-size: 0.82rem; color: var(--text-secondary);
-}
-.stats-bar span { background: var(--bg-tertiary); padding: 4px 10px; border-radius: 4px; }
-
-/* ═══════════════════════════════════════════════
-   Toast / Notifications
-   ═══════════════════════════════════════════════ */
 .toast {
   position: fixed; top: 20px; right: 20px; z-index: 999;
-  background: var(--accent-dim); color: #fff; padding: 12px 20px;
-  border-radius: var(--radius); font-size: 0.9rem; animation: fadeInOut 2.5s forwards;
-  box-shadow: var(--shadow-md);
+  background: var(--bg-elevated); color: var(--text-primary);
+  border: 1px solid var(--border-strong);
+  padding: 12px 18px; border-radius: var(--radius); font-size: 0.85rem;
+  animation: fadeInOut 2.6s forwards; box-shadow: var(--shadow-md);
 }
 @keyframes fadeInOut {
   0% { opacity: 0; transform: translateY(-10px); }
@@ -330,64 +415,218 @@ tbody tr:hover { background: var(--row-hover); }
   100% { opacity: 0; }
 }
 
-/* ═══════════════════════════════════════════════
-   Mobile Cards
-   ═══════════════════════════════════════════════ */
+#fileProtocolBanner {
+  background: var(--bg-tertiary); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 10px 14px;
+  font-size: 0.75rem; color: var(--text-muted); line-height: 1.6;
+}
+
 .mobile-cards { display: none; }
 
 @media (max-width: 768px) {
-  .header .container { flex-direction: column; align-items: flex-start; }
+  .container { padding: 14px 14px 6px; }
+  .header .container { flex-direction: column; align-items: stretch; gap: 10px; }
   .controls-row { flex-direction: column; align-items: stretch; }
   .search-box { min-width: 100%; }
   .compare-grid { grid-template-columns: 1fr; }
 
-  /* Hide desktop table, show cards */
   .table-wrapper { display: none; }
   .mobile-cards { display: block; }
 
   .model-card {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 12px;
-    margin-bottom: 8px;
-    box-shadow: var(--shadow-sm);
+    background: var(--bg-secondary); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 14px; margin-bottom: 10px;
   }
   .model-card .card-header {
     display: flex; align-items: center; gap: 8px;
-    margin-bottom: 10px; padding-bottom: 8px;
-    border-bottom: 1px solid var(--border);
+    margin-bottom: 12px; padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-soft);
   }
-  .model-card .card-header .provider-dot { width: 12px; height: 12px; }
-  .model-card .card-header .provider-name { font-size: 0.75rem; color: var(--text-secondary); }
-  .model-card .card-header .model-name { font-size: 0.95rem; font-weight: 700; flex: 1; }
-  .model-card .card-header .compare-cb { width: 20px; height: 20px; accent-color: var(--accent); flex-shrink: 0; }
-  .model-card .card-prices {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
-    font-size: 0.85rem;
-  }
+  .model-card .card-header .provider-dot { width: 10px; height: 10px; }
+  .model-card .card-header .provider-name { font-size: 0.74rem; color: var(--text-secondary); }
+  .model-card .card-header .model-name { font-size: 0.92rem; font-weight: 600; flex: 1; }
+  .model-card .card-header .compare-cb { width: 19px; height: 19px; accent-color: var(--accent); flex-shrink: 0; }
+  .model-card .card-prices { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   .model-card .card-prices .price-item {
-    background: var(--bg-tertiary); border-radius: 6px; padding: 8px 10px;
-    text-align: center;
+    background: var(--bg-tertiary); border: 1px solid var(--border-soft);
+    border-radius: var(--radius); padding: 9px 10px; text-align: center;
   }
-  .model-card .card-prices .price-item .label {
-    font-size: 0.7rem; color: var(--text-muted); margin-bottom: 2px;
-  }
+  .model-card .card-prices .price-item .label { font-size: 0.7rem; color: var(--text-muted); margin-bottom: 3px; }
   .model-card .card-prices .price-item .value {
-    font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 1.05rem;
+    font-family: var(--font-num); font-variant-numeric: tabular-nums;
+    font-weight: 600; font-size: 1rem;
   }
-  .model-card .card-meta {
-    display: flex; gap: 12px; margin-top: 8px;
-    font-size: 0.75rem; color: var(--text-muted);
-  }
-  .model-card .card-meta span { background: var(--bg-tertiary); padding: 2px 8px; border-radius: 4px; }
+  .model-card .card-meta { display: flex; gap: 8px; margin-top: 10px; font-size: 0.72rem; color: var(--text-muted); flex-wrap: wrap; }
+  .model-card .card-meta span { background: var(--bg-tertiary); padding: 3px 9px; border-radius: 999px; }
 
-  /* Header compact on mobile */
   .header-actions { width: 100%; justify-content: space-between; }
-  .header-actions .rate-box { font-size: 0.75rem; }
-  .header-actions .btn-sm { font-size: 0.72rem; padding: 3px 8px; }
   #fileProtocolBanner { font-size: 0.7rem; }
 }
+
+/* ═══════════════════════════════════════════════
+   Skin: Trading Terminal  (c3)
+   ═══════════════════════════════════════════════ */
+:root {
+  --bg-primary:#05070a; --bg-secondary:#0a0f16; --bg-tertiary:#0f1620; --bg-elevated:#131c26;
+  --bg-card:#0a0f16;
+  --border:#182230; --border-soft:rgba(255,255,255,.035); --border-strong:#233040;
+  --accent:#00d9a7; --accent-dim:#00b489; --accent-soft:rgba(0,217,167,.10);
+  --accent-line:rgba(0,217,167,.35);
+  --text-primary:#dbe7f3; --text-secondary:#7d8fa3; --text-muted:#4c5b6d;
+  --green:#00d9a7; --yellow:#f5b942; --red:#ff5c7a;
+  --row-hover:rgba(0,217,167,.05); --row-hover-strong:rgba(0,217,167,.10);
+  --hover-strong:#16222f; --focus-ring:rgba(0,217,167,.25); --scrollbar-thumb:#1d2a38;
+  --font-num:'JetBrains Mono','Cascadia Mono',Consolas,ui-monospace,monospace;
+}
+[data-theme="light"] {
+  --bg-primary:#f6f9fb; --bg-secondary:#ffffff; --bg-tertiary:#eef3f7; --bg-elevated:#ffffff;
+  --border:#dbe4ec; --border-soft:rgba(5,7,10,.06); --border-strong:#c3d0db;
+  --accent:#00876a; --accent-dim:#006e57; --accent-soft:rgba(0,135,106,.09);
+  --accent-line:rgba(0,135,106,.32);
+  --text-primary:#0a1a20; --text-secondary:#5a6b78; --text-muted:#8b9aa6;
+  --green:#00876a; --yellow:#9a6700; --red:#cf222e;
+  --row-hover:rgba(0,135,106,.06); --row-hover-strong:rgba(0,135,106,.12);
+  --hover-strong:#e4eef4; --focus-ring:rgba(0,135,106,.2); --scrollbar-thumb:#cfd9e2;
+}
+body {
+  background-image:
+    radial-gradient(900px 300px at 18% -90px, rgba(0,217,167,.07), transparent 70%),
+    radial-gradient(700px 260px at 88% -60px, rgba(8,145,178,.05), transparent 70%);
+  background-attachment: fixed;
+}
+.container { max-width: 1560px; }
+.logo .logo-mark {
+  background: linear-gradient(160deg,#00d9a7,#0891b2); color:#04121a;
+  box-shadow: 0 0 14px rgba(0,217,167,.35);
+}
+.controls { background: var(--bg-secondary); border-color: var(--border); }
+.search-box input, select, .rate-box { background: var(--bg-primary); }
+.currency-toggle button.active { background: var(--accent); color:#04121a; font-weight:600; box-shadow:none; }
+.btn-primary { background: var(--accent); color:#04121a; border-color:transparent; font-weight:600; }
+.btn-primary:hover { background:#22e8b8; color:#04121a; }
+thead th {
+  background: var(--bg-elevated); color: var(--accent);
+  border-bottom: 1px solid var(--accent-line);
+  font-size:.66rem; letter-spacing:.10em; text-transform:uppercase; padding:10px 14px;
+}
+thead th:hover { background:#16222f; color:#7dffe0; }
+.table-wrapper { max-height: 80vh; }
+tbody td { padding:9px 14px; border-bottom:1px solid var(--border-soft); }
+tbody tr:hover td { background-color: var(--row-hover) !important; }
+tbody tr:hover td:first-child, tbody tr:hover td:nth-child(2), tbody tr:hover td:nth-child(3) { background: var(--bg-secondary); }
+.price-cell { font-family: var(--font-num); font-weight:500; letter-spacing:-.02em; }
+.cache-cell { color:#5b9fd6; }
+.batch-cell { color:#8b7fd6; }
+.stats-bar span { border-radius:4px; font-family:var(--font-num); font-size:.74rem; }
+[data-theme="light"] thead th:hover { background:#e4eef4; color:#006e57; }
+[data-theme="light"] .btn-primary:hover { background:#00a37f; color:#fff; }
+
+/* ── 顶部标签页（报价表 / 排行榜）── */
+.tabs { display:flex; align-items:center; gap:4px; margin:18px 0 0; border-bottom:1px solid var(--border); }
+.tab {
+  background:none; border:none; border-bottom:2px solid transparent; border-radius:0;
+  padding:10px 16px; margin-bottom:-1px; cursor:pointer; font-family:inherit;
+  color:var(--text-muted); font-size:.86rem; font-weight:500; transition:color .14s, border-color .14s;
+}
+.tab:hover { color:var(--text-primary); }
+.tab.active { color:var(--accent); border-bottom-color:var(--accent); }
+.tab .tab-badge {
+  display:inline-block; margin-left:6px; padding:1px 6px; border-radius:999px;
+  background:var(--bg-tertiary); border:1px solid var(--border);
+  font-family:var(--font-num); font-size:.66rem; color:var(--text-muted);
+}
+.tab-panel { display:none; }
+.tab-panel.active { display:block; }
+
+/* ── 排行榜（c5 榜单视角）── */
+.board { display:grid; grid-template-columns:repeat(auto-fit,minmax(304px,1fr)); gap:14px; margin:20px 0 8px; }
+.lane {
+  background:linear-gradient(170deg,var(--bg-secondary),var(--bg-primary));
+  border:1px solid var(--border); border-radius:14px; padding:16px;
+  transition:border-color .16s, transform .16s;
+}
+.lane:hover { border-color:var(--accent-line); transform:translateY(-2px); }
+.lane h3 { font-size:.86rem; font-weight:650; margin-bottom:3px; display:flex; align-items:center; gap:7px; }
+.lane .lane-sub { font-size:.72rem; color:var(--text-muted); margin-bottom:12px; }
+.lane ol { list-style:none; }
+.lane li {
+  display:flex; align-items:center; gap:9px; padding:7px 0;
+  border-bottom:1px solid var(--border-soft); font-size:.8rem;
+}
+.lane li:last-child { border-bottom:none; }
+.lane li .ix { font-family:var(--font-num); font-size:.68rem; color:var(--text-muted); width:15px; flex-shrink:0; }
+.lane li .pd { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+.lane li .nm { flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.lane li .pv { font-family:var(--font-num); font-size:.8rem; font-weight:600; color:var(--accent);
+               display:inline-flex; align-items:baseline; gap:5px; }
+.lane li .pv .tie { font-style:normal; font-size:.6rem; color:var(--text-muted);
+                    border:1px solid var(--border); border-radius:999px; padding:0 5px; }
+.lane .more {
+  display:inline-block; margin-top:11px; font-size:.74rem; color:var(--accent);
+  cursor:pointer; opacity:.85;
+}
+.lane .more:hover { opacity:1; text-decoration:underline; }
+.board-note { font-size:.74rem; color:var(--text-muted); margin:2px 0 18px; }
+
+
+/* ==== 厂商 logo（内联 SVG）==== */
+.provider-badge { display:inline-flex; align-items:center; gap:7px; white-space:nowrap; }
+.vlogo {
+  display:inline-flex; align-items:center; justify-content:center;
+  flex:0 0 auto; vertical-align:-0.15em; color:var(--text-primary);
+  transition:transform .15s ease, filter .15s ease;
+}
+.vlogo svg { display:block; width:100%; height:100%; }
+tr:hover .vlogo { transform:scale(1.12); }
+.vlogo-fallback {
+  border:1px solid; border-radius:4px;
+  font-family:var(--font-num); font-weight:700; line-height:1;
+  letter-spacing:0;
+}
+/* 白底衬：给单色 logo（OpenAI / 小米）用。
+   这些图形本身是 currentColor，深色主题下是一只白色线稿，加白底后图形转深色。
+   padding 让图形不贴边，看起来像个正规的应用角标。 */
+.vlogo-onlight {
+  background:#fff; border-radius:4px; padding:1.5px;
+  box-shadow:0 0 0 1px rgba(255,255,255,.22);
+  color:#111418;
+}
+.vlogo-onlight svg { width:100%; height:100%; }
+[data-theme="light"] .vlogo-onlight {
+  background:#fff; box-shadow:0 0 0 1px rgba(0,0,0,.14); color:#111418;
+}
+/* 榜单/表格行 hover 时，白底块同步提亮一点，别显得发灰 */
+tr:hover .vlogo-onlight { box-shadow:0 0 0 1px rgba(255,255,255,.4); }
+.model-name-wrap { display:inline-flex; align-items:center; gap:7px; }
+/* 移动卡片 */
+.model-card .card-header .provider-name { display:inline-flex; align-items:center; gap:7px; }
+
+/* ==== 峰谷定价（DeepSeek）==== */
+.peak-stack { display:inline-flex; flex-direction:column; align-items:flex-end; gap:1px; line-height:1.25; }
+.peak-row {
+  display:inline-flex; align-items:center; gap:4px;
+  font-family:var(--font-num); font-size:0.78rem; white-space:nowrap;
+}
+.peak-row-high { opacity:.62; font-size:0.72rem; }
+.peak-row.is-now { opacity:1; }
+.peak-tag {
+  font-style:normal; font-size:9px; letter-spacing:.3px; padding:0 3px;
+  border-radius:3px; background:var(--bg-tertiary); color:var(--text-muted);
+  border:1px solid var(--border-soft);
+}
+.peak-row-high .peak-tag { color:var(--orange, #f0883e); border-color:rgba(240,136,62,.35); background:rgba(240,136,62,.1); }
+.peak-price { display:block; font-size:0.7rem; opacity:.62; font-family:var(--font-num); }
+.peak-price.off { color:var(--text-muted); }
+/* 移动卡片里的峰谷行 */
+.card-peak { font-size:0.72rem; color:var(--text-muted); font-family:var(--font-num); }
+.card-peak b { color:var(--orange, #f0883e); font-weight:600; }
+
+/* 峰谷提示条 */
+.peak-info { color:var(--text-muted); font-size:0.78rem; }
+.peak-info b { color:var(--text-secondary); font-weight:600; }
+.peak-now { font-style:normal; font-size:0.72rem; padding:1px 6px; border-radius:999px;
+  background:rgba(240,136,62,.14); color:var(--orange,#f0883e); border:1px solid rgba(240,136,62,.35); }
+.peak-now.off { background:rgba(0,217,167,.12); color:var(--accent); border-color:var(--accent-line); }
 </style>
 <script>if (localStorage.getItem('llm_theme') === 'light') document.documentElement.dataset.theme = 'light';</script>
 </head>
@@ -395,7 +634,7 @@ tbody tr:hover { background: var(--row-hover); }
 
 <div class="header">
   <div class="container">
-    <div class="logo"><span>⚡</span> AI Token 价格比价</div>
+    <div class="logo"><span class="logo-mark">⚡</span>AI Token 价格比价</div>
     <div class="header-actions">
       <button class="btn btn-sm" id="themeToggle" onclick="toggleTheme()" title="切换浅色/深色主题">☀️</button>
       <div class="rate-box">
@@ -478,6 +717,18 @@ tbody tr:hover { background: var(--row-hover); }
     <div class="provider-filter" id="providerFilter"></div>
   </div>
 
+  <!-- Tabs -->
+  <div class="tabs" id="mainTabs">
+    <button class="tab active" data-tab="quotes" onclick="switchTab('quotes')">
+      📊 报价表 <span class="tab-badge" id="tabQuotesCount"></span>
+    </button>
+    <button class="tab" data-tab="rank" onclick="switchTab('rank')">
+      🏆 排行榜
+    </button>
+  </div>
+
+  <!-- ═══ 面板 1：报价表 ═══ -->
+  <div class="tab-panel active" id="panel-quotes">
   <!-- Stats -->
   <div class="stats-bar" id="statsBar"></div>
 
@@ -486,16 +737,16 @@ tbody tr:hover { background: var(--row-hover); }
     <table>
       <thead>
         <tr>
-          <th style="width:40px" title="比价选择">⚖️</th>
+          <th style="width:44px" title="加入对比"></th>
           <th data-sort="provider" onclick="setSort('provider')">供应商 <span class="sort-arrow"></span></th>
           <th data-sort="model" onclick="setSort('model')">模型 <span class="sort-arrow"></span></th>
-          <th data-sort="input" onclick="setSort('input')">Input 价格 <span class="sort-arrow"></span></th>
-          <th data-sort="cache" onclick="setSort('cache')">输入(缓存命中) <span class="sort-arrow"></span></th>
-          <th data-sort="output" onclick="setSort('output')">Output 价格 <span class="sort-arrow"></span></th>
+          <th class="num" data-sort="input" onclick="setSort('input')">输入价格 <span class="sort-arrow"></span></th>
+          <th class="num" data-sort="cache" onclick="setSort('cache')">缓存命中 <span class="sort-arrow"></span></th>
+          <th class="num" data-sort="output" onclick="setSort('output')">输出价格 <span class="sort-arrow"></span></th>
           <th class="hide-mobile" data-sort="context" onclick="setSort('context')">上下文 <span class="sort-arrow"></span></th>
           <th class="hide-mobile">备注</th>
-          <th class="hide-mobile">Batch输入</th>
-          <th class="hide-mobile">Batch输出</th>
+          <th class="hide-mobile num">批量输入</th>
+          <th class="hide-mobile num">批量输出</th>
           <th id="calcHeader" style="display:none" data-sort="totalCost" onclick="setSort('totalCost')">总费用 <span class="sort-arrow"></span></th>
         </tr>
       </thead>
@@ -505,10 +756,17 @@ tbody tr:hover { background: var(--row-hover); }
 
   <!-- Mobile Cards -->
   <div class="mobile-cards" id="mobileCards"></div>
+  </div><!-- /panel-quotes -->
+
+  <!-- ═══ 面板 2：排行榜 ═══ -->
+  <div class="tab-panel" id="panel-rank">
+    <div class="board" id="sceneBoard"></div>
+    <div class="board-note" id="boardNote"></div>
+  </div><!-- /panel-rank -->
 
   <!-- Footer -->
   <div class="footer">
-    <div class="updated">数据最后更新: <span id="lastUpdated">2026-08-21 (内置数据 + OpenRouter)</span></div>
+    <div class="updated">数据最后更新: <span id="lastUpdated">2026-09-17 (内置数据 + OpenRouter)</span></div>
     <div style="margin-top:4px;color:var(--text-muted);font-size:0.75rem">美元兑人民币参考汇率：<span id="footerRate">1 USD ≈ 6.78 CNY</span> | 每日自动更新 (exchangerate-api.com)</div>
   </div>
 </div>
@@ -578,7 +836,49 @@ const PROVIDERS = [
   { id:'together',      name:'Together',      color:'#0F9BF7', nativeCurrency:'USD' },
   { id:'fireworks',     name:'Fireworks',     color:'#FF4444', nativeCurrency:'USD' },
   { id:'deepmind',     name:'DeepMind',     color:'#22D3EE', nativeCurrency:'USD' },
+  { id:'sakana',       name:'Sakana AI',    color:'#7C3AED', nativeCurrency:'USD' },
 ];
+/* ==== AIMEM_VENDOR_LOGOS: 官方厂商 logo（内联 SVG，来源 @lobehub/icons-static-svg v1.95.0）==== */
+const VENDOR_LOGOS = {
+  '01ai': { vb: '0 0 24 24', wb: true, d: `<path d="M18.62 13.927c.611 0 1.107.505 1.107 1.128v5.817c0 .623-.496 1.128-1.108 1.128a1.118 1.118 0 01-1.108-1.128v-5.817c0-.623.496-1.128 1.108-1.128zM16.59 3.052a1.094 1.094 0 011.562-.129c.466.404.522 1.116.126 1.59l-5.938 7.111v9.147c0 .624-.496 1.129-1.108 1.129a1.118 1.118 0 01-1.108-1.129v-9.477l.003-.088.01-.087c.015-.232.102-.462.261-.654l6.192-7.413zM2.906 2.256a1.094 1.094 0 011.559.157l4.387 5.45a1.142 1.142 0 01-.155 1.587 1.094 1.094 0 01-1.559-.157l-4.387-5.45a1.144 1.144 0 01.06-1.498l.095-.09z"></path><ellipse cx="20.146" cy="10.692" fill="#00FF25" rx="1.354" ry="1.379"></ellipse>` },
+  'alibaba': { vb: '0 0 24 24', wb: false, d: `<path d="M12.604 1.34c.393.69.784 1.382 1.174 2.075a.18.18 0 00.157.091h5.552c.174 0 .322.11.446.327l1.454 2.57c.19.337.24.478.024.837-.26.43-.513.864-.76 1.3l-.367.658c-.106.196-.223.28-.04.512l2.652 4.637c.172.301.111.494-.043.77-.437.785-.882 1.564-1.335 2.34-.159.272-.352.375-.68.37-.777-.016-1.552-.01-2.327.016a.099.099 0 00-.081.05 575.097 575.097 0 01-2.705 4.74c-.169.293-.38.363-.725.364-.997.003-2.002.004-3.017.002a.537.537 0 01-.465-.271l-1.335-2.323a.09.09 0 00-.083-.049H4.982c-.285.03-.553-.001-.805-.092l-1.603-2.77a.543.543 0 01-.002-.54l1.207-2.12a.198.198 0 000-.197 550.951 550.951 0 01-1.875-3.272l-.79-1.395c-.16-.31-.173-.496.095-.965.465-.813.927-1.625 1.387-2.436.132-.234.304-.334.584-.335a338.3 338.3 0 012.589-.001.124.124 0 00.107-.063l2.806-4.895a.488.488 0 01.422-.246c.524-.001 1.053 0 1.583-.006L11.704 1c.341-.003.724.032.9.34zm-3.432.403a.06.06 0 00-.052.03L6.254 6.788a.157.157 0 01-.135.078H3.253c-.056 0-.07.025-.041.074l5.81 10.156c.025.042.013.062-.034.063l-2.795.015a.218.218 0 00-.2.116l-1.32 2.31c-.044.078-.021.118.068.118l5.716.008c.046 0 .08.02.104.061l1.403 2.454c.046.081.092.082.139 0l5.006-8.76.783-1.382a.055.055 0 01.096 0l1.424 2.53a.122.122 0 00.107.062l2.763-.02a.04.04 0 00.035-.02.041.041 0 000-.04l-2.9-5.086a.108.108 0 010-.113l.293-.507 1.12-1.977c.024-.041.012-.062-.035-.062H9.2c-.059 0-.073-.026-.043-.077l1.434-2.505a.107.107 0 000-.114L9.225 1.774a.06.06 0 00-.053-.031zm6.29 8.02c.046 0 .058.02.034.06l-.832 1.465-2.613 4.585a.056.056 0 01-.05.029.058.058 0 01-.05-.029L8.498 9.841c-.02-.034-.01-.052.028-.054l.216-.012 6.722-.012z" fill="url(#lobe-icons-qwen-_R_0_)" fill-rule="nonzero"></path><defs><linearGradient id="lobe-icons-qwen-_R_0_" x1="0%" x2="100%" y1="0%" y2="0%"><stop offset="0%" stop-color="#6336E7" stop-opacity=".84"></stop><stop offset="100%" stop-color="#6F69F7" stop-opacity=".84"></stop></linearGradient></defs>` },
+  'anthropic': { vb: '0 0 24 24', wb: false, d: `<path d="M4.709 15.955l4.72-2.647.08-.23-.08-.128H9.2l-.79-.048-2.698-.073-2.339-.097-2.266-.122-.571-.121L0 11.784l.055-.352.48-.321.686.06 1.52.103 2.278.158 1.652.097 2.449.255h.389l.055-.157-.134-.098-.103-.097-2.358-1.596-2.552-1.688-1.336-.972-.724-.491-.364-.462-.158-1.008.656-.722.881.06.225.061.893.686 1.908 1.476 2.491 1.833.365.304.145-.103.019-.073-.164-.274-1.355-2.446-1.446-2.49-.644-1.032-.17-.619a2.97 2.97 0 01-.104-.729L6.283.134 6.696 0l.996.134.42.364.62 1.414 1.002 2.229 1.555 3.03.456.898.243.832.091.255h.158V9.01l.128-1.706.237-2.095.23-2.695.08-.76.376-.91.747-.492.584.28.48.685-.067.444-.286 1.851-.559 2.903-.364 1.942h.212l.243-.242.985-1.306 1.652-2.064.73-.82.85-.904.547-.431h1.033l.76 1.129-.34 1.166-1.064 1.347-.881 1.142-1.264 1.7-.79 1.36.073.11.188-.02 2.856-.606 1.543-.28 1.841-.315.833.388.091.395-.328.807-1.969.486-2.309.462-3.439.813-.042.03.049.061 1.549.146.662.036h1.622l3.02.225.79.522.474.638-.079.485-1.215.62-1.64-.389-3.829-.91-1.312-.329h-.182v.11l1.093 1.068 2.006 1.81 2.509 2.33.127.578-.322.455-.34-.049-2.205-1.657-.851-.747-1.926-1.62h-.128v.17l.444.649 2.345 3.521.122 1.08-.17.353-.608.213-.668-.122-1.374-1.925-1.415-2.167-1.143-1.943-.14.08-.674 7.254-.316.37-.729.28-.607-.461-.322-.747.322-1.476.389-1.924.315-1.53.286-1.9.17-.632-.012-.042-.14.018-1.434 1.967-2.18 2.945-1.726 1.845-.414.164-.717-.37.067-.662.401-.589 2.388-3.036 1.44-1.882.93-1.086-.006-.158h-.055L4.132 18.56l-1.13.146-.487-.456.061-.746.231-.243 1.908-1.312-.006.006z" fill="#D97757" fill-rule="nonzero"></path>` },
+  'baichuan': { vb: '0 0 24 24', wb: false, d: `<defs><linearGradient id="lobe-icons-baichuan-_R_0_" x1="17.764%" x2="100%" y1="8.678%" y2="91.322%"><stop offset="0%" stop-color="#FEC13E"></stop><stop offset="100%" stop-color="#FF6933"></stop></linearGradient></defs><path d="M7.333 2h-3.2l-2 4.333V17.8L0 22h5.2l2.028-4.2L7.333 2zm7.334 0h-5.2v20h5.2V2zM16.8 7.733H22V22h-5.2V7.733zM22 2h-5.2v4.133H22V2z" fill="url(#lobe-icons-baichuan-_R_0_)" fill-rule="nonzero"></path>` },
+  'baidu': { vb: '0 0 24 24', wb: false, d: `<path d="M11.32 1.176a1.4 1.4 0 011.36 0l8.64 4.843c.421.234.68.67.68 1.141v9.68c0 .472-.259.908-.68 1.143l-8.64 4.84a1.4 1.4 0 01-1.36 0l-8.64-4.84A1.31 1.31 0 012 16.84V7.159c0-.471.259-.907.68-1.142l8.64-4.84zm7.42 13.839V8.227L12.002 12 12 19.551l6.059-3.394a1.31 1.31 0 00.68-1.142zM12.68 4.833a1.393 1.393 0 00-1.36 0L5.944 7.846c-.421.235-.68.67-.68 1.142v6.027c0 .47.259.905.68 1.142l2.795 1.566V11.09a1.546 1.546 0 00.221.79 1.527 1.527 0 01-.216-.834l.004-.094.02-.15.018-.084.017-.062.039-.117.062-.142.035-.065.081-.13.094-.122.084-.091.08-.075.125-.1.071-.048.134-.076 5.87-3.29-2.796-1.566z" fill="url(#lobe-icons-wenxin-_R_0_)"></path><path d="M12 11.088c0-.875-.73-1.584-1.631-1.584a1.66 1.66 0 00-.855.237c-.027.016-.055.033-.08.05a2.361 2.361 0 00-.123.093c-.022.02-.045.038-.066.059l-.048.045-.063.067c-.014.016-.028.031-.04.048a2.303 2.303 0 00-.094.125l-.042.069a1.7 1.7 0 00-.07.13l-.036.081a.764.764 0 00-.022.06c-.01.03-.02.058-.028.087l-.017.062a.883.883 0 00-.03.16c-.002.025-.007.05-.008.074a1.527 1.527 0 00.213.929c.302.508.85.792 1.414.792.277 0 .558-.068.814-.212l.815-.457v-.914L12 11.088z" fill="#012F8D"></path><defs><linearGradient id="lobe-icons-wenxin-_R_0_" x1="9.155%" x2="90.531%" y1="75.177%" y2="25.028%"><stop offset="0%" stop-color="#0A51C3"></stop><stop offset="100%" stop-color="#23A4FB"></stop></linearGradient></defs>` },
+  'bytedance': { vb: '0 0 24 24', wb: false, d: `<path d="M5.31 15.756c.172-3.75 1.883-5.999 2.549-6.739-3.26 2.058-5.425 5.658-6.358 8.308v1.12C1.501 21.513 4.226 24 7.59 24a6.59 6.59 0 002.2-.375c.353-.12.7-.248 1.039-.378.913-.899 1.65-1.91 2.243-2.992-4.877 2.431-7.974.072-7.763-4.5l.002.001z" fill="#1E37FC"></path><path d="M22.57 10.283c-1.212-.901-4.109-2.404-7.397-2.8.295 3.792.093 8.766-2.1 12.773a12.782 12.782 0 01-2.244 2.992c3.764-1.448 6.746-3.457 8.596-5.219 2.82-2.683 3.353-5.178 3.361-6.66a2.737 2.737 0 00-.216-1.084v-.002z" fill="#37E1BE"></path><path d="M14.303 1.867C12.955.7 11.248 0 9.39 0 7.532 0 5.883.677 4.545 1.807 2.791 3.29 1.627 5.557 1.5 8.125v9.201c.932-2.65 3.097-6.25 6.357-8.307.5-.318 1.025-.595 1.569-.829 1.883-.801 3.878-.932 5.746-.706-.222-2.83-.718-5.002-.87-5.617h.001z" fill="#A569FF"></path><path d="M17.305 4.961a199.47 199.47 0 01-1.08-1.094c-.202-.213-.398-.419-.586-.622l-1.333-1.378c.151.615.648 2.786.869 5.617 3.288.395 6.185 1.898 7.396 2.8-1.306-1.275-3.475-3.487-5.266-5.323z" fill="#1E37FC"></path>` },
+  'cohere': { vb: '0 0 24 24', wb: false, d: `<path clip-rule="evenodd" d="M8.128 14.099c.592 0 1.77-.033 3.398-.703 1.897-.781 5.672-2.2 8.395-3.656 1.905-1.018 2.74-2.366 2.74-4.18A4.56 4.56 0 0018.1 1H7.549A6.55 6.55 0 001 7.55c0 3.617 2.745 6.549 7.128 6.549z" fill="#39594D" fill-rule="evenodd"></path><path clip-rule="evenodd" d="M9.912 18.61a4.387 4.387 0 012.705-4.052l3.323-1.38c3.361-1.394 7.06 1.076 7.06 4.715a5.104 5.104 0 01-5.105 5.104l-3.597-.001a4.386 4.386 0 01-4.386-4.387z" fill="#D18EE2" fill-rule="evenodd"></path><path d="M4.776 14.962A3.775 3.775 0 001 18.738v.489a3.776 3.776 0 007.551 0v-.49a3.775 3.775 0 00-3.775-3.775z" fill="#FF7759"></path>` },
+  'deepmind': { vb: '0 0 24 24', wb: false, d: `<path d="M5.988 1.622A8.539 8.539 0 003.45 8.446c.349 4.408 4.506 7.995 8.276 7.995 3.507 0 4.88-3.061 4.541-5.14a4.318 4.318 0 00-.95-2.073c.632.34 1.244.776 1.809 1.3 1.52 1.415 2.44 3.229 2.587 5.1C20.04 19.763 16.98 24 11.863 24c-1.695 0-3.48-.432-4.98-1.143C2.816 20.937 0 16.797 0 12.002 0 7.571 2.405 3.7 5.988 1.622zM12.136 0c1.696 0 3.481.432 4.98 1.143C21.186 3.063 24 7.203 24 11.998c0 4.431-2.405 8.303-5.988 10.38a8.539 8.539 0 002.538-6.824c-.349-4.408-4.506-7.995-8.276-7.995-3.507 0-4.88 3.061-4.541 5.14a4.3 4.3 0 00.953 2.073 8.723 8.723 0 01-1.81-1.3c-1.52-1.415-2.44-3.227-2.589-5.1C3.96 4.237 7.02 0 12.137 0z" fill="#4285F4" fill-rule="evenodd"></path>` },
+  'deepseek': { vb: '0 0 24 24', wb: false, d: `<path d="M23.748 4.482c-.254-.124-.364.113-.512.234-.051.039-.094.09-.137.136-.372.397-.806.657-1.373.626-.829-.046-1.537.214-2.163.848-.133-.782-.575-1.248-1.247-1.548-.352-.156-.708-.311-.955-.65-.172-.241-.219-.51-.305-.774-.055-.16-.11-.323-.293-.35-.2-.031-.278.136-.356.276-.313.572-.434 1.202-.422 1.84.027 1.436.633 2.58 1.838 3.393.137.093.172.187.129.323-.082.28-.18.552-.266.833-.055.179-.137.217-.329.14a5.526 5.526 0 01-1.736-1.18c-.857-.828-1.631-1.742-2.597-2.458a11.365 11.365 0 00-.689-.471c-.985-.957.13-1.743.388-1.836.27-.098.093-.432-.779-.428-.872.004-1.67.295-2.687.684a3.055 3.055 0 01-.465.137 9.597 9.597 0 00-2.883-.102c-1.885.21-3.39 1.102-4.497 2.623C.082 8.606-.231 10.684.152 12.85c.403 2.284 1.569 4.175 3.36 5.653 1.858 1.533 3.997 2.284 6.438 2.14 1.482-.085 3.133-.284 4.994-1.86.47.234.962.327 1.78.397.63.059 1.236-.03 1.705-.128.735-.156.684-.837.419-.961-2.155-1.004-1.682-.595-2.113-.926 1.096-1.296 2.746-2.642 3.392-7.003.05-.347.007-.565 0-.845-.004-.17.035-.237.23-.256a4.173 4.173 0 001.545-.475c1.396-.763 1.96-2.015 2.093-3.517.02-.23-.004-.467-.247-.588zM11.581 18c-2.089-1.642-3.102-2.183-3.52-2.16-.392.024-.321.471-.235.763.09.288.207.486.371.739.114.167.192.416-.113.603-.673.416-1.842-.14-1.897-.167-1.361-.802-2.5-1.86-3.301-3.307-.774-1.393-1.224-2.887-1.298-4.482-.02-.386.093-.522.477-.592a4.696 4.696 0 011.529-.039c2.132.312 3.946 1.265 5.468 2.774.868.86 1.525 1.887 2.202 2.891.72 1.066 1.494 2.082 2.48 2.914.348.292.625.514.891.677-.802.09-2.14.11-3.054-.614zm1-6.44a.306.306 0 01.415-.287.302.302 0 01.2.288.306.306 0 01-.31.307.303.303 0 01-.304-.308zm3.11 1.596c-.2.081-.399.151-.59.16a1.245 1.245 0 01-.798-.254c-.274-.23-.47-.358-.552-.758a1.73 1.73 0 01.016-.588c.07-.327-.008-.537-.239-.727-.187-.156-.426-.199-.688-.199a.559.559 0 01-.254-.078c-.11-.054-.2-.19-.114-.358.028-.054.16-.186.192-.21.356-.202.767-.136 1.146.016.352.144.618.408 1.001.782.391.451.462.576.685.914.176.265.336.537.445.848.067.195-.019.354-.25.452z" fill="#4D6BFE"></path>` },
+  'fireworks': { vb: '0 0 24 24', wb: false, d: `<path clip-rule="evenodd" d="M14.8 5l-2.801 6.795L9.195 5H7.397l3.072 7.428a1.64 1.64 0 003.038.002L16.598 5H14.8zm1.196 10.352l5.124-5.244-.699-1.669-5.596 5.739a1.664 1.664 0 00-.343 1.807 1.642 1.642 0 001.516 1.012L16 17l8-.02-.699-1.669-7.303.041h-.002zM2.88 10.104l.699-1.669 5.596 5.739c.468.479.603 1.189.343 1.807a1.643 1.643 0 01-1.516 1.012l-8-.018-.002.002.699-1.669 7.303.042-5.122-5.246z" fill="#5019C5" fill-rule="evenodd"></path>` },
+  'google': { vb: '0 0 24 24', wb: false, d: `<path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="#3186FF"></path><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="url(#lobe-icons-gemini-0-_R_0_)"></path><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="url(#lobe-icons-gemini-1-_R_0_)"></path><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="url(#lobe-icons-gemini-2-_R_0_)"></path><defs><linearGradient gradientUnits="userSpaceOnUse" id="lobe-icons-gemini-0-_R_0_" x1="7" x2="11" y1="15.5" y2="12"><stop stop-color="#08B962"></stop><stop offset="1" stop-color="#08B962" stop-opacity="0"></stop></linearGradient><linearGradient gradientUnits="userSpaceOnUse" id="lobe-icons-gemini-1-_R_0_" x1="8" x2="11.5" y1="5.5" y2="11"><stop stop-color="#F94543"></stop><stop offset="1" stop-color="#F94543" stop-opacity="0"></stop></linearGradient><linearGradient gradientUnits="userSpaceOnUse" id="lobe-icons-gemini-2-_R_0_" x1="3.5" x2="17.5" y1="13.5" y2="12"><stop stop-color="#FABC12"></stop><stop offset=".46" stop-color="#FABC12" stop-opacity="0"></stop></linearGradient></defs>` },
+  'iflytek': { vb: '0 0 24 24', wb: false, d: `<path d="M20.713 6.655c-.414-1.426-1.748-2.472-3.357-2.472a3.62 3.62 0 00-1.7.423C14.62 3.046 12.804 2 10.735 2 7.77 2 5.31 4.16 4.943 6.944 2.138 7.39 0 9.728 0 12.58c0 3.14 2.62 5.68 5.862 5.68 1.61 0 3.08-.646 4.138-1.671.276-.267.529-.557.736-.89a5.02 5.02 0 01-.713.845 8.998 8.998 0 00-1.77 5.39V22a16.682 16.682 0 018.666-2.717h.046c3.035 0 5.633-1.871 6.621-4.499A6.599 6.599 0 0024 12.445c0-2.427-1.31-4.565-3.287-5.79zM6.966 12.869a.836.836 0 01-.851.824.81.81 0 01-.805-.824v-2.183a.81.81 0 01.805-.824c.46 0 .85.379.85.824v2.183zm3.011 1.069a.86.86 0 01-.874.846.86.86 0 01-.873-.846v-4.9a.86.86 0 01.873-.846.86.86 0 01.874.846v4.9zm3.104-1.047c0 .445-.414.824-.874.824s-.85-.379-.85-.824v-2.227c0-.446.367-.824.85-.824.46 0 .873.378.873.824v2.227zm3.149 1.069a.86.86 0 01-.874.846.86.86 0 01-.873-.846v-4.9a.86.86 0 01.873-.846.86.86 0 01.874.846v4.9zm3.08-1.091a.836.836 0 01-.85.824.81.81 0 01-.805-.824v-2.183a.81.81 0 01.805-.824c.46 0 .85.379.85.824v2.183z" fill="#2A80E2"></path>` },
+  'meta': { vb: '0 0 24 24', wb: false, d: `<path d="M6.897 4h-.024l-.031 2.615h.022c1.715 0 3.046 1.357 5.94 6.246l.175.297.012.02 1.62-2.438-.012-.019a48.763 48.763 0 00-1.098-1.716 28.01 28.01 0 00-1.175-1.629C10.413 4.932 8.812 4 6.896 4z" fill="url(#lobe-icons-meta-0-_R_0_)"></path><path d="M6.873 4C4.95 4.01 3.247 5.258 2.02 7.17a4.352 4.352 0 00-.01.017l2.254 1.231.011-.017c.718-1.083 1.61-1.774 2.568-1.785h.021L6.896 4h-.023z" fill="url(#lobe-icons-meta-1-_R_0_)"></path><path d="M2.019 7.17l-.011.017C1.2 8.447.598 9.995.274 11.664l-.005.022 2.534.6.004-.022c.27-1.467.786-2.828 1.456-3.845l.011-.017L2.02 7.17z" fill="url(#lobe-icons-meta-2-_R_0_)"></path><path d="M2.807 12.264l-2.533-.6-.005.022c-.177.918-.267 1.851-.269 2.786v.023l2.598.233v-.023a12.591 12.591 0 01.21-2.44z" fill="url(#lobe-icons-meta-3-_R_0_)"></path><path d="M2.677 15.537a5.462 5.462 0 01-.079-.813v-.022L0 14.468v.024a8.89 8.89 0 00.146 1.652l2.535-.585a4.106 4.106 0 01-.004-.022z" fill="url(#lobe-icons-meta-4-_R_0_)"></path><path d="M3.27 16.89c-.284-.31-.484-.756-.589-1.328l-.004-.021-2.535.585.004.021c.192 1.01.568 1.85 1.106 2.487l.014.017 2.018-1.745a2.106 2.106 0 01-.015-.016z" fill="url(#lobe-icons-meta-5-_R_0_)"></path><path d="M10.78 9.654c-1.528 2.35-2.454 3.825-2.454 3.825-2.035 3.2-2.739 3.917-3.871 3.917a1.545 1.545 0 01-1.186-.508l-2.017 1.744.014.017C2.01 19.518 3.058 20 4.356 20c1.963 0 3.374-.928 5.884-5.33l1.766-3.13a41.283 41.283 0 00-1.227-1.886z" fill="#0082FB"></path><path d="M13.502 5.946l-.016.016c-.4.43-.786.908-1.16 1.416.378.483.768 1.024 1.175 1.63.48-.743.928-1.345 1.367-1.807l.016-.016-1.382-1.24z" fill="url(#lobe-icons-meta-6-_R_0_)"></path><path d="M20.918 5.713C19.853 4.633 18.583 4 17.225 4c-1.432 0-2.637.787-3.723 1.944l-.016.016 1.382 1.24.016-.017c.715-.747 1.408-1.12 2.176-1.12.826 0 1.6.39 2.27 1.075l.015.016 1.589-1.425-.016-.016z" fill="#0082FB"></path><path d="M23.998 14.125c-.06-3.467-1.27-6.566-3.064-8.396l-.016-.016-1.588 1.424.015.016c1.35 1.392 2.277 3.98 2.361 6.971v.023h2.292v-.022z" fill="url(#lobe-icons-meta-7-_R_0_)"></path><path d="M23.998 14.15v-.023h-2.292v.022c.004.14.006.282.006.424 0 .815-.121 1.474-.368 1.95l-.011.022 1.708 1.782.013-.02c.62-.96.946-2.293.946-3.91 0-.083 0-.165-.002-.247z" fill="url(#lobe-icons-meta-8-_R_0_)"></path><path d="M21.344 16.52l-.011.02c-.214.402-.519.67-.917.787l.778 2.462a3.493 3.493 0 00.438-.182 3.558 3.558 0 001.366-1.218l.044-.065.012-.02-1.71-1.784z" fill="url(#lobe-icons-meta-9-_R_0_)"></path><path d="M19.92 17.393c-.262 0-.492-.039-.718-.14l-.798 2.522c.449.153.927.222 1.46.222.492 0 .943-.073 1.352-.215l-.78-2.462c-.167.05-.341.075-.517.073z" fill="url(#lobe-icons-meta-10-_R_0_)"></path><path d="M18.323 16.534l-.014-.017-1.836 1.914.016.017c.637.682 1.246 1.105 1.937 1.337l.797-2.52c-.291-.125-.573-.353-.9-.731z" fill="url(#lobe-icons-meta-11-_R_0_)"></path><path d="M18.309 16.515c-.55-.642-1.232-1.712-2.303-3.44l-1.396-2.336-.011-.02-1.62 2.438.012.02.989 1.668c.959 1.61 1.74 2.774 2.493 3.585l.016.016 1.834-1.914a2.353 2.353 0 01-.014-.017z" fill="url(#lobe-icons-meta-12-_R_0_)"></path><defs><linearGradient id="lobe-icons-meta-0-_R_0_" x1="75.897%" x2="26.312%" y1="89.199%" y2="12.194%"><stop offset=".06%" stop-color="#0867DF"></stop><stop offset="45.39%" stop-color="#0668E1"></stop><stop offset="85.91%" stop-color="#0064E0"></stop></linearGradient><linearGradient id="lobe-icons-meta-1-_R_0_" x1="21.67%" x2="97.068%" y1="75.874%" y2="23.985%"><stop offset="13.23%" stop-color="#0064DF"></stop><stop offset="99.88%" stop-color="#0064E0"></stop></linearGradient><linearGradient id="lobe-icons-meta-2-_R_0_" x1="38.263%" x2="60.895%" y1="89.127%" y2="16.131%"><stop offset="1.47%" stop-color="#0072EC"></stop><stop offset="68.81%" stop-color="#0064DF"></stop></linearGradient><linearGradient id="lobe-icons-meta-3-_R_0_" x1="47.032%" x2="52.15%" y1="90.19%" y2="15.745%"><stop offset="7.31%" stop-color="#007CF6"></stop><stop offset="99.43%" stop-color="#0072EC"></stop></linearGradient><linearGradient id="lobe-icons-meta-4-_R_0_" x1="52.155%" x2="47.591%" y1="58.301%" y2="37.004%"><stop offset="7.31%" stop-color="#007FF9"></stop><stop offset="100%" stop-color="#007CF6"></stop></linearGradient><linearGradient id="lobe-icons-meta-5-_R_0_" x1="37.689%" x2="61.961%" y1="12.502%" y2="63.624%"><stop offset="7.31%" stop-color="#007FF9"></stop><stop offset="100%" stop-color="#0082FB"></stop></linearGradient><linearGradient id="lobe-icons-meta-6-_R_0_" x1="34.808%" x2="62.313%" y1="68.859%" y2="23.174%"><stop offset="27.99%" stop-color="#007FF8"></stop><stop offset="91.41%" stop-color="#0082FB"></stop></linearGradient><linearGradient id="lobe-icons-meta-7-_R_0_" x1="43.762%" x2="57.602%" y1="6.235%" y2="98.514%"><stop offset="0%" stop-color="#0082FB"></stop><stop offset="99.95%" stop-color="#0081FA"></stop></linearGradient><linearGradient id="lobe-icons-meta-8-_R_0_" x1="60.055%" x2="39.88%" y1="4.661%" y2="69.077%"><stop offset="6.19%" stop-color="#0081FA"></stop><stop offset="100%" stop-color="#0080F9"></stop></linearGradient><linearGradient id="lobe-icons-meta-9-_R_0_" x1="30.282%" x2="61.081%" y1="59.32%" y2="33.244%"><stop offset="0%" stop-color="#027AF3"></stop><stop offset="100%" stop-color="#0080F9"></stop></linearGradient><linearGradient id="lobe-icons-meta-10-_R_0_" x1="20.433%" x2="82.112%" y1="50.001%" y2="50.001%"><stop offset="0%" stop-color="#0377EF"></stop><stop offset="99.94%" stop-color="#0279F1"></stop></linearGradient><linearGradient id="lobe-icons-meta-11-_R_0_" x1="40.303%" x2="72.394%" y1="35.298%" y2="57.811%"><stop offset=".19%" stop-color="#0471E9"></stop><stop offset="100%" stop-color="#0377EF"></stop></linearGradient><linearGradient id="lobe-icons-meta-12-_R_0_" x1="32.254%" x2="68.003%" y1="19.719%" y2="84.908%"><stop offset="27.65%" stop-color="#0867DF"></stop><stop offset="100%" stop-color="#0471E9"></stop></linearGradient></defs>` },
+  'minimax': { vb: '0 0 24 24', wb: false, d: `<defs><linearGradient id="lobe-icons-minimax-_R_0_" x1="0%" x2="100.182%" y1="50.057%" y2="50.057%"><stop offset="0%" stop-color="#E2167E"></stop><stop offset="100%" stop-color="#FE603C"></stop></linearGradient></defs><path d="M16.278 2c1.156 0 2.093.927 2.093 2.07v12.501a.74.74 0 00.744.709.74.74 0 00.743-.709V9.099a2.06 2.06 0 012.071-2.049A2.06 2.06 0 0124 9.1v6.561a.649.649 0 01-.652.645.649.649 0 01-.653-.645V9.1a.762.762 0 00-.766-.758.762.762 0 00-.766.758v7.472a2.037 2.037 0 01-2.048 2.026 2.037 2.037 0 01-2.048-2.026v-12.5a.785.785 0 00-.788-.753.785.785 0 00-.789.752l-.001 15.904A2.037 2.037 0 0113.441 22a2.037 2.037 0 01-2.048-2.026V18.04c0-.356.292-.645.652-.645.36 0 .652.289.652.645v1.934c0 .263.142.506.372.638.23.131.514.131.744 0a.734.734 0 00.372-.638V4.07c0-1.143.937-2.07 2.093-2.07zm-5.674 0c1.156 0 2.093.927 2.093 2.07v11.523a.648.648 0 01-.652.645.648.648 0 01-.652-.645V4.07a.785.785 0 00-.789-.78.785.785 0 00-.789.78v14.013a2.06 2.06 0 01-2.07 2.048 2.06 2.06 0 01-2.071-2.048V9.1a.762.762 0 00-.766-.758.762.762 0 00-.766.758v3.8a2.06 2.06 0 01-2.071 2.049A2.06 2.06 0 010 12.9v-1.378c0-.357.292-.646.652-.646.36 0 .653.29.653.646V12.9c0 .418.343.757.766.757s.766-.339.766-.757V9.099a2.06 2.06 0 012.07-2.048 2.06 2.06 0 012.071 2.048v8.984c0 .419.343.758.767.758.423 0 .766-.339.766-.758V4.07c0-1.143.937-2.07 2.093-2.07z" fill="url(#lobe-icons-minimax-_R_0_)" fill-rule="nonzero"></path>` },
+  'mistral': { vb: '0 0 24 24', wb: false, d: `<path d="M3.428 3.4h3.429v3.428H3.428V3.4zm13.714 0h3.43v3.428h-3.43V3.4z" fill="gold"></path><path d="M3.428 6.828h6.857v3.429H3.429V6.828zm10.286 0h6.857v3.429h-6.857V6.828z" fill="#FFAF00"></path><path d="M3.428 10.258h17.144v3.428H3.428v-3.428z" fill="#FF8205"></path><path d="M3.428 13.686h3.429v3.428H3.428v-3.428zm6.858 0h3.429v3.428h-3.429v-3.428zm6.856 0h3.43v3.428h-3.43v-3.428z" fill="#FA500F"></path><path d="M0 17.114h10.286v3.429H0v-3.429zm13.714 0H24v3.429H13.714v-3.429z" fill="#E10500"></path>` },
+  'moonshot': { vb: '0 0 24 24', wb: false, d: `<path d="M21.846 0a1.923 1.923 0 110 3.846H20.15a.226.226 0 01-.227-.226V1.923C19.923.861 20.784 0 21.846 0z" fill="#1783FF"></path><path d="M11.065 11.199l7.257-7.2c.137-.136.06-.41-.116-.41H14.3a.164.164 0 00-.117.051l-7.82 7.756c-.122.12-.302.013-.302-.179V3.82c0-.127-.083-.23-.185-.23H3.186c-.103 0-.186.103-.186.23V19.77c0 .128.083.23.186.23h2.69c.103 0 .186-.102.186-.23v-3.25c0-.069.025-.135.069-.178l2.424-2.406a.158.158 0 01.205-.023l6.484 4.772a7.677 7.677 0 003.453 1.283c.108.012.2-.095.2-.23v-3.06c0-.117-.07-.212-.164-.227a5.028 5.028 0 01-2.027-.807l-5.613-4.064c-.117-.078-.132-.279-.028-.381z" fill="#fff"></path>` },
+  'openai': { vb: '0 0 24 24', wb: true, d: `<path d="M9.205 8.658v-2.26c0-.19.072-.333.238-.428l4.543-2.616c.619-.357 1.356-.523 2.117-.523 2.854 0 4.662 2.212 4.662 4.566 0 .167 0 .357-.024.547l-4.71-2.759a.797.797 0 00-.856 0l-5.97 3.473zm10.609 8.8V12.06c0-.333-.143-.57-.429-.737l-5.97-3.473 1.95-1.118a.433.433 0 01.476 0l4.543 2.617c1.309.76 2.189 2.378 2.189 3.948 0 1.808-1.07 3.473-2.76 4.163zM7.802 12.703l-1.95-1.142c-.167-.095-.239-.238-.239-.428V5.899c0-2.545 1.95-4.472 4.591-4.472 1 0 1.927.333 2.712.928L8.23 5.067c-.285.166-.428.404-.428.737v6.898zM12 15.128l-2.795-1.57v-3.33L12 8.658l2.795 1.57v3.33L12 15.128zm1.796 7.23c-1 0-1.927-.332-2.712-.927l4.686-2.712c.285-.166.428-.404.428-.737v-6.898l1.974 1.142c.167.095.238.238.238.428v5.233c0 2.545-1.974 4.472-4.614 4.472zm-5.637-5.303l-4.544-2.617c-1.308-.761-2.188-2.378-2.188-3.948A4.482 4.482 0 014.21 6.327v5.423c0 .333.143.571.428.738l5.947 3.449-1.95 1.118a.432.432 0 01-.476 0zm-.262 3.9c-2.688 0-4.662-2.021-4.662-4.519 0-.19.024-.38.047-.57l4.686 2.71c.286.167.571.167.856 0l5.97-3.448v2.26c0 .19-.07.333-.237.428l-4.543 2.616c-.619.357-1.356.523-2.117.523zm5.899 2.83a5.947 5.947 0 005.827-4.756C22.287 18.339 24 15.84 24 13.296c0-1.665-.713-3.282-1.998-4.448.119-.5.19-.999.19-1.498 0-3.401-2.759-5.947-5.946-5.947-.642 0-1.26.095-1.88.31A5.962 5.962 0 0010.205 0a5.947 5.947 0 00-5.827 4.757C1.713 5.447 0 7.945 0 10.49c0 1.666.713 3.283 1.998 4.448-.119.5-.19 1-.19 1.499 0 3.401 2.759 5.946 5.946 5.946.642 0 1.26-.095 1.88-.309a5.96 5.96 0 004.162 1.713z"></path>` },
+  'perplexity': { vb: '0 0 24 24', wb: false, d: `<path d="M19.785 0v7.272H22.5V17.62h-2.935V24l-7.037-6.194v6.145h-1.091v-6.152L4.392 24v-6.465H1.5V7.188h2.884V0l7.053 6.494V.19h1.09v6.49L19.786 0zm-7.257 9.044v7.319l5.946 5.234V14.44l-5.946-5.397zm-1.099-.08l-5.946 5.398v7.235l5.946-5.234V8.965zm8.136 7.58h1.844V8.349H13.46l6.105 5.54v2.655zm-8.982-8.28H2.59v8.195h1.8v-2.576l6.192-5.62zM5.475 2.476v4.71h5.115l-5.115-4.71zm13.219 0l-5.115 4.71h5.115v-4.71z" fill="#22B8CD" fill-rule="nonzero"></path>` },
+  'stepfun': { vb: '0 0 24 24', wb: false, d: `<path d="M22.012 0h1.032v.927H24v.968h-.956V3.78h-1.032V1.896h-1.878v-.97h1.878V0zM2.6 12.371V1.87h.969v10.502h-.97zm10.423.66h10.95v.918h-6.208v9.579h-4.742V13.03zM5.629 3.333v12.356H0v4.51h10.386V8L20.859 8l-.003-4.668-15.227.001z" fill="url(#lobe-icons-stepfun-_R_0_)" fill-rule="evenodd"></path><defs><linearGradient gradientUnits="userSpaceOnUse" id="lobe-icons-stepfun-_R_0_" x1="1.646" x2="18.342" y1="1.916" y2="22.091"><stop stop-color="#01A9FF"></stop><stop offset="1" stop-color="#0160FF"></stop></linearGradient></defs>` },
+  'tencent': { vb: '0 0 24 24', wb: false, d: `<circle cx="12" cy="12" fill="#0055E9" r="12"></circle><path d="M12 0c.518 0 1.028.033 1.528.096A6.188 6.188 0 0112.12 12.28l-.12.001c-2.99 0-5.242 2.179-5.554 5.11-.223 2.086.353 4.412 2.242 6.146C3.672 22.1 0 17.479 0 12 0 5.373 5.373 0 12 0z" fill="#A8DFF5"></path><path d="M5.286 5a2.438 2.438 0 01.682 3.38c-3.962 5.966-3.215 10.743 2.648 15.136C3.636 22.056 0 17.452 0 12c0-1.787.39-3.482 1.09-5.006.253-.435.525-.872.817-1.311A2.438 2.438 0 015.286 5z" fill="#0055E9"></path><path d="M12.98.04c.272.021.543.053.81.093.583.106 1.117.254 1.538.44 6.638 2.927 8.07 10.052 1.748 15.642a4.125 4.125 0 01-5.822-.358c-1.51-1.706-1.3-4.184.357-5.822.858-.848 3.108-1.223 4.045-2.441 1.257-1.634 2.122-6.009-2.523-7.506L12.98.039z" fill="#00BCFF"></path><path d="M13.528.096A6.187 6.187 0 0112 12.281a5.75 5.75 0 00-1.71.255c.147-.905.595-1.784 1.321-2.501.858-.848 3.108-1.223 4.045-2.441 1.27-1.651 2.14-6.104-2.676-7.554.184.014.367.033.548.056z" fill="#ECECEE"></path>` },
+  'together': { vb: '0 0 24 24', wb: false, d: `<path d="M23.197 4.503A6 6 0 0015 2.307a5.973 5.973 0 00-2.995 4.933l5.996.008v.515h-5.996c.039.937.298 1.87.8 2.74a6 6 0 1010.39-6z" fill="#EF2CC1"></path><path d="M.805 4.5A6 6 0 003 12.697a5.972 5.972 0 005.77.127L5.779 7.627l.446-.257 2.997 5.192A6 6 0 10.804 4.5z" fill="#CAAEF5"></path><path d="M12 23.894a6 6 0 005.999-6c0-2.13-1.1-3.996-2.775-5.06l-3.005 5.189-.444-.258 2.997-5.192A6 6 0 1012 23.894z" fill="#FC4C02"></path>` },
+  'xai': { vb: '0 0 24 24', wb: true, d: `<path d="M9.27 15.29l7.978-5.897c.391-.29.95-.177 1.137.272.98 2.369.542 5.215-1.41 7.169-1.951 1.954-4.667 2.382-7.149 1.406l-2.711 1.257c3.889 2.661 8.611 2.003 11.562-.953 2.341-2.344 3.066-5.539 2.388-8.42l.006.007c-.983-4.232.242-5.924 2.75-9.383.06-.082.12-.164.179-.248l-3.301 3.305v-.01L9.267 15.292M7.623 16.723c-2.792-2.67-2.31-6.801.071-9.184 1.761-1.763 4.647-2.483 7.166-1.425l2.705-1.25a7.808 7.808 0 00-1.829-1A8.975 8.975 0 005.984 5.83c-2.533 2.536-3.33 6.436-1.962 9.764 1.022 2.487-.653 4.246-2.34 6.022-.599.63-1.199 1.259-1.682 1.925l7.62-6.815"></path>` },
+  'xiaomi': { vb: '0 0 24 24', wb: true, d: `<path d="M.958 15.936a.459.459 0 01.459.44v2.729a.46.46 0 01-.918 0v-2.729a.459.459 0 01.459-.44zm4.814-2.035a.46.46 0 01.553.45v4.754a.458.458 0 11-.918 0V15.48L3.74 17.202a.462.462 0 01-.655.016.462.462 0 01-.065-.082L.628 14.67a.459.459 0 01.658-.637l2.124 2.187 2.127-2.188a.46.46 0 01.235-.13zm2.068.004a.46.46 0 01.458.445v4.755a.46.46 0 01-.458.458.459.459 0 01-.458-.458V14.35a.459.459 0 01.458-.445zm1.973 2.014a.46.46 0 01.46.457v2.729a.46.46 0 01-.784.324.46.46 0 01-.134-.324v-2.729a.46.46 0 01.458-.458zm.002-2.045a.458.458 0 01.328.157l2.127 2.19 2.125-2.19a.459.459 0 01.784.318v4.756a.46.46 0 01-.455.458.46.46 0 01-.458-.458V15.48l-1.667 1.723a.46.46 0 01-.65.008l-.005-.005c0-.002-.002-.002-.004-.003l-2.455-2.534a.46.46 0 01-.008-.667.461.461 0 01.338-.128zm6.797 1.206a.46.46 0 01.53.651A1.966 1.966 0 0019.81 18.4a.462.462 0 01.623.18.46.46 0 01-.181.624 2.863 2.863 0 01-1.38.353l-.142-.004a2.88 2.88 0 01-2.393-4.263.461.461 0 01.274-.21zm.864-.931a2.884 2.884 0 013.915 3.914.46.46 0 01-.402.24l-.057-.004a.458.458 0 01-.164-.055.46.46 0 01-.182-.622 1.967 1.967 0 00-2.669-2.67.459.459 0 11-.441-.803zM9.59 6.368c1.481 0 1.696 1.202 1.696 1.654v2.648h-.917v-.432c-.26.346-.792.535-1.36.535-.133 0-1.289-.03-1.384-1.136-.082-.932.675-1.61 2.053-1.61h.691c0-.563-.367-.886-.983-.886-.44.013-.864.174-1.2.458l-.36-.664c.484-.379 1.012-.567 1.764-.567zm4.427.1c1.263 0 2.082.97 2.083 2.15 0 1.181-.824 2.154-2.083 2.154-1.26 0-2.084-.972-2.084-2.152 0-1.18.82-2.153 2.084-2.153zm6.801.015c.68 0 1.202.465 1.197 1.548v2.642H21.1V8.29c0-.312-.002-.98-.63-.98s-.628.667-.628.838v2.524h-.89V8.148c0-.17-.001-.838-.63-.838-.628 0-.628.668-.628.98v2.383h-.917v-4.03h.917V7a1.22 1.22 0 01.947-.516c.398 0 .76.193.982.686a1.321 1.321 0 011.195-.686zm-18.093.872l1.457-1.772H5.32L3.311 8.07l2.14 2.602H4.24L2.725 8.796 1.21 10.672H0L2.138 8.07.13 5.583h1.138l1.458 1.772zm4.149 3.317h-.916V6.644h.916v4.028zm16.99 0h-.916V6.644h.916v4.028zM9.925 8.71c-1.055 0-1.359.412-1.326.742.032.329.324.537.757.537a1.013 1.013 0 001.014-.968l.002-.31h-.447zM14.018 7.3c-.663 0-1.184.487-1.184 1.32 0 .832.52 1.32 1.184 1.32.662 0 1.182-.49 1.182-1.32 0-.832-.52-1.32-1.182-1.32zM6.417 5.001a.568.568 0 01.587.582.588.588 0 01-1.175 0A.57.57 0 016.417 5zm16.991 0a.57.57 0 01.592.582.588.588 0 01-1.174 0 .57.57 0 01.357-.542.572.572 0 01.225-.04z"></path>` },
+  'zhipu': { vb: '0 0 24 24', wb: false, d: `<path d="M11.991 23.503a.24.24 0 00-.244.248.24.24 0 00.244.249.24.24 0 00.245-.249.24.24 0 00-.22-.247l-.025-.001zM9.671 5.365a1.697 1.697 0 011.099 2.132l-.071.172-.016.04-.018.054c-.07.16-.104.32-.104.498-.035.71.47 1.279 1.186 1.314h.366c1.309.053 2.338 1.173 2.286 2.523-.052 1.332-1.152 2.38-2.478 2.327h-.174c-.715.018-1.274.64-1.239 1.368 0 .124.018.23.053.337.209.373.54.658.96.8.75.23 1.517-.125 1.9-.782l.018-.035c.402-.64 1.17-.96 1.92-.711.854.284 1.378 1.226 1.099 2.167a1.661 1.661 0 01-2.077 1.102 1.711 1.711 0 01-.907-.711l-.017-.035c-.2-.323-.463-.58-.851-.711l-.056-.018a1.646 1.646 0 00-1.954.746 1.66 1.66 0 01-1.065.764 1.677 1.677 0 01-1.989-1.279c-.209-.906.332-1.83 1.257-2.043a1.51 1.51 0 01.296-.035h.018c.68-.071 1.151-.622 1.116-1.333a1.307 1.307 0 00-.227-.693 2.515 2.515 0 01-.366-1.403 2.39 2.39 0 01.366-1.208c.14-.195.21-.444.227-.693.018-.71-.506-1.261-1.186-1.332l-.07-.018a1.43 1.43 0 01-.299-.07l-.05-.019a1.7 1.7 0 01-1.047-2.114 1.68 1.68 0 012.094-1.101zm-5.575 10.11c.26-.264.639-.367.994-.27.355.096.633.379.728.74.095.362-.007.748-.267 1.013-.402.41-1.053.41-1.455 0a1.062 1.062 0 010-1.482zm14.845-.294c.359-.09.738.024.992.297.254.274.344.665.237 1.025-.107.36-.396.634-.756.718-.551.128-1.1-.22-1.23-.781a1.05 1.05 0 01.757-1.26zm-.064-4.39c.314.32.49.753.49 1.206 0 .452-.176.886-.49 1.206-.315.32-.74.5-1.185.5-.444 0-.87-.18-1.184-.5a1.727 1.727 0 010-2.412 1.654 1.654 0 012.369 0zm-11.243.163c.364.484.447 1.128.218 1.691a1.665 1.665 0 01-2.188.923c-.855-.36-1.26-1.358-.907-2.228a1.68 1.68 0 011.33-1.038c.593-.08 1.183.169 1.547.652zm11.545-4.221c.368 0 .708.2.892.524.184.324.184.724 0 1.048a1.026 1.026 0 01-.892.524c-.568 0-1.03-.47-1.03-1.048 0-.579.462-1.048 1.03-1.048zm-14.358 0c.368 0 .707.2.891.524.184.324.184.724 0 1.048a1.026 1.026 0 01-.891.524c-.569 0-1.03-.47-1.03-1.048 0-.579.461-1.048 1.03-1.048zm10.031-1.475c.925 0 1.675.764 1.675 1.706s-.75 1.705-1.675 1.705-1.674-.763-1.674-1.705c0-.942.75-1.706 1.674-1.706zm-2.626-.684c.362-.082.653-.356.761-.718a1.062 1.062 0 00-.238-1.028 1.017 1.017 0 00-.996-.294c-.547.14-.881.7-.752 1.257.13.558.675.907 1.225.783zm0 16.876c.359-.087.644-.36.75-.72a1.062 1.062 0 00-.237-1.019 1.018 1.018 0 00-.985-.301 1.037 1.037 0 00-.762.717c-.108.361-.017.754.239 1.028.245.263.606.377.953.305l.043-.01zM17.19 3.5a.631.631 0 00.628-.64c0-.355-.279-.64-.628-.64a.631.631 0 00-.628.64c0 .355.28.64.628.64zm-10.38 0a.631.631 0 00.628-.64c0-.355-.28-.64-.628-.64a.631.631 0 00-.628.64c0 .355.279.64.628.64zm-5.182 7.852a.631.631 0 00-.628.64c0 .354.28.639.628.639a.63.63 0 00.627-.606l.001-.034a.62.62 0 00-.628-.64zm5.182 9.13a.631.631 0 00-.628.64c0 .355.279.64.628.64a.631.631 0 00.628-.64c0-.355-.28-.64-.628-.64zm10.38.018a.631.631 0 00-.628.64c0 .355.28.64.628.64a.631.631 0 00.628-.64c0-.355-.279-.64-.628-.64zm5.182-9.148a.631.631 0 00-.628.64c0 .354.279.639.628.639a.631.631 0 00.628-.64c0-.355-.28-.64-.628-.64zm-.384-4.992a.24.24 0 00.244-.249.24.24 0 00-.244-.249.24.24 0 00-.244.249c0 .142.122.249.244.249zM11.991.497a.24.24 0 00.245-.248A.24.24 0 0011.99 0a.24.24 0 00-.244.249c0 .133.108.236.223.247l.021.001zM2.011 6.36a.24.24 0 00.245-.249.24.24 0 00-.244-.249.24.24 0 00-.244.249.24.24 0 00.244.249zm0 11.263a.24.24 0 00-.243.248.24.24 0 00.244.249.24.24 0 00.244-.249.252.252 0 00-.244-.248zm19.995-.018a.24.24 0 00-.245.248.24.24 0 00.245.25.24.24 0 00.244-.25.252.252 0 00-.244-.248z" fill="#3859FF" fill-rule="nonzero"></path>` }
+};
+/** 返回厂商 logo 的 HTML；未收录的厂商（如 Sakana AI）自动降级为品牌色字母块 */
+function vendorLogo(provider, size) {
+  const s = size || 16;
+  const g = VENDOR_LOGOS[provider.id];
+  if (g) {
+    // wb=true 的单色 logo 需要白底衬，图形转为深色（白底上才看得见）
+    const cls = g.wb ? 'vlogo vlogo-onlight' : 'vlogo';
+    return `<span class="${cls}" style="width:${s}px;height:${s}px" title="${provider.name}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="${g.vb}" width="${s}" height="${s}">${g.d}</svg></span>`;
+  }
+  // 兜底：品牌色字母块
+  const ch = (provider.name || '?').replace(/[^A-Za-z\u4e00-\u9fa5]/g, '').charAt(0).toUpperCase() || '?';
+  return `<span class="vlogo vlogo-fallback" style="width:${s}px;height:${s}px;background:${provider.color}22;border-color:${provider.color}66;color:${provider.color};font-size:${Math.round(s * 0.6)}px" title="${provider.name}（未收录官方图标）">${ch}</span>`;
+}
+
 
 const providerMap = Object.fromEntries(PROVIDERS.map(p => [p.id, p]));
 
@@ -586,14 +886,16 @@ const providerMap = Object.fromEntries(PROVIDERS.map(p => [p.id, p]));
    BUILT-IN DATA  (native currency prices per 1M tokens)
    ═══════════════════════════════════════════════ */
 const BUILTIN_DATA = [
-  // ── OpenAI (2026-08 最新, USD, 缓存90%off=cRatio0.1, Batch=50%折扣) ──
+  // ── OpenAI (2026-09 最新, USD, 缓存90%off=cRatio0.1, Batch=50%折扣) ──
+  { provider:'openai', model:'GPT-6 Astra',          pIn:10.00, pOut:50.00, ctx:'1.05M', note:'🔥🔥最新旗舰(9/3)/缓存$1·Batch半价', cRatio:0.1, bIn:5.00, bOut:25.00 },
   { provider:'openai', model:'GPT-5.5 Pro',          pIn:30.00, pOut:180.00, ctx:'1M',   note:'🔥顶级旗舰',      cRatio:0.1, bIn:15.00, bOut:90.00 },
   { provider:'openai', model:'GPT-5.5',              pIn:5.00,  pOut:30.00, ctx:'1M',   note:'最新旗舰',        cRatio:0.1, bIn:2.50,  bOut:15.00 },
   { provider:'openai', model:'GPT-5.5 Mini',         pIn:0.50,  pOut:3.00,  ctx:'1M',   note:'旗舰轻量',        cRatio:0.1, bIn:0.25,  bOut:1.50 },
-  { provider:'openai', model:'GPT-5.6 Sol',          pIn:5.00,  pOut:30.00, ctx:'1M',   note:'🔥最新GA(7月)/同5.5', cRatio:0.1, bIn:2.50,  bOut:15.00 },
+  { provider:'openai', model:'GPT-5.6 Sol',          pIn:4.00,  pOut:20.00, ctx:'1.05M',note:'🔥最新GA/8-21降价20%·促销至11/21', cRatio:0.1, bIn:2.00,  bOut:10.00 },
   { provider:'openai', model:'GPT-5.6 Terra',        pIn:2.00,  pOut:12.00, ctx:'1M',   note:'最新GA/性价比',   cRatio:0.1, bIn:1.00,  bOut:6.00 },
   { provider:'openai', model:'GPT-5.6 Luna',         pIn:0.20,  pOut:1.20,  ctx:'1M',   note:'最新GA/轻量低价', cRatio:0.1, bIn:0.10,  bOut:0.60 },
   { provider:'openai', model:'GPT-5',                pIn:1.25,  pOut:10.00, ctx:'272K', note:'性价比旗舰',      cRatio:0.1, bIn:0.625, bOut:5.00 },
+  { provider:'openai', model:'GPT-5 Mini',           pIn:0.25,  pOut:2.00,  ctx:'400K', note:'轻量性价比/缓存$0.025', cRatio:0.1, bIn:0.125, bOut:1.00 },
   { provider:'openai', model:'GPT-5.4',              pIn:2.50,  pOut:15.00, ctx:'1M',   note:'推荐中端',        cRatio:0.1, bIn:1.25,  bOut:7.50 },
   { provider:'openai', model:'GPT-5.4 Mini',         pIn:0.75,  pOut:4.50,  ctx:'400K', note:'轻量',            cRatio:0.1, bIn:0.375, bOut:2.25 },
   { provider:'openai', model:'GPT-5.4 Nano',         pIn:0.20,  pOut:1.25,  ctx:'400K', note:'入门',            cRatio:0.1, bIn:0.10,  bOut:0.625 },
@@ -605,8 +907,11 @@ const BUILTIN_DATA = [
   { provider:'openai', model:'o3-pro',              pIn:20.00, pOut:80.00, ctx:'200K', note:'旧推理旗舰',      cRatio:0.1, bIn:10.00, bOut:40.00 },
   { provider:'openai', model:'o3-mini',             pIn:1.10,  pOut:4.40,  ctx:'200K', note:'旧推理中端',      cRatio:0.1, bIn:0.55,  bOut:2.20 },
 
-  // ── Anthropic (2026-08 最新, USD, 缓存10%=cRatio0.1, Batch=50%折扣) ──
-  { provider:'anthropic', model:'Claude Fable 5',     pIn:5.00,  pOut:25.00, ctx:'1M',   note:'🔥最新旗舰',    cRatio:0.1, bIn:2.50,  bOut:12.50 },
+  // ── Anthropic (2026-09 最新, USD, Batch=50%折扣; 9/1 起缓存读降价75%) ──
+  { provider:'anthropic', model:'Claude Fable 5.1',   pIn:10.00, pOut:50.00, ctx:'1M',   note:'🔥🔥最新旗舰(9/1)/缓存$0.25(降75%)', cRatio:0.025, bIn:5.00, bOut:25.00 },
+  { provider:'anthropic', model:'Claude Sonnet 5',    pIn:2.00,  pOut:10.00, ctx:'1M',   note:'🔥主力降价$2/10·缓存$0.2', cRatio:0.1, bIn:1.00, bOut:5.00 },
+  { provider:'anthropic', model:'Claude Opus 5',      pIn:5.00,  pOut:25.00, ctx:'1M',   note:'旗舰/缓存$0.5',           cRatio:0.1, bIn:2.50, bOut:12.50 },
+  { provider:'anthropic', model:'Claude Fable 5',     pIn:10.00, pOut:50.00, ctx:'1M',   note:'上代旗舰/缓存$1.00', cRatio:0.1, bIn:5.00,  bOut:25.00 },
   { provider:'anthropic', model:'Claude Opus 4.8',    pIn:5.00,  pOut:25.00, ctx:'1M',   note:'最新旗舰',      cRatio:0.1, bIn:2.50,  bOut:12.50 },
   { provider:'anthropic', model:'Claude Opus 4.8 Fast',pIn:10.00, pOut:50.00, ctx:'1M',  note:'快速模式2.5x',  cRatio:0.1, bIn:5.00,  bOut:25.00 },
   { provider:'anthropic', model:'Claude Opus 4.7',    pIn:5.00,  pOut:25.00, ctx:'1M',   note:'上代旗舰',      cRatio:0.1, bIn:2.50,  bOut:12.50 },
@@ -617,11 +922,13 @@ const BUILTIN_DATA = [
   { provider:'anthropic', model:'Claude Haiku 3.5',   pIn:0.80,  pOut:4.00,  ctx:'200K', note:'旧版轻量',      cRatio:0.1, bIn:0.40,  bOut:2.00 },
   { provider:'anthropic', model:'Claude Haiku 3',     pIn:0.25,  pOut:1.25,  ctx:'200K', note:'极致便宜/将退役', cRatio:0.1, bIn:0.125, bOut:0.625 },
   { provider:'anthropic', model:'Claude 3 Opus',      pIn:15.00, pOut:75.00, ctx:'200K', note:'远古旗舰/太贵',  cRatio:0.1, bIn:7.50,  bOut:37.50 },
-  { provider:'anthropic', model:'Mythos Preview',     pIn:25.00, pOut:125.00, ctx:'1M',  note:'研究预览/邀请制', cRatio:0.1 },
+  { provider:'anthropic', model:'Claude Mythos 5.1',  pIn:10.00, pOut:50.00, ctx:'1M',   note:'🔥9/1 GA·受限(Project Glasswing)/缓存$0.25', cRatio:0.025, bIn:5.00, bOut:25.00 },
 
-  // ── Google Gemini (2026-08 最新, USD, 缓存10%=cRatio0.1) ──
+  // ── Google Gemini (2026-09 最新, USD, 缓存10%=cRatio0.1) ──
+  { provider:'google', model:'Gemini 3.8 Flash',     pIn:0.75,  pOut:3.75,  ctx:'1M',   note:'🔥🔥最新(9/2)促销价·2027-01-01起涨回$1.5/7.5', cRatio:0.1 },
   { provider:'google', model:'Gemini 3.5 Pro',       pIn:3.50,  pOut:21.00, ctx:'2M',   note:'🔥最新旗舰', cRatio:0.1 },
-  { provider:'google', model:'Gemini 3.6 Flash',     pIn:1.50,  pOut:7.50,  ctx:'1M',   note:'🔥最新(7月)/输出降17%', cRatio:0.1 },
+  { provider:'google', model:'Gemini 3.6 Flash',     pIn:0.75,  pOut:3.75,  ctx:'1M',   note:'🔥最新(7月)/已降至$0.75/3.75', cRatio:0.1 },
+  { provider:'google', model:'Gemini 3.7 Flash',     pIn:0.75,  pOut:3.75,  ctx:'1M',   note:'GA(9月)/促销价·2027-01-01 起 $1.50/$7.50', cRatio:0.1 },
   { provider:'google', model:'Gemini 3.5 Flash',     pIn:1.50,  pOut:9.00,  ctx:'1M',   note:'最新',      cRatio:0.1 },
   { provider:'google', model:'Gemini 3.5 Flash-Lite',pIn:0.30,  pOut:2.50,  ctx:'1M',   note:'最新轻量',  cRatio:0.1 },
   { provider:'google', model:'Gemini 3.1 Pro',       pIn:2.00,  pOut:12.00, ctx:'2M',   note:'旗舰',      cRatio:0.1 },
@@ -633,11 +940,13 @@ const BUILTIN_DATA = [
 
   // ── DeepSeek (2026-08-17 起峰谷分时定价, CNY ¥/1M, 高峰=空闲x2) ──
   // 空闲时段17h(9:00-12:00/14:00-18:00之外), 高峰时段价格为下列值x2
-  { provider:'deepseek', model:'DeepSeek V4 Pro',    pIn:4.50,  pOut:13.50, ctx:'1M',   note:'🔥空闲¥4.5/13.5·缓存0.15 ｜ 高峰(9-12,14-18点)¥9/27·缓存0.30', cRatio:0.03333,
+  { provider:'deepseek', model:'DeepSeek V4.1 Flash', pIn:1.00, pOut:4.00, ctx:'1M', peakIn:2.00, peakOut:8.00, peakCRatio:0.02, note:'🔥🔥9/10新发·接替V4-Flash｜缓存¥0.02·高峰时段价×2', cRatio:0.02,
+    tiers:'空闲时段(17h)：输入¥1.00 / 输出¥4.00 / 缓存¥0.02\n高峰时段(9-12/14-18点)：输入¥2.00 / 输出¥8.00 / 缓存¥0.04\n对应美元价 $0.30 / $1.20（高峰）· 缓存 $0.006 —— 人民币为按官方汇率折算，请以 DeepSeek 官网为准' },
+  { provider:'deepseek', model:'DeepSeek V4 Pro',    pIn:4.50,  pOut:13.50, ctx:'1M',   peakIn:8.95, peakOut:26.85, peakCRatio:0.03333, note:'🔥在役(官方续供)·缓存¥0.15·高峰时段价×2', cRatio:0.03333,
     tiers:'空闲时段(17h)：输入¥4.50 / 输出¥13.50 / 缓存¥0.15\n高峰时段(9-12/14-18点)：输入¥9.00 / 输出¥27.00 / 缓存¥0.30' },
-  { provider:'deepseek', model:'DeepSeek V4 Flash',  pIn:1.50,  pOut:4.50,  ctx:'1M',   note:'空闲¥1.5/4.5·缓存0.05 ｜ 高峰(9-12,14-18点)¥3/9·缓存0.10', cRatio:0.03333,
+  { provider:'deepseek', model:'DeepSeek V4 Flash',  pIn:1.50,  pOut:4.50,  ctx:'1M',   note:'⚠️9/10已退役/由V4.1Flash接替 ｜ 空闲¥1.5/4.5·缓存0.05 高峰¥3/9·缓存0.10', cRatio:0.03333,
     tiers:'空闲时段(17h)：输入¥1.50 / 输出¥4.50 / 缓存¥0.05\n高峰时段(9-12/14-18点)：输入¥3.00 / 输出¥9.00 / 缓存¥0.10' },
-  { provider:'deepseek', model:'DeepSeek V4 Flash Vision Exp', pIn:1.50, pOut:4.50, ctx:'1M', note:'✨视觉版/同V4Flash价·图≤384token ｜ 空闲¥1.5/4.5 高峰¥3/9', cRatio:0.03333,
+  { provider:'deepseek', model:'DeepSeek V4 Flash Vision Exp', pIn:1.50, pOut:4.50, ctx:'1M', note:'⚠️9/10已退役/由V4.1Flash接替 ｜ 空闲¥1.5/4.5 高峰¥3/9·图≤384token', cRatio:0.03333,
     tiers:'空闲时段(17h)：输入¥1.50 / 输出¥4.50 / 缓存¥0.05\n高峰时段(9-12/14-18点)：输入¥3.00 / 输出¥9.00 / 缓存¥0.10\n图片按token计费(≤384token/张),无单独图片费' },
   { provider:'deepseek', model:'DeepSeek V3.2',      pIn:2.00,  pOut:3.00,  ctx:'131K', note:'旧版性价比',                 cRatio:0.01 },
   { provider:'deepseek', model:'DeepSeek R1-0528',   pIn:4.00,  pOut:16.00, ctx:'164K', note:'推理专用',                   cRatio:0.01 },
@@ -647,8 +956,10 @@ const BUILTIN_DATA = [
   { provider:'deepseek', model:'DeepSeek V3.1',      pIn:4.35,  pOut:12.33, ctx:'128K', note:'旧版过渡',                   cRatio:0.01 },
 
   // ── 阿里云 通义千问 (CNY, ¥/1M, 缓存动态: 隐式0.2/显式0.1) ──
-  { provider:'alibaba', model:'Qwen3.7-Max',         pIn:6.00,  pOut:18.00, ctx:'256K', note:'🔥5折!原¥12/36' },
-  { provider:'alibaba', model:'Qwen3-Max',           pIn:2.50,  pOut:10.00, ctx:'252K', note:'上代旗舰' },
+  { provider:'alibaba', model:'Qwen3.8-Max',         pIn:14.40, pOut:43.20, ctx:'1M',   note:'🔥🔥最新旗舰(9月)/全模态·缓存¥2.88', cRatio:0.2 },
+  { provider:'alibaba', model:'Qwen3.8-Flash',       pIn:0.80,  pOut:2.70,  ctx:'128K+',note:'🔥最新轻量/高吞吐·缓存¥0.1' },
+  { provider:'alibaba', model:'Qwen3.7-Max',         pIn:14.40, pOut:43.20, ctx:'1M',   note:'旗舰·官方原价/缓存¥2.88', cRatio:0.2 },
+  { provider:'alibaba', model:'Qwen3-Max',           pIn:3.00,  pOut:12.00, ctx:'252K', note:'上代旗舰(≤32K档)', tiers:'≤32K：输入¥3.00 / 输出¥12.00\n32K–128K：输入¥4.80 / 输出¥19.20\n128K–256K：输入¥8.40 / 输出¥33.60' },
   { provider:'alibaba', model:'Qwen3.6-Plus',        pIn:2.00,  pOut:12.00, ctx:'1M',   note:'最新推荐',   tiers:'≤256K：输入¥2.00 / 输出¥12.00\n＞256K：输入¥4.00 / 输出¥24.00' },
   { provider:'alibaba', model:'Qwen3.5-Plus',        pIn:0.80,  pOut:4.80,  ctx:'1M',   note:'推荐(上代)' },
   { provider:'alibaba', model:'Qwen-Plus',           pIn:0.80,  pOut:2.00,  ctx:'131K', note:'旧推荐' },
@@ -657,13 +968,15 @@ const BUILTIN_DATA = [
   { provider:'alibaba', model:'Qwen-Long',           pIn:0.50,  pOut:2.00,  ctx:'10M',  note:'超长上下文' },
 
   // ── 字节跳动 豆包 (CNY, ¥/1M, 普通公网API, 缓存20%=cRatio0.2) ──
+  { provider:'bytedance', model:'Doubao-Seed-2.1-Pro',   pIn:6.00,  pOut:30.00, ctx:'256K', note:'🔥🔥最新旗舰(9月)/Agent·代码', cRatio:0.2 },
+  { provider:'bytedance', model:'Doubao-Seed-2.1-Turbo', pIn:3.00,  pOut:15.00, ctx:'256K', note:'最新中端/平衡',        cRatio:0.2 },
   { provider:'bytedance', model:'Doubao-seed-2.0-pro(32K)',  pIn:3.20,  pOut:16.00, ctx:'32K',  note:'旗舰',         cRatio:0.2 },
   { provider:'bytedance', model:'Doubao-seed-2.0-pro(128K)', pIn:4.80,  pOut:24.00, ctx:'128K', note:'旗舰长文',     cRatio:0.2 },
   { provider:'bytedance', model:'Doubao-seed-2.0-lite(32K)', pIn:0.60,  pOut:3.60,  ctx:'32K',  note:'轻量',         cRatio:0.2 },
   { provider:'bytedance', model:'Doubao-seed-2.0-lite(128K)',pIn:0.90,  pOut:5.40,  ctx:'128K', note:'轻量长文',     cRatio:0.2 },
 
   // ── 百度 文心一言 (CNY, ¥/1M) ──
-  { provider:'baidu', model:'ERNIE 5.1',             pIn:4.00,  pOut:18.00, ctx:'128K', note:'🔥最新旗舰' },
+  { provider:'baidu', model:'ERNIE 5.1',             pIn:4.00,  pOut:18.00, ctx:'128K', note:'🔥最新旗舰(≤32K档)', tiers:'≤32K：输入¥4.00 / 输出¥18.00\n32K–128K：输入¥6.00 / 输出¥22.00' },
   { provider:'baidu', model:'ERNIE 4.5 Turbo',       pIn:0.80,  pOut:3.20,  ctx:'128K', note:'性价比之选',     cRatio:0.25 },
   { provider:'baidu', model:'ERNIE 4.5',             pIn:4.00,  pOut:16.00, ctx:'8K',   note:'标准版' },
   { provider:'baidu', model:'ERNIE 4.0',             pIn:30.00, pOut:90.00, ctx:'8K',   note:'旧旗舰/太贵!' },
@@ -671,8 +984,10 @@ const BUILTIN_DATA = [
   { provider:'baidu', model:'ERNIE Lite',            pIn:0.00,  pOut:0.00,  ctx:'8K',   note:'免费' },
 
   // ── 智谱 GLM (CNY, ¥/1M, 缓存25%=cRatio0.25) ──
+  { provider:'zhipu', model:'GLM-5.3',               pIn:8.00,  pOut:28.00, ctx:'1M',   note:'🔥🔥最新旗舰(8/18)/常驻推理',     cRatio:0.25 },
+  { provider:'zhipu', model:'GLM-5.3-Flash',         pIn:0.80,  pOut:2.80,  ctx:'长上下文',note:'🔥最新轻量/9-09促销结束',        cRatio:0.25 },
   { provider:'zhipu', model:'GLM-5.2',               pIn:8.00,  pOut:28.00, ctx:'1M',   note:'🔥最新旗舰',     cRatio:0.25 },
-  { provider:'zhipu', model:'GLM-5.1',               pIn:6.00,  pOut:24.00, ctx:'200K', note:'🔥顶级编程',     cRatio:0.25 },
+  { provider:'zhipu', model:'GLM-5.1',               pIn:6.00,  pOut:24.00, ctx:'200K', note:'🔥顶级编程(≤32K档)', tiers:'≤32K：输入¥6.00 / 输出¥24.00\n＞32K：输入¥8.00 / 输出¥28.00', cRatio:0.25 },
   { provider:'zhipu', model:'GLM-5',                 pIn:4.00,  pOut:18.00, ctx:'128K', note:'旗舰',            cRatio:0.25 },
   { provider:'zhipu', model:'GLM-4-Plus',            pIn:5.00,  pOut:5.00,  ctx:'128K', note:'推荐',            cRatio:0.25 },
   { provider:'zhipu', model:'GLM-4-Air',             pIn:0.60,  pOut:0.60,  ctx:'128K', note:'轻量',            cRatio:0.25 },
@@ -685,7 +1000,8 @@ const BUILTIN_DATA = [
   { provider:'iflytek', model:'Spark Lite',          pIn:0.00,  pOut:0.00,  ctx:'8K',   note:'免费' },
 
   // ── 腾讯混元 (CNY, ¥/1M) ──
-  { provider:'tencent', model:'Hy3 preview',         pIn:2.00,  pOut:8.00,  ctx:'256K', note:'🔥最新Coding/Agent', cRatio:0.4 },
+  { provider:'tencent', model:'Hunyuan Hy4 preview', pIn:6.00,  pOut:18.00, ctx:'128K+', note:'🔥🔥最新(9月)/770B MoE · 缓存¥0.3', cRatio:0.05 },
+  { provider:'tencent', model:'Hy3',                 pIn:1.00,  pOut:4.00,  ctx:'256K', note:'🔥最新Coding/Agent·缓存¥0.25', cRatio:0.25 },
   { provider:'tencent', model:'Hunyuan-TurboS',      pIn:1.00,  pOut:3.00,  ctx:'32K',  note:'推荐' },
   { provider:'tencent', model:'Hunyuan-Pro',         pIn:3.00,  pOut:9.00,  ctx:'32K',  note:'旧旗舰' },
   { provider:'tencent', model:'Hunyuan-Lite',        pIn:0.00,  pOut:0.00,  ctx:'32K',  note:'免费' },
@@ -695,7 +1011,8 @@ const BUILTIN_DATA = [
   { provider:'baichuan', model:'Baichuan4-Turbo',    pIn:15.00,  pOut:15.00,  ctx:'32K',  note:'统一价/推荐' },
   { provider:'baichuan', model:'Baichuan4-Air',      pIn:0.98,   pOut:0.98,   ctx:'32K',  note:'统一价/轻量' },
 
-  // ── MiniMax (CNY, ¥/1M, 缓存30%=cRatio0.3) ──
+  // ── MiniMax (CNY, ¥/1M, 缓存20%=cRatio0.2) ──
+  { provider:'minimax', model:'MiniMax M3',          pIn:2.10,  pOut:8.40,  ctx:'1M',   note:'🔥最新旗舰(9月)/永久五折¥2.1·¥8.4｜缓存¥0.40', cRatio:0.2 },
   { provider:'minimax', model:'abab6.5s',            pIn:1.00,  pOut:3.00,  ctx:'245K', note:'推荐',        cRatio:0.3 },
   { provider:'minimax', model:'abab6.5t',            pIn:0.70,  pOut:2.10,  ctx:'8K',   note:'轻量',        cRatio:0.3 },
 
@@ -720,7 +1037,9 @@ const BUILTIN_DATA = [
   { provider:'mistral', model:'Ministral 3 8B',     pIn:0.15,  pOut:0.15,  ctx:'262K', note:'边缘端侧' },
 
   // ── 月之暗面 Kimi (CNY, ¥/1M, K2已于2026-05-25下线) ──
+  { provider:'moonshot', model:'Kimi K3',             pIn:20.00, pOut:100.00, ctx:'1M',  note:'🔥🔥最新旗舰(9月)/长文本·代码·视觉', cRatio:0.1 },
   { provider:'moonshot', model:'Kimi-K2.6',          pIn:6.50,  pOut:27.00, ctx:'262K', note:'🔥最新Agent旗舰', cRatio:0.169 },
+  { provider:'moonshot', model:'Kimi K2.7 Code',      pIn:6.50,  pOut:27.00, ctx:'256K', note:'🔥面向编码/缓存¥1.30', cRatio:0.2 },
   { provider:'moonshot', model:'Moonshot-v1-128k',   pIn:5.00,  pOut:10.00, ctx:'128K', note:'旧版' },
 
   // ── 零一万物 (CNY, ¥/1M, 无缓存) ──
@@ -729,7 +1048,8 @@ const BUILTIN_DATA = [
   // ── Cohere (USD, 无缓存) ──
   { provider:'cohere', model:'Command R+',           pIn:1.50,  pOut:4.50,  ctx:'128K', note:'企业级长文本' },
 
-  // ── xAI Grok (USD, 缓存16%=cRatio0.16, cache $0.20/1M) ──
+  // ── xAI Grok (USD, 缓存见各行 cRatio) ──
+  { provider:'xai', model:'Grok 4.6',                pIn:2.00,  pOut:6.00,  ctx:'1M',   note:'最新(9月)/缓存$0.5', cRatio:0.25 },
   { provider:'xai', model:'Grok 4.5',                pIn:2.00,  pOut:6.00,  ctx:'256K', note:'🔥最新旗舰', cRatio:0.16 },
   { provider:'xai', model:'Grok-4.3',                pIn:1.25,  pOut:2.50,  ctx:'1M',   note:'最新/推荐', cRatio:0.16 },
   { provider:'xai', model:'Grok Build 0.1',         pIn:1.00,  pOut:2.00,  ctx:'1M',   note:'新版尝鲜/推荐', cRatio:0.16 },
@@ -748,6 +1068,10 @@ const BUILTIN_DATA = [
   // ── 小米 MiMo (CNY, ¥/1M, 2026-05-27永久降价, 不再区分上下文长度) ──
   { provider:'xiaomi', model:'MiMo-V2.5-Pro',   pIn:3.00,  pOut:6.00,  ctx:'1M', note:'降57~99%/推荐', cRatio:0.0083 },
   { provider:'xiaomi', model:'MiMo-V2.5',       pIn:1.00,  pOut:2.00,  ctx:'1M', note:'降64~98%/推荐',     cRatio:0.02 },
+
+  // ── Sakana AI (USD, 缓存见各行 cRatio) ──
+  { provider:'sakana', model:'Fugu Max',        pIn:2.00,  pOut:6.00,  ctx:'1M', note:'🔥🔥9/11新发/缓存$0.25·联网调用$0.007/次', cRatio:0.125 },
+  { provider:'sakana', model:'Fugu Ultra v2',   pIn:5.00,  pOut:30.00, ctx:'1M', note:'🔥🔥9/11新发/缓存$0.50·>272K 档 $10/$1/$45', cRatio:0.1 },
 ];
 
 /* ═══════════════════════════════════════════════
@@ -767,6 +1091,40 @@ class Model {
     this.batchIn = raw.bIn > 0 ? raw.bIn : 0;         // native batch input price per 1M
     this.batchOut = raw.bOut > 0 ? raw.bOut : 0;      // native batch output price per 1M
     this.tiers = raw.tiers || null;                    // tiered pricing info for tooltip
+    // ── 峰谷定价（DeepSeek）：peakIn/peakOut 是「高峰时段」的原生价 ──
+    this.peakIn  = raw.peakIn  > 0 ? raw.peakIn  : 0;
+    this.peakOut = raw.peakOut > 0 ? raw.peakOut : 0;
+    this.peakCRatio = raw.peakCRatio > 0 ? raw.peakCRatio : this.cacheRatio;
+  }
+
+  /** 该模型是否有独立的峰谷定价 */
+  get hasPeakPricing() { return this.peakIn > 0 && this.peakOut > 0; }
+
+  get cnyPeakIn()  { return this.provider.nativeCurrency === 'USD' ? this.peakIn  * STATE.rate : this.peakIn; }
+  get cnyPeakOut() { return this.provider.nativeCurrency === 'USD' ? this.peakOut * STATE.rate : this.peakOut; }
+
+  /** 高峰缓存命中价（原生货币） */
+  get peakCachePrice() {
+    if (!this.hasPeakPricing) return 0;
+    if (this.peakCRatio >= 1) return 0;
+    return this.peakIn * this.peakCRatio;
+  }
+
+  get displayPeakIn() {
+    if (!this.hasPeakPricing) return 0;
+    let p = STATE.displayCurrency === 'CNY' ? this.cnyPeakIn : (this.provider.nativeCurrency === 'USD' ? this.peakIn : this.peakIn / STATE.rate);
+    return STATE.unit === '1K' ? p / 1000 : p;
+  }
+  get displayPeakOut() {
+    if (!this.hasPeakPricing) return 0;
+    let p = STATE.displayCurrency === 'CNY' ? this.cnyPeakOut : (this.provider.nativeCurrency === 'USD' ? this.peakOut : this.peakOut / STATE.rate);
+    return STATE.unit === '1K' ? p / 1000 : p;
+  }
+  get displayPeakCache() {
+    if (!this.hasPeakPricing || this.peakCachePrice <= 0) return 0;
+    let p = this.provider.nativeCurrency === 'USD' ? this.peakCachePrice * STATE.rate : this.peakCachePrice;
+    if (STATE.displayCurrency === 'USD') p = p / STATE.rate;
+    return STATE.unit === '1K' ? p / 1000 : p;
   }
 
   // Effective cache ratio: provider-specific rules override static value
@@ -883,10 +1241,25 @@ function initModels() {
 /* ═══════════════════════════════════════════════
    RENDER
    ═══════════════════════════════════════════════ */
+function fmtPrice(v) {
+  if (v === null || v === undefined || !isFinite(v)) return '0';
+  if (v === 0) return '0.00';
+  const a = Math.abs(v);
+  let d;
+  if (a >= 100) d = 1;
+  else if (a >= 1) d = 2;
+  else if (a >= 0.1) d = 3;
+  else d = 4;
+  return v.toFixed(d);
+}
+
 function getPriceClass(priceCNYPer1M) {
-  if (priceCNYPer1M <= 4) return 'price-green';
-  if (priceCNYPer1M <= 36) return 'price-yellow';
-  return 'price-red';
+  // 只点亮「全表最便宜的 3 个 / 最贵的 3 个」，其余一律中性 —— 满屏红绿等于没有重点
+  const all = STATE.filteredModels.map(m => m.cnyIn).filter(v => v > 0).sort((a, b) => a - b);
+  if (all.length < 8) return '';
+  if (priceCNYPer1M <= all[2]) return 'price-green';
+  if (priceCNYPer1M >= all[all.length - 3]) return 'price-red';
+  return '';
 }
 
 function renderProviderChips() {
@@ -895,11 +1268,44 @@ function renderProviderChips() {
   container.innerHTML = PROVIDERS.map(p => {
     const active = STATE.activeProviders.has(p.id) || allActive;
     return `<span class="provider-chip${active?' active':''}"
-      style="color:${p.color};border-color:${p.color}"
+      style="--pcolor:${p.color}"
       onclick="toggleProvider('${p.id}')">
-      <span class="dot" style="background:${p.color}"></span>${p.name}
+      ${vendorLogo(p, 14)}${p.name}
     </span>`;
   }).join('');
+}
+
+
+/* ═══════════════════════════════════════════════
+   PEAK / OFF-PEAK PRICING (DeepSeek)
+   高峰 = 01:00-04:00 + 06:00-10:00 UTC，周一至周五
+        = 北京时间 09:00-12:00 + 14:00-18:00，工作日
+   离线（其余所有时段）= 高峰的半价
+   ═══════════════════════════════════════════════ */
+const PEAK_HOURS = '工作日 09:00–12:00、14:00–18:00（北京时间）';
+const PEAK_OFF_HOURS = '其余时段（含周末全天）';
+
+/** 当前是否处于 DeepSeek 高峰时段（按用户本地时间判断） */
+function isPeakNow() {
+  const d = new Date();
+  const day = d.getDay();               // 0=周日, 6=周六
+  if (day === 0 || day === 6) return false;
+  const h = d.getHours() + d.getMinutes() / 60;
+  return (h >= 9 && h < 12) || (h >= 14 && h < 18);
+}
+
+/** 输入/输出价格单元格：有峰谷定价的显示两行（当前时段那行高亮） */
+function priceStack(m, which, cur, cls) {
+  const offVal = which === 'in' ? m.displayIn : m.displayOut;
+  const offHtml = `<span class="price-cell ${cls}">${cur}${fmtPrice(offVal)}</span>`;
+  if (!m.hasPeakPricing) return offHtml;
+  const peakVal = which === 'in' ? m.displayPeakIn : m.displayPeakOut;
+  const nowPeak = isPeakNow();
+  const offLine = `<span class="peak-row${nowPeak ? '' : ' is-now'}" title="空闲时段 · ${PEAK_OFF_HOURS}">`
+                + `<em class="peak-tag">空闲</em>${cur}${fmtPrice(offVal)}</span>`;
+  const peakLine = `<span class="peak-row peak-row-high${nowPeak ? ' is-now' : ''}" title="高峰时段 · ${PEAK_HOURS}">`
+                 + `<em class="peak-tag">高峰</em>${cur}${fmtPrice(peakVal)}</span>`;
+  return `<span class="peak-stack" title="空闲 = 高峰的半价 | 空闲 ${PEAK_OFF_HOURS}">${offLine}${peakLine}</span>`;
 }
 
 function renderTable() {
@@ -918,22 +1324,22 @@ function renderTable() {
     const checked = STATE.compareSet.has(m.providerId + '|' + m.model) ? 'checked' : '';
     const tierIcon = m.tiers ? `<span class="price-tier-icon">ⓘ<span class="tooltip">${m.tiers}</span></span>` : '';
 
-    return `<tr>
+    return `<tr style="--pcolor:${m.provider.color}">
       <td><input type="checkbox" class="compare-checkbox" ${checked}
             onchange="toggleCompare('${m.providerId}','${m.model}')" title="加入对比"></td>
       <td><span class="provider-badge">
-        <span class="provider-dot" style="background:${m.provider.color}"></span>
+        ${vendorLogo(m.provider, 15)}
         ${m.provider.name}
       </span></td>
       <td><strong>${m.model}</strong>${tierIcon}</td>
-      <td><span class="price-cell ${inClass}">${currencySymbol}${inPrice.toFixed(4)}</span></td>
-      <td>${cachePrice > 0 ? `<span class="price-cell cache-cell">${currencySymbol}${cachePrice.toFixed(4)}</span>` : `<span class="cache-cell">-</span>`}</td>
-      <td><span class="price-cell ${outClass}">${currencySymbol}${outPrice.toFixed(4)}</span></td>
+      <td class="num">${priceStack(m, 'in', currencySymbol, inClass)}</td>
+      <td class="num">${cachePrice > 0 ? `<span class="price-cell cache-cell">${currencySymbol}${fmtPrice(cachePrice)}</span>${m.hasPeakPricing && m.displayPeakCache > 0 ? `<span class="peak-price off">📈 高峰 ${currencySymbol}${fmtPrice(m.displayPeakCache)}</span>` : ''}` : `<span class="cache-cell">-</span>`}</td>
+      <td class="num">${priceStack(m, 'out', currencySymbol, outClass)}</td>
       <td class="hide-mobile">${m.context}</td>
       <td class="hide-mobile" style="color:var(--text-muted);font-size:0.8rem">${m.note}</td>
-      <td class="hide-mobile">${bIn > 0 ? `<span class="batch-cell">${currencySymbol}${bIn.toFixed(4)}</span>` : `<span class="batch-cell">-</span>`}</td>
-      <td class="hide-mobile">${bOut > 0 ? `<span class="batch-cell">${currencySymbol}${bOut.toFixed(4)}</span>` : `<span class="batch-cell">-</span>`}</td>
-      ${STATE.calcEnabled ? `<td><span class="price-cell" style="color:var(--accent);font-weight:700">${currencySymbol}${m.totalCost.toFixed(2)}</span></td>` : ''}
+      <td class="hide-mobile">${bIn > 0 ? `<span class="batch-cell">${currencySymbol}${fmtPrice(bIn)}</span>` : `<span class="batch-cell">-</span>`}</td>
+      <td class="hide-mobile">${bOut > 0 ? `<span class="batch-cell">${currencySymbol}${fmtPrice(bOut)}</span>` : `<span class="batch-cell">-</span>`}</td>
+      ${STATE.calcEnabled ? `<td class="num"><span class="price-cell" style="color:var(--accent);font-weight:700">${currencySymbol}${m.totalCost.toFixed(2)}</span></td>` : ''}
     </tr>`;
   }).join('');
 
@@ -941,11 +1347,20 @@ function renderTable() {
   const calcInfo = STATE.calcEnabled
     ? `<span>🧮 ${(STATE.calcTokens/1e8).toFixed(2)}亿 tokens | 命中${STATE.calcCacheRate}% | 入${STATE.calcInputPct}% 出${STATE.calcOutputPct}%</span>`
     : '';
+  // 峰谷定价提示：仅当当前结果里含峰谷模型时显示
+  const hasPeak = STATE.filteredModels.some(x => x.hasPeakPricing);
+  const peakInfo = hasPeak
+    ? `<span class="peak-info" title="DeepSeek 空闲时段 = 高峰的半价">`
+      + `🌗 峰谷定价：<b>空闲</b> ${PEAK_OFF_HOURS} · <b>高峰</b> ${PEAK_HOURS}`
+      + (isPeakNow() ? ` <em class="peak-now">当前为高峰</em>` : ` <em class="peak-now off">当前为空闲</em>`)
+      + `</span>`
+    : '';
   document.getElementById('statsBar').innerHTML = `
     <span>📊 显示 ${STATE.filteredModels.length} / ${STATE.models.length} 个模型</span>
     <span>💱 1 USD ≈ ${STATE.rate.toFixed(2)} CNY</span>
     <span>📐 单位: ${unitLabel} tokens</span>
     ${calcInfo}
+    ${peakInfo}
   `;
 
   document.getElementById('compareCount').textContent = STATE.compareSet.size;
@@ -956,6 +1371,7 @@ function renderTable() {
 
   // Mobile cards
   renderMobileCards();
+  if (document.getElementById('panel-rank').classList.contains('active')) renderBoard();
 }
 
 function renderMobileCards() {
@@ -970,7 +1386,7 @@ function renderMobileCards() {
 
     return `<div class="model-card">
       <div class="card-header">
-        <span class="provider-dot" style="background:${m.provider.color}"></span>
+        ${vendorLogo(m.provider, 16)}
         <span class="provider-name">${m.provider.name}</span>
         <span class="model-name">${m.model}</span>
         <input type="checkbox" class="compare-cb" ${checked}
@@ -979,15 +1395,15 @@ function renderMobileCards() {
       <div class="card-prices">
         <div class="price-item">
           <div class="label">Input ${unitLabel}</div>
-          <div class="value ${inClass}">${currencySymbol}${m.displayIn.toFixed(4)}</div>
+          <div class="value ${inClass}">${currencySymbol}${fmtPrice(m.displayIn)}</div>
         </div>
         <div class="price-item">
           <div class="label" style="color:var(--green)">缓存命中</div>
-          <div class="value cache-cell">${m.displayCache > 0 ? currencySymbol + m.displayCache.toFixed(4) : '-'}</div>
+          <div class="value cache-cell">${m.displayCache > 0 ? currencySymbol + fmtPrice(m.displayCache) : '-'}</div>
         </div>
         <div class="price-item">
           <div class="label">Output ${unitLabel}</div>
-          <div class="value ${outClass}">${currencySymbol}${m.displayOut.toFixed(4)}</div>
+          <div class="value ${outClass}">${currencySymbol}${fmtPrice(m.displayOut)}</div>
         </div>
       </div>
       <div class="card-meta">
@@ -1028,9 +1444,9 @@ function renderComparePanel() {
     if (!m) return '';
     return `<div class="compare-card">
       <h4><span class="provider-dot" style="background:${m.provider.color}"></span> ${m.provider.name} / ${m.model}</h4>
-      <div class="row"><span class="label">Input</span><span class="price-cell ${getPriceClass(m.cnyIn)}">${currencySymbol}${m.displayIn.toFixed(4)} ${unitLabel}</span></div>
-      <div class="row"><span class="label">缓存命中</span><span class="price-cell cache-cell">${m.displayCache > 0 ? currencySymbol + m.displayCache.toFixed(4) : '-'}</span></div>
-      <div class="row"><span class="label">Output</span><span class="price-cell ${getPriceClass(m.cnyOut)}">${currencySymbol}${m.displayOut.toFixed(4)} ${unitLabel}</span></div>
+      <div class="row"><span class="label">Input</span><span class="price-cell ${getPriceClass(m.cnyIn)}">${currencySymbol}${fmtPrice(m.displayIn)} ${unitLabel}</span></div>
+      <div class="row"><span class="label">缓存命中</span><span class="price-cell cache-cell">${m.displayCache > 0 ? currencySymbol + fmtPrice(m.displayCache) : '-'}</span></div>
+      <div class="row"><span class="label">Output</span><span class="price-cell ${getPriceClass(m.cnyOut)}">${currencySymbol}${fmtPrice(m.displayOut)} ${unitLabel}</span></div>
       <div class="row"><span class="label">Batch输入</span><span class="price-cell batch-cell">${m.displayBatchIn > 0 ? currencySymbol + m.displayBatchIn.toFixed(4) : '-'}</span></div>
       <div class="row"><span class="label">Batch输出</span><span class="price-cell batch-cell">${m.displayBatchOut > 0 ? currencySymbol + m.displayBatchOut.toFixed(4) : '-'}</span></div>
       <div class="row"><span class="label">上下文</span><span>${m.context}</span></div>
@@ -1423,6 +1839,113 @@ function toggleTheme() {
   document.getElementById('themeToggle').textContent = next === 'light' ? '🌙' : '☀️';
 }
 
+
+/* ═══════════════════════════════════════════════
+   RANK BOARD  (c5 榜单视角)
+   ═══════════════════════════════════════════════ */
+// context 字段形态：「1M」「128K」「128K+」「1.05M」「长上下文」「10M」
+// 必须容错解析，否则带 + 的会把 NaN 带进比较、'长上下文' 这类会误落进 K 档
+function ctxTokens(ctx) {
+  const s = String(ctx || '').trim();
+  const m = /^([\d.]+)\s*([KM])\+?$/i.exec(s);
+  if (!m) return null;                       // 「长上下文」等非量化值 → 不参与筛选
+  const n = parseFloat(m[1]);
+  if (!isFinite(n) || n <= 0) return null;
+  return /M/i.test(m[2]) ? n * 1e6 : n * 1e3;
+}
+const byOut = (a, b) => a.cnyOut - b.cnyOut;
+
+const LANES = [
+  { id:'cheap',  t:'💰 综合最便宜', s:'输出价最低的 6 个（含免费模型）',
+    pick: ms => [...ms].sort(byOut).slice(0,6),
+    val:  m => m.displayOut, unit:'输出/1M', sort:['output','asc'] },
+  { id:'value',  t:'⚖️ 性价比甜点', s:'输出价在 ¥1 – ¥15 之间的中端',
+    pick: ms => ms.filter(m => m.cnyOut >= 1 && m.cnyOut <= 15).sort(byOut).slice(0,6),
+    val:  m => m.displayOut, unit:'输出/1M', sort:['output','asc'] },
+  { id:'cache',  t:'🗄️ 缓存最省',   s:'缓存命中价最低的 6 个（统一折算人民币）',
+    pick: ms => ms.filter(m => m.cachePrice > 0)
+                  .sort((a,b) => (a.cnyIn * a.effectiveCacheRatio) - (b.cnyIn * b.effectiveCacheRatio)).slice(0,6),
+    val:  m => m.displayCache, unit:'缓存/1M', sort:['cache','asc'] },
+  { id:'ctx',    t:'📚 超长上下文', s:'上下文 ≥ 1M 中最便宜的 6 个',
+    pick: ms => ms.filter(m => { const n = ctxTokens(m.context); return n !== null && n >= 1e6; })
+                  .sort(byOut).slice(0,6),
+    val:  m => m.displayOut, unit:'输出/1M', sort:['output','asc'] },
+  { id:'batch',  t:'📦 Batch 最省', s:'启用 Batch 半价后输出价最低的 6 个',
+    pick: ms => ms.filter(m => m.batchOut > 0).sort((a,b) => a.batchOut - b.batchOut).slice(0,6),
+    val:  m => m.displayBatchOut, unit:'Batch 输出/1M', sort:['output','asc'] },
+  { id:'top',    t:'🚀 旗舰档',     s:'最贵的 6 个 —— 看看顶配要花多少',
+    pick: ms => [...ms].sort((a,b) => b.cnyOut - a.cnyOut).slice(0,6),
+    val:  m => m.displayOut, unit:'输出/1M', sort:['output','desc'] },
+  { id:'bigout', t:'📈 输出涨价榜', s:'输出/输入 倍率最悬殊的 6 个',
+    pick: ms => ms.filter(m => m.cnyIn > 0 && m.cnyOut > 0)
+                  .sort((a,b) => (b.cnyOut/b.cnyIn) - (a.cnyOut/a.cnyIn)).slice(0,6),
+    val:  m => m.cnyOut / m.cnyIn, unit:'倍', sort:['output','desc'] },
+  { id:'flat',   t:'🔁 统一价模型', s:'输入输出同价的 6 个 —— 成本最好预估',
+    pick: ms => ms.filter(m => m.cnyIn > 0 && Math.abs(m.cnyIn - m.cnyOut) < 1e-9)
+                  .sort(byOut).slice(0,6),
+    val:  m => m.displayOut, unit:'进出同价/1M', sort:['output','asc'] },
+  { id:'free',   t:'🆓 免费模型',   s:'输入输出均为 ¥0 的 6 个',
+    pick: ms => ms.filter(m => m.cnyIn === 0 && m.cnyOut === 0).sort(byOut).slice(0,6),
+    val:  m => m.displayOut, unit:'输出/1M', sort:['output','asc'] },
+];
+
+function renderBoard() {
+  const el = document.getElementById('sceneBoard');
+  if (!el) return;
+  const cur = STATE.displayCurrency === 'CNY' ? '¥' : '$';
+  const pool = STATE.models;   // 榜单看全量，不受报价表筛选影响
+  el.innerHTML = LANES.map(function(L) {
+    const rows = L.pick(pool);
+    if (!rows.length) return '';
+    return '<div class="lane"><h3>' + L.t + '</h3><div class="lane-sub">' + L.s + '</div><ol>'
+      + rows.map(function(m, i) {
+          const v = L.val(m);
+          const shown = L.unit === '倍' ? v.toFixed(2) + '×'
+                      : cur + fmtPrice(v);
+          // 同价并列时补一个序号，避免出现两行一模一样的条目分不清
+          const dup = i > 0 && Math.abs(L.val(rows[i-1]) - v) < 1e-9;
+          return '<li><span class="ix">' + (i+1) + '</span>'
+            + vendorLogo(m.provider, 15)
+            + '<span class="nm" title="' + m.provider.name + ' · ' + m.model + '">'
+            + m.model + (dup ? '' : '') + '</span>'
+            + '<span class="pv" title="' + L.unit + ' · ' + m.provider.name + '">' + shown
+            + (dup ? '<em class="tie">并列</em>' : '') + '</span></li>';
+        }).join('')
+      + '</ol><span class="more" onclick="rankToTable(\'' + L.id + '\')">查看全部 →</span></div>';
+  }).join('');
+  const note = document.getElementById('boardNote');
+  if (note) {
+    note.textContent = '榜单基于内置全量数据（' + pool.length + ' 个模型）实时计算 · 点击「查看全部」跳回报价表并套用对应排序';
+  }
+}
+
+function rankToTable(id) {
+  const L = LANES.find(x => x.id === id);
+  if (L && L.sort) { STATE.sortKey = L.sort[0]; STATE.sortDir = L.sort[1]; }
+  switchTab('quotes');
+  if (L && L.id === 'cache') {
+    document.getElementById('priceMin').value = '';
+    document.getElementById('priceMax').value = '';
+  }
+  applyFilters();
+  const w = document.querySelector('.table-wrapper');
+  if (w) w.scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+/* ═══════════════════════════════════════════════
+   TABS
+   ═══════════════════════════════════════════════ */
+function switchTab(name) {
+  document.querySelectorAll('#mainTabs .tab').forEach(function(b) {
+    b.classList.toggle('active', b.dataset.tab === name);
+  });
+  document.querySelectorAll('.tab-panel').forEach(function(p) {
+    p.classList.toggle('active', p.id === 'panel-' + name);
+  });
+  try { localStorage.setItem('llm_tab', name); } catch (e) {}
+  if (name === 'rank') renderBoard();
+}
+
 function init() {
   initModels();
 
@@ -1478,6 +2001,10 @@ function init() {
   STATE.activeProviders = new Set();
   applyFilters();
   renderProviderChips();
+  renderBoard();
+  var _cnt = document.getElementById('tabQuotesCount');
+  if (_cnt) _cnt.textContent = STATE.models.length;
+  try { var _tab = localStorage.getItem('llm_tab'); if (_tab === 'rank') switchTab('rank'); } catch (e) {}
 }
 
 // Save rate to localStorage when changed
