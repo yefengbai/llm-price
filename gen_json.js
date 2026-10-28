@@ -11,7 +11,7 @@ function extract(name) {
 
 const PROVIDERS = extract('PROVIDERS');
 const DATA = extract('BUILTIN_DATA');
-const RATE = 6.78;
+const RATE = 6.68;
 const nameMap = Object.fromEntries(PROVIDERS.map(p => [p.id, p.name]));
 const isCNY = Object.fromEntries(PROVIDERS.map(p => [p.id, p.nativeCurrency === 'CNY']));
 

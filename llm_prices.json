@@ -1,524 +1,524 @@
 {
-  "updated": "2026-09-17T15:38:17.000000",
+  "updated": "2026-10-28T11:39:29.000000",
   "currency": "CNY (人民币)",
   "unit": "每百万 Token",
   "models": [
     {
       "provider": "OpenAI",
       "model": "GPT-6 Astra",
-      "input_price": 67.8,
-      "output_price": 339,
+      "input_price": 66.8,
+      "output_price": 334,
       "context_window": "1.05M",
       "notes": "🔥🔥最新旗舰(9/3)/缓存$1·Batch半价",
-      "cached_input_price": 6.78,
+      "cached_input_price": 6.68,
       "input_usd": 10,
       "output_usd": 50
     },
     {
       "provider": "OpenAI",
       "model": "GPT-5.5 Pro",
-      "input_price": 203.4,
-      "output_price": 1220.4,
+      "input_price": 200.4,
+      "output_price": 1202.4,
       "context_window": "1M",
-      "notes": "🔥顶级旗舰",
-      "cached_input_price": 20.34,
+      "notes": "⚠️官方定价页未见(可能已下架) 🔥顶级旗舰",
+      "cached_input_price": 20.04,
       "input_usd": 30,
       "output_usd": 180
     },
     {
       "provider": "OpenAI",
       "model": "GPT-5.5",
-      "input_price": 33.9,
-      "output_price": 203.4,
+      "input_price": 33.4,
+      "output_price": 200.4,
       "context_window": "1M",
-      "notes": "最新旗舰",
-      "cached_input_price": 3.39,
+      "notes": "⚠️官方定价页未见(可能已下架) 最新旗舰",
+      "cached_input_price": 3.34,
       "input_usd": 5,
       "output_usd": 30
     },
     {
       "provider": "OpenAI",
       "model": "GPT-5.5 Mini",
-      "input_price": 3.39,
-      "output_price": 20.34,
+      "input_price": 3.34,
+      "output_price": 20.04,
       "context_window": "1M",
-      "notes": "旗舰轻量",
-      "cached_input_price": 0.339,
+      "notes": "⚠️官方定价页未见(可能已下架) 旗舰轻量",
+      "cached_input_price": 0.334,
       "input_usd": 0.5,
       "output_usd": 3
     },
     {
       "provider": "OpenAI",
       "model": "GPT-5.6 Sol",
-      "input_price": 27.12,
-      "output_price": 135.6,
+      "input_price": 26.72,
+      "output_price": 133.6,
       "context_window": "1.05M",
       "notes": "🔥最新GA/8-21降价20%·促销至11/21",
-      "cached_input_price": 2.712,
+      "cached_input_price": 2.672,
       "input_usd": 4,
       "output_usd": 20
     },
     {
       "provider": "OpenAI",
       "model": "GPT-5.6 Terra",
-      "input_price": 13.56,
-      "output_price": 81.36,
+      "input_price": 13.36,
+      "output_price": 80.16,
       "context_window": "1M",
       "notes": "最新GA/性价比",
-      "cached_input_price": 1.356,
+      "cached_input_price": 1.336,
       "input_usd": 2,
       "output_usd": 12
     },
     {
       "provider": "OpenAI",
       "model": "GPT-5.6 Luna",
-      "input_price": 1.356,
-      "output_price": 8.136,
+      "input_price": 1.336,
+      "output_price": 8.016,
       "context_window": "1M",
       "notes": "最新GA/轻量低价",
-      "cached_input_price": 0.1356,
+      "cached_input_price": 0.1336,
       "input_usd": 0.2,
       "output_usd": 1.2
     },
     {
       "provider": "OpenAI",
       "model": "GPT-5",
-      "input_price": 8.475,
-      "output_price": 67.8,
+      "input_price": 8.35,
+      "output_price": 66.8,
       "context_window": "272K",
       "notes": "性价比旗舰",
-      "cached_input_price": 0.8475,
+      "cached_input_price": 0.835,
       "input_usd": 1.25,
       "output_usd": 10
     },
     {
       "provider": "OpenAI",
       "model": "GPT-5 Mini",
-      "input_price": 1.695,
-      "output_price": 13.56,
+      "input_price": 1.67,
+      "output_price": 13.36,
       "context_window": "400K",
       "notes": "轻量性价比/缓存$0.025",
-      "cached_input_price": 0.1695,
+      "cached_input_price": 0.167,
       "input_usd": 0.25,
       "output_usd": 2
     },
     {
       "provider": "OpenAI",
       "model": "GPT-5.4",
-      "input_price": 16.95,
-      "output_price": 101.7,
+      "input_price": 16.7,
+      "output_price": 100.2,
       "context_window": "1M",
-      "notes": "推荐中端",
-      "cached_input_price": 1.695,
+      "notes": "⚠️官方定价页未见(可能已下架) 推荐中端",
+      "cached_input_price": 1.67,
       "input_usd": 2.5,
       "output_usd": 15
     },
     {
       "provider": "OpenAI",
       "model": "GPT-5.4 Mini",
-      "input_price": 5.085,
-      "output_price": 30.51,
+      "input_price": 5.01,
+      "output_price": 30.06,
       "context_window": "400K",
-      "notes": "轻量",
-      "cached_input_price": 0.5085,
+      "notes": "⚠️官方定价页未见(可能已下架) 轻量",
+      "cached_input_price": 0.501,
       "input_usd": 0.75,
       "output_usd": 4.5
     },
     {
       "provider": "OpenAI",
       "model": "GPT-5.4 Nano",
-      "input_price": 1.356,
-      "output_price": 8.475,
+      "input_price": 1.336,
+      "output_price": 8.35,
       "context_window": "400K",
-      "notes": "入门",
-      "cached_input_price": 0.1356,
+      "notes": "⚠️官方定价页未见(可能已下架) 入门",
+      "cached_input_price": 0.1336,
       "input_usd": 0.2,
       "output_usd": 1.25
     },
     {
       "provider": "OpenAI",
       "model": "GPT-4.1",
-      "input_price": 13.56,
-      "output_price": 54.24,
+      "input_price": 13.36,
+      "output_price": 53.44,
       "context_window": "1M",
-      "notes": "长上下文",
-      "cached_input_price": 6.78,
+      "notes": "⚠️官方定价页未见(可能已下架) 长上下文",
+      "cached_input_price": 6.68,
       "input_usd": 2,
       "output_usd": 8
     },
     {
       "provider": "OpenAI",
       "model": "GPT-4.1 Mini",
-      "input_price": 2.712,
-      "output_price": 10.848,
+      "input_price": 2.672,
+      "output_price": 10.688,
       "context_window": "1M",
-      "notes": "",
-      "cached_input_price": 1.356,
+      "notes": "⚠️官方定价页未见(可能已下架) ",
+      "cached_input_price": 1.336,
       "input_usd": 0.4,
       "output_usd": 1.6
     },
     {
       "provider": "OpenAI",
       "model": "GPT-4.1 Nano",
-      "input_price": 0.678,
-      "output_price": 2.712,
+      "input_price": 0.668,
+      "output_price": 2.672,
       "context_window": "1M",
-      "notes": "最便宜",
-      "cached_input_price": 0.339,
+      "notes": "⚠️官方定价页未见(可能已下架) 最便宜",
+      "cached_input_price": 0.334,
       "input_usd": 0.1,
       "output_usd": 0.4
     },
     {
       "provider": "OpenAI",
       "model": "o4",
-      "input_price": 67.8,
-      "output_price": 271.2,
+      "input_price": 66.8,
+      "output_price": 267.2,
       "context_window": "200K",
-      "notes": "推理旗舰",
-      "cached_input_price": 6.78,
+      "notes": "⚠️官方定价页未见(可能已下架) 推理旗舰",
+      "cached_input_price": 6.68,
       "input_usd": 10,
       "output_usd": 40
     },
     {
       "provider": "OpenAI",
       "model": "o4-mini",
-      "input_price": 7.458,
-      "output_price": 29.832,
+      "input_price": 26.72,
+      "output_price": 106.88,
       "context_window": "200K",
-      "notes": "推理轻量",
-      "cached_input_price": 0.7458,
-      "input_usd": 1.1,
-      "output_usd": 4.4
+      "notes": "推理轻量/按官方页修正",
+      "cached_input_price": 6.68,
+      "input_usd": 4,
+      "output_usd": 16
     },
     {
       "provider": "OpenAI",
       "model": "o3-pro",
-      "input_price": 135.6,
-      "output_price": 542.4,
+      "input_price": 133.6,
+      "output_price": 534.4,
       "context_window": "200K",
-      "notes": "旧推理旗舰",
-      "cached_input_price": 13.56,
+      "notes": "⚠️官方定价页未见(可能已下架) 旧推理旗舰",
+      "cached_input_price": 13.36,
       "input_usd": 20,
       "output_usd": 80
     },
     {
       "provider": "OpenAI",
       "model": "o3-mini",
-      "input_price": 7.458,
-      "output_price": 29.832,
+      "input_price": 7.348,
+      "output_price": 29.392,
       "context_window": "200K",
-      "notes": "旧推理中端",
-      "cached_input_price": 0.7458,
+      "notes": "⚠️官方定价页未见(可能已下架) 旧推理中端",
+      "cached_input_price": 0.7348,
       "input_usd": 1.1,
       "output_usd": 4.4
     },
     {
       "provider": "Anthropic",
       "model": "Claude Fable 5.1",
-      "input_price": 67.8,
-      "output_price": 339,
+      "input_price": 66.8,
+      "output_price": 334,
       "context_window": "1M",
       "notes": "🔥🔥最新旗舰(9/1)/缓存$0.25(降75%)",
-      "cached_input_price": 1.695,
+      "cached_input_price": 1.67,
       "input_usd": 10,
       "output_usd": 50
     },
     {
       "provider": "Anthropic",
       "model": "Claude Sonnet 5",
-      "input_price": 13.56,
-      "output_price": 67.8,
+      "input_price": 13.36,
+      "output_price": 66.8,
       "context_window": "1M",
       "notes": "🔥主力降价$2/10·缓存$0.2",
-      "cached_input_price": 1.356,
+      "cached_input_price": 1.336,
       "input_usd": 2,
       "output_usd": 10
     },
     {
       "provider": "Anthropic",
       "model": "Claude Opus 5",
-      "input_price": 33.9,
-      "output_price": 169.5,
+      "input_price": 33.4,
+      "output_price": 167,
       "context_window": "1M",
       "notes": "旗舰/缓存$0.5",
-      "cached_input_price": 3.39,
+      "cached_input_price": 3.34,
       "input_usd": 5,
       "output_usd": 25
     },
     {
       "provider": "Anthropic",
       "model": "Claude Fable 5",
-      "input_price": 67.8,
-      "output_price": 339,
+      "input_price": 66.8,
+      "output_price": 334,
       "context_window": "1M",
       "notes": "上代旗舰/缓存$1.00",
-      "cached_input_price": 6.78,
+      "cached_input_price": 6.68,
       "input_usd": 10,
       "output_usd": 50
     },
     {
       "provider": "Anthropic",
       "model": "Claude Opus 4.8",
-      "input_price": 33.9,
-      "output_price": 169.5,
+      "input_price": 33.4,
+      "output_price": 167,
       "context_window": "1M",
       "notes": "最新旗舰",
-      "cached_input_price": 3.39,
+      "cached_input_price": 3.34,
       "input_usd": 5,
       "output_usd": 25
     },
     {
       "provider": "Anthropic",
       "model": "Claude Opus 4.8 Fast",
-      "input_price": 67.8,
-      "output_price": 339,
+      "input_price": 66.8,
+      "output_price": 334,
       "context_window": "1M",
       "notes": "快速模式2.5x",
-      "cached_input_price": 6.78,
+      "cached_input_price": 6.68,
       "input_usd": 10,
       "output_usd": 50
     },
     {
       "provider": "Anthropic",
       "model": "Claude Opus 4.7",
-      "input_price": 33.9,
-      "output_price": 169.5,
+      "input_price": 33.4,
+      "output_price": 167,
       "context_window": "1M",
       "notes": "上代旗舰",
-      "cached_input_price": 3.39,
+      "cached_input_price": 3.34,
       "input_usd": 5,
       "output_usd": 25
     },
     {
       "provider": "Anthropic",
       "model": "Claude Sonnet 4.6",
-      "input_price": 20.34,
-      "output_price": 101.7,
+      "input_price": 20.04,
+      "output_price": 100.2,
       "context_window": "1M",
       "notes": "🔥生产推荐",
-      "cached_input_price": 2.034,
+      "cached_input_price": 2.004,
       "input_usd": 3,
       "output_usd": 15
     },
     {
       "provider": "Anthropic",
       "model": "Claude Sonnet 4.5",
-      "input_price": 20.34,
-      "output_price": 101.7,
+      "input_price": 20.04,
+      "output_price": 100.2,
       "context_window": "200K",
       "notes": "上代生产",
-      "cached_input_price": 2.034,
+      "cached_input_price": 2.004,
       "input_usd": 3,
       "output_usd": 15
     },
     {
       "provider": "Anthropic",
       "model": "Claude Sonnet 4",
-      "input_price": 20.34,
-      "output_price": 101.7,
+      "input_price": 20.04,
+      "output_price": 100.2,
       "context_window": "200K",
       "notes": "旧版生产",
-      "cached_input_price": 2.034,
+      "cached_input_price": 2.004,
       "input_usd": 3,
       "output_usd": 15
     },
     {
       "provider": "Anthropic",
       "model": "Claude Haiku 4.5",
-      "input_price": 6.78,
-      "output_price": 33.9,
+      "input_price": 6.68,
+      "output_price": 33.4,
       "context_window": "200K",
       "notes": "轻量推荐",
-      "cached_input_price": 0.678,
+      "cached_input_price": 0.668,
       "input_usd": 1,
       "output_usd": 5
     },
     {
       "provider": "Anthropic",
       "model": "Claude Haiku 3.5",
-      "input_price": 5.424,
-      "output_price": 27.12,
+      "input_price": 5.344,
+      "output_price": 26.72,
       "context_window": "200K",
       "notes": "旧版轻量",
-      "cached_input_price": 0.5424,
+      "cached_input_price": 0.5344,
       "input_usd": 0.8,
       "output_usd": 4
     },
     {
       "provider": "Anthropic",
       "model": "Claude Haiku 3",
-      "input_price": 1.695,
-      "output_price": 8.475,
+      "input_price": 1.67,
+      "output_price": 8.35,
       "context_window": "200K",
       "notes": "极致便宜/将退役",
-      "cached_input_price": 0.1695,
+      "cached_input_price": 0.167,
       "input_usd": 0.25,
       "output_usd": 1.25
     },
     {
       "provider": "Anthropic",
       "model": "Claude 3 Opus",
-      "input_price": 101.7,
-      "output_price": 508.5,
+      "input_price": 100.2,
+      "output_price": 501,
       "context_window": "200K",
       "notes": "远古旗舰/太贵",
-      "cached_input_price": 10.17,
+      "cached_input_price": 10.02,
       "input_usd": 15,
       "output_usd": 75
     },
     {
       "provider": "Anthropic",
       "model": "Claude Mythos 5.1",
-      "input_price": 67.8,
-      "output_price": 339,
+      "input_price": 66.8,
+      "output_price": 334,
       "context_window": "1M",
       "notes": "🔥9/1 GA·受限(Project Glasswing)/缓存$0.25",
-      "cached_input_price": 1.695,
+      "cached_input_price": 1.67,
       "input_usd": 10,
       "output_usd": 50
     },
     {
       "provider": "Google",
       "model": "Gemini 3.8 Flash",
-      "input_price": 5.085,
-      "output_price": 25.425,
+      "input_price": 5.01,
+      "output_price": 25.05,
       "context_window": "1M",
       "notes": "🔥🔥最新(9/2)促销价·2027-01-01起涨回$1.5/7.5",
-      "cached_input_price": 0.5085,
+      "cached_input_price": 0.501,
       "input_usd": 0.75,
       "output_usd": 3.75
     },
     {
       "provider": "Google",
       "model": "Gemini 3.5 Pro",
-      "input_price": 23.73,
-      "output_price": 142.38,
+      "input_price": 23.38,
+      "output_price": 140.28,
       "context_window": "2M",
       "notes": "🔥最新旗舰",
-      "cached_input_price": 2.373,
+      "cached_input_price": 2.338,
       "input_usd": 3.5,
       "output_usd": 21
     },
     {
       "provider": "Google",
       "model": "Gemini 3.6 Flash",
-      "input_price": 5.085,
-      "output_price": 25.425,
+      "input_price": 5.01,
+      "output_price": 25.05,
       "context_window": "1M",
       "notes": "🔥最新(7月)/已降至$0.75/3.75",
-      "cached_input_price": 0.5085,
+      "cached_input_price": 0.501,
       "input_usd": 0.75,
       "output_usd": 3.75
     },
     {
       "provider": "Google",
       "model": "Gemini 3.7 Flash",
-      "input_price": 5.085,
-      "output_price": 25.425,
+      "input_price": 5.01,
+      "output_price": 25.05,
       "context_window": "1M",
       "notes": "GA(9月)/促销价·2027-01-01 起 $1.50/$7.50",
-      "cached_input_price": 0.5085,
+      "cached_input_price": 0.501,
       "input_usd": 0.75,
       "output_usd": 3.75
     },
     {
       "provider": "Google",
       "model": "Gemini 3.5 Flash",
-      "input_price": 10.17,
-      "output_price": 61.02,
+      "input_price": 10.02,
+      "output_price": 60.12,
       "context_window": "1M",
       "notes": "最新",
-      "cached_input_price": 1.017,
+      "cached_input_price": 1.002,
       "input_usd": 1.5,
       "output_usd": 9
     },
     {
       "provider": "Google",
       "model": "Gemini 3.5 Flash-Lite",
-      "input_price": 2.034,
-      "output_price": 16.95,
+      "input_price": 2.004,
+      "output_price": 16.7,
       "context_window": "1M",
       "notes": "最新轻量",
-      "cached_input_price": 0.2034,
+      "cached_input_price": 0.2004,
       "input_usd": 0.3,
       "output_usd": 2.5
     },
     {
       "provider": "Google",
       "model": "Gemini 3.1 Pro",
-      "input_price": 13.56,
-      "output_price": 81.36,
+      "input_price": 13.36,
+      "output_price": 80.16,
       "context_window": "2M",
       "notes": "旗舰",
-      "cached_input_price": 1.356,
+      "cached_input_price": 1.336,
       "input_usd": 2,
       "output_usd": 12
     },
     {
       "provider": "Google",
       "model": "Gemini 3 Flash",
-      "input_price": 3.39,
-      "output_price": 20.34,
+      "input_price": 3.34,
+      "output_price": 20.04,
       "context_window": "1M",
       "notes": "性价比",
-      "cached_input_price": 0.339,
+      "cached_input_price": 0.334,
       "input_usd": 0.5,
       "output_usd": 3
     },
     {
       "provider": "Google",
       "model": "Gemini 3.1 Flash Lite",
-      "input_price": 1.695,
-      "output_price": 10.17,
+      "input_price": 1.67,
+      "output_price": 10.02,
       "context_window": "1M",
       "notes": "最便宜",
-      "cached_input_price": 0.1695,
+      "cached_input_price": 0.167,
       "input_usd": 0.25,
       "output_usd": 1.5
     },
     {
       "provider": "Google",
       "model": "Gemini 2.5 Pro",
-      "input_price": 8.475,
-      "output_price": 67.8,
+      "input_price": 8.35,
+      "output_price": 66.8,
       "context_window": "1M",
       "notes": "旧旗舰",
-      "cached_input_price": 0.8475,
+      "cached_input_price": 0.835,
       "input_usd": 1.25,
       "output_usd": 10
     },
     {
       "provider": "Google",
       "model": "Gemini 2.5 Flash",
-      "input_price": 2.034,
-      "output_price": 16.95,
+      "input_price": 2.004,
+      "output_price": 16.7,
       "context_window": "1M",
       "notes": "旧性价比",
-      "cached_input_price": 0.2034,
+      "cached_input_price": 0.2004,
       "input_usd": 0.3,
       "output_usd": 2.5
     },
     {
       "provider": "Google",
       "model": "Gemini 2.5 Flash-Lite",
-      "input_price": 0.678,
-      "output_price": 2.712,
+      "input_price": 0.668,
+      "output_price": 2.672,
       "context_window": "1M",
       "notes": "旧版/10月退役",
-      "cached_input_price": 0.0678,
+      "cached_input_price": 0.0668,
       "input_usd": 0.1,
       "output_usd": 0.4
     },
     {
       "provider": "DeepSeek",
       "model": "DeepSeek V4.1 Flash",
-      "input_price": 1,
-      "output_price": 4,
+      "input_price": 1.02,
+      "output_price": 4.07,
       "context_window": "1M",
       "notes": "🔥🔥9/10新发·接替V4-Flash｜缓存¥0.02·高峰时段价×2",
-      "cached_input_price": 0.02,
-      "input_usd": 0.1475,
-      "output_usd": 0.59
+      "cached_input_price": 0.0204,
+      "input_usd": 0.1527,
+      "output_usd": 0.6093
     },
     {
       "provider": "DeepSeek",
@@ -528,8 +528,8 @@
       "context_window": "1M",
       "notes": "🔥在役(官方续供)·缓存¥0.15·高峰时段价×2",
       "cached_input_price": 0.15,
-      "input_usd": 0.6637,
-      "output_usd": 1.9912
+      "input_usd": 0.6737,
+      "output_usd": 2.021
     },
     {
       "provider": "DeepSeek",
@@ -539,8 +539,8 @@
       "context_window": "1M",
       "notes": "⚠️9/10已退役/由V4.1Flash接替 ｜ 空闲¥1.5/4.5·缓存0.05 高峰¥3/9·缓存0.10",
       "cached_input_price": 0.05,
-      "input_usd": 0.2212,
-      "output_usd": 0.6637
+      "input_usd": 0.2246,
+      "output_usd": 0.6737
     },
     {
       "provider": "DeepSeek",
@@ -550,8 +550,8 @@
       "context_window": "1M",
       "notes": "⚠️9/10已退役/由V4.1Flash接替 ｜ 空闲¥1.5/4.5 高峰¥3/9·图≤384token",
       "cached_input_price": 0.05,
-      "input_usd": 0.2212,
-      "output_usd": 0.6637
+      "input_usd": 0.2246,
+      "output_usd": 0.6737
     },
     {
       "provider": "DeepSeek",
@@ -561,8 +561,8 @@
       "context_window": "131K",
       "notes": "旧版性价比",
       "cached_input_price": 0.02,
-      "input_usd": 0.295,
-      "output_usd": 0.4425
+      "input_usd": 0.2994,
+      "output_usd": 0.4491
     },
     {
       "provider": "DeepSeek",
@@ -572,8 +572,8 @@
       "context_window": "164K",
       "notes": "推理专用",
       "cached_input_price": 0.04,
-      "input_usd": 0.59,
-      "output_usd": 2.3599
+      "input_usd": 0.5988,
+      "output_usd": 2.3952
     },
     {
       "provider": "DeepSeek",
@@ -583,8 +583,8 @@
       "context_window": "128K",
       "notes": "代码专用",
       "cached_input_price": 0.01,
-      "input_usd": 0.1475,
-      "output_usd": 0.295
+      "input_usd": 0.1497,
+      "output_usd": 0.2994
     },
     {
       "provider": "DeepSeek",
@@ -594,8 +594,8 @@
       "context_window": "128K",
       "notes": "推理原版",
       "cached_input_price": 0.04,
-      "input_usd": 0.59,
-      "output_usd": 2.3599
+      "input_usd": 0.5988,
+      "output_usd": 2.3952
     },
     {
       "provider": "DeepSeek",
@@ -605,8 +605,8 @@
       "context_window": "128K",
       "notes": "旧版基础",
       "cached_input_price": 0.02,
-      "input_usd": 0.295,
-      "output_usd": 1.1799
+      "input_usd": 0.2994,
+      "output_usd": 1.1976
     },
     {
       "provider": "DeepSeek",
@@ -616,8 +616,8 @@
       "context_window": "128K",
       "notes": "旧版过渡",
       "cached_input_price": 0.0435,
-      "input_usd": 0.6416,
-      "output_usd": 1.8186
+      "input_usd": 0.6512,
+      "output_usd": 1.8458
     },
     {
       "provider": "阿里云",
@@ -627,8 +627,8 @@
       "context_window": "1M",
       "notes": "🔥🔥最新旗舰(9月)/全模态·缓存¥2.88",
       "cached_input_price": 2.88,
-      "input_usd": 2.1239,
-      "output_usd": 6.3717
+      "input_usd": 2.1557,
+      "output_usd": 6.4671
     },
     {
       "provider": "阿里云",
@@ -638,8 +638,8 @@
       "context_window": "128K+",
       "notes": "🔥最新轻量/高吞吐·缓存¥0.1",
       "cached_input_price": 0,
-      "input_usd": 0.118,
-      "output_usd": 0.3982
+      "input_usd": 0.1198,
+      "output_usd": 0.4042
     },
     {
       "provider": "阿里云",
@@ -649,19 +649,19 @@
       "context_window": "1M",
       "notes": "旗舰·官方原价/缓存¥2.88",
       "cached_input_price": 2.88,
-      "input_usd": 2.1239,
-      "output_usd": 6.3717
+      "input_usd": 2.1557,
+      "output_usd": 6.4671
     },
     {
       "provider": "阿里云",
       "model": "Qwen3-Max",
-      "input_price": 2.5,
-      "output_price": 10,
+      "input_price": 3,
+      "output_price": 12,
       "context_window": "252K",
-      "notes": "上代旗舰",
+      "notes": "上代旗舰(≤32K档)",
       "cached_input_price": 0,
-      "input_usd": 0.3687,
-      "output_usd": 1.4749
+      "input_usd": 0.4491,
+      "output_usd": 1.7964
     },
     {
       "provider": "阿里云",
@@ -671,8 +671,8 @@
       "context_window": "1M",
       "notes": "最新推荐",
       "cached_input_price": 0,
-      "input_usd": 0.295,
-      "output_usd": 1.7699
+      "input_usd": 0.2994,
+      "output_usd": 1.7964
     },
     {
       "provider": "阿里云",
@@ -682,8 +682,8 @@
       "context_window": "1M",
       "notes": "推荐(上代)",
       "cached_input_price": 0,
-      "input_usd": 0.118,
-      "output_usd": 0.708
+      "input_usd": 0.1198,
+      "output_usd": 0.7186
     },
     {
       "provider": "阿里云",
@@ -693,8 +693,8 @@
       "context_window": "131K",
       "notes": "旧推荐",
       "cached_input_price": 0,
-      "input_usd": 0.118,
-      "output_usd": 0.295
+      "input_usd": 0.1198,
+      "output_usd": 0.2994
     },
     {
       "provider": "阿里云",
@@ -704,8 +704,8 @@
       "context_window": "1M",
       "notes": "极低价",
       "cached_input_price": 0,
-      "input_usd": 0.0546,
-      "output_usd": 0.2168
+      "input_usd": 0.0554,
+      "output_usd": 0.2201
     },
     {
       "provider": "阿里云",
@@ -715,8 +715,8 @@
       "context_window": "1M",
       "notes": "代码",
       "cached_input_price": 0,
-      "input_usd": 0.1475,
-      "output_usd": 0.59
+      "input_usd": 0.1497,
+      "output_usd": 0.5988
     },
     {
       "provider": "阿里云",
@@ -726,8 +726,8 @@
       "context_window": "10M",
       "notes": "超长上下文",
       "cached_input_price": 0,
-      "input_usd": 0.0737,
-      "output_usd": 0.295
+      "input_usd": 0.0749,
+      "output_usd": 0.2994
     },
     {
       "provider": "字节跳动",
@@ -737,8 +737,8 @@
       "context_window": "256K",
       "notes": "🔥🔥最新旗舰(9月)/Agent·代码",
       "cached_input_price": 1.2,
-      "input_usd": 0.885,
-      "output_usd": 4.4248
+      "input_usd": 0.8982,
+      "output_usd": 4.491
     },
     {
       "provider": "字节跳动",
@@ -748,8 +748,8 @@
       "context_window": "256K",
       "notes": "最新中端/平衡",
       "cached_input_price": 0.6,
-      "input_usd": 0.4425,
-      "output_usd": 2.2124
+      "input_usd": 0.4491,
+      "output_usd": 2.2455
     },
     {
       "provider": "字节跳动",
@@ -759,8 +759,8 @@
       "context_window": "32K",
       "notes": "旗舰",
       "cached_input_price": 0.64,
-      "input_usd": 0.472,
-      "output_usd": 2.3599
+      "input_usd": 0.479,
+      "output_usd": 2.3952
     },
     {
       "provider": "字节跳动",
@@ -770,8 +770,8 @@
       "context_window": "128K",
       "notes": "旗舰长文",
       "cached_input_price": 0.96,
-      "input_usd": 0.708,
-      "output_usd": 3.5398
+      "input_usd": 0.7186,
+      "output_usd": 3.5928
     },
     {
       "provider": "字节跳动",
@@ -781,8 +781,8 @@
       "context_window": "32K",
       "notes": "轻量",
       "cached_input_price": 0.12,
-      "input_usd": 0.0885,
-      "output_usd": 0.531
+      "input_usd": 0.0898,
+      "output_usd": 0.5389
     },
     {
       "provider": "字节跳动",
@@ -792,8 +792,8 @@
       "context_window": "128K",
       "notes": "轻量长文",
       "cached_input_price": 0.18,
-      "input_usd": 0.1327,
-      "output_usd": 0.7965
+      "input_usd": 0.1347,
+      "output_usd": 0.8084
     },
     {
       "provider": "百度",
@@ -801,10 +801,10 @@
       "input_price": 4,
       "output_price": 18,
       "context_window": "128K",
-      "notes": "🔥最新旗舰",
+      "notes": "🔥最新旗舰(≤32K档)",
       "cached_input_price": 0,
-      "input_usd": 0.59,
-      "output_usd": 2.6549
+      "input_usd": 0.5988,
+      "output_usd": 2.6946
     },
     {
       "provider": "百度",
@@ -814,8 +814,8 @@
       "context_window": "128K",
       "notes": "性价比之选",
       "cached_input_price": 0.2,
-      "input_usd": 0.118,
-      "output_usd": 0.472
+      "input_usd": 0.1198,
+      "output_usd": 0.479
     },
     {
       "provider": "百度",
@@ -825,8 +825,8 @@
       "context_window": "8K",
       "notes": "标准版",
       "cached_input_price": 0,
-      "input_usd": 0.59,
-      "output_usd": 2.3599
+      "input_usd": 0.5988,
+      "output_usd": 2.3952
     },
     {
       "provider": "百度",
@@ -836,8 +836,8 @@
       "context_window": "8K",
       "notes": "旧旗舰/太贵!",
       "cached_input_price": 0,
-      "input_usd": 4.4248,
-      "output_usd": 13.2743
+      "input_usd": 4.491,
+      "output_usd": 13.4731
     },
     {
       "provider": "百度",
@@ -869,8 +869,8 @@
       "context_window": "1M",
       "notes": "🔥🔥最新旗舰(8/18)/常驻推理",
       "cached_input_price": 2,
-      "input_usd": 1.1799,
-      "output_usd": 4.1298
+      "input_usd": 1.1976,
+      "output_usd": 4.1916
     },
     {
       "provider": "智谱AI",
@@ -880,8 +880,8 @@
       "context_window": "长上下文",
       "notes": "🔥最新轻量/9-09促销结束",
       "cached_input_price": 0.2,
-      "input_usd": 0.118,
-      "output_usd": 0.413
+      "input_usd": 0.1198,
+      "output_usd": 0.4192
     },
     {
       "provider": "智谱AI",
@@ -891,8 +891,8 @@
       "context_window": "1M",
       "notes": "🔥最新旗舰",
       "cached_input_price": 2,
-      "input_usd": 1.1799,
-      "output_usd": 4.1298
+      "input_usd": 1.1976,
+      "output_usd": 4.1916
     },
     {
       "provider": "智谱AI",
@@ -900,10 +900,10 @@
       "input_price": 6,
       "output_price": 24,
       "context_window": "200K",
-      "notes": "🔥顶级编程",
+      "notes": "🔥顶级编程(≤32K档)",
       "cached_input_price": 1.5,
-      "input_usd": 0.885,
-      "output_usd": 3.5398
+      "input_usd": 0.8982,
+      "output_usd": 3.5928
     },
     {
       "provider": "智谱AI",
@@ -913,8 +913,8 @@
       "context_window": "128K",
       "notes": "旗舰",
       "cached_input_price": 1,
-      "input_usd": 0.59,
-      "output_usd": 2.6549
+      "input_usd": 0.5988,
+      "output_usd": 2.6946
     },
     {
       "provider": "智谱AI",
@@ -924,8 +924,8 @@
       "context_window": "128K",
       "notes": "推荐",
       "cached_input_price": 1.25,
-      "input_usd": 0.7375,
-      "output_usd": 0.7375
+      "input_usd": 0.7485,
+      "output_usd": 0.7485
     },
     {
       "provider": "智谱AI",
@@ -935,8 +935,8 @@
       "context_window": "128K",
       "notes": "轻量",
       "cached_input_price": 0.15,
-      "input_usd": 0.0885,
-      "output_usd": 0.0885
+      "input_usd": 0.0898,
+      "output_usd": 0.0898
     },
     {
       "provider": "智谱AI",
@@ -968,8 +968,8 @@
       "context_window": "8K",
       "notes": "旗舰",
       "cached_input_price": 0,
-      "input_usd": 0.4425,
-      "output_usd": 1.4749
+      "input_usd": 0.4491,
+      "output_usd": 1.497
     },
     {
       "provider": "讯飞星火",
@@ -979,8 +979,8 @@
       "context_window": "8K",
       "notes": "轻量",
       "cached_input_price": 0,
-      "input_usd": 0.1475,
-      "output_usd": 0.4425
+      "input_usd": 0.1497,
+      "output_usd": 0.4491
     },
     {
       "provider": "讯飞星火",
@@ -1001,8 +1001,8 @@
       "context_window": "128K+",
       "notes": "🔥🔥最新(9月)/770B MoE · 缓存¥0.3",
       "cached_input_price": 0.3,
-      "input_usd": 0.885,
-      "output_usd": 2.6549
+      "input_usd": 0.8982,
+      "output_usd": 2.6946
     },
     {
       "provider": "腾讯混元",
@@ -1012,8 +1012,8 @@
       "context_window": "256K",
       "notes": "🔥最新Coding/Agent·缓存¥0.25",
       "cached_input_price": 0.25,
-      "input_usd": 0.1475,
-      "output_usd": 0.59
+      "input_usd": 0.1497,
+      "output_usd": 0.5988
     },
     {
       "provider": "腾讯混元",
@@ -1023,8 +1023,8 @@
       "context_window": "32K",
       "notes": "推荐",
       "cached_input_price": 0,
-      "input_usd": 0.1475,
-      "output_usd": 0.4425
+      "input_usd": 0.1497,
+      "output_usd": 0.4491
     },
     {
       "provider": "腾讯混元",
@@ -1034,8 +1034,8 @@
       "context_window": "32K",
       "notes": "旧旗舰",
       "cached_input_price": 0,
-      "input_usd": 0.4425,
-      "output_usd": 1.3274
+      "input_usd": 0.4491,
+      "output_usd": 1.3473
     },
     {
       "provider": "腾讯混元",
@@ -1056,8 +1056,8 @@
       "context_window": "32K",
       "notes": "统一价/太贵!",
       "cached_input_price": 0,
-      "input_usd": 14.7493,
-      "output_usd": 14.7493
+      "input_usd": 14.9701,
+      "output_usd": 14.9701
     },
     {
       "provider": "百川智能",
@@ -1067,8 +1067,8 @@
       "context_window": "32K",
       "notes": "统一价/推荐",
       "cached_input_price": 0,
-      "input_usd": 2.2124,
-      "output_usd": 2.2124
+      "input_usd": 2.2455,
+      "output_usd": 2.2455
     },
     {
       "provider": "百川智能",
@@ -1078,8 +1078,8 @@
       "context_window": "32K",
       "notes": "统一价/轻量",
       "cached_input_price": 0,
-      "input_usd": 0.1445,
-      "output_usd": 0.1445
+      "input_usd": 0.1467,
+      "output_usd": 0.1467
     },
     {
       "provider": "MiniMax",
@@ -1089,8 +1089,8 @@
       "context_window": "1M",
       "notes": "🔥最新旗舰(9月)/永久五折¥2.1·¥8.4｜缓存¥0.40",
       "cached_input_price": 0.42,
-      "input_usd": 0.3097,
-      "output_usd": 1.2389
+      "input_usd": 0.3144,
+      "output_usd": 1.2575
     },
     {
       "provider": "MiniMax",
@@ -1100,8 +1100,8 @@
       "context_window": "245K",
       "notes": "推荐",
       "cached_input_price": 0.3,
-      "input_usd": 0.1475,
-      "output_usd": 0.4425
+      "input_usd": 0.1497,
+      "output_usd": 0.4491
     },
     {
       "provider": "MiniMax",
@@ -1111,14 +1111,14 @@
       "context_window": "8K",
       "notes": "轻量",
       "cached_input_price": 0.21,
-      "input_usd": 0.1032,
-      "output_usd": 0.3097
+      "input_usd": 0.1048,
+      "output_usd": 0.3144
     },
     {
       "provider": "Meta",
       "model": "Llama 4 Maverick",
-      "input_price": 1.017,
-      "output_price": 4.068,
+      "input_price": 1.002,
+      "output_price": 4.008,
       "context_window": "1M",
       "notes": "🔥开源旗舰",
       "cached_input_price": 0,
@@ -1128,8 +1128,8 @@
     {
       "provider": "Meta",
       "model": "Llama 4 Scout",
-      "input_price": 0.5424,
-      "output_price": 2.034,
+      "input_price": 0.5344,
+      "output_price": 2.004,
       "context_window": "1M",
       "notes": "开源轻量",
       "cached_input_price": 0,
@@ -1139,8 +1139,8 @@
     {
       "provider": "Meta",
       "model": "Llama 3.1-8B",
-      "input_price": 0.4068,
-      "output_price": 0.4068,
+      "input_price": 0.4008,
+      "output_price": 0.4008,
       "context_window": "128K",
       "notes": "旧版最小开源",
       "cached_input_price": 0,
@@ -1150,8 +1150,8 @@
     {
       "provider": "Meta",
       "model": "Llama 3.3 70B",
-      "input_price": 0.678,
-      "output_price": 1.356,
+      "input_price": 0.668,
+      "output_price": 1.336,
       "context_window": "131K",
       "notes": "开源中坚",
       "cached_input_price": 0,
@@ -1161,8 +1161,8 @@
     {
       "provider": "Meta",
       "model": "Llama 3.1 405B",
-      "input_price": 0.8136,
-      "output_price": 2.034,
+      "input_price": 0.8016,
+      "output_price": 2.004,
       "context_window": "131K",
       "notes": "开源巨无霸",
       "cached_input_price": 0,
@@ -1172,8 +1172,8 @@
     {
       "provider": "Meta",
       "model": "Llama 3.1 70B",
-      "input_price": 0.678,
-      "output_price": 0.678,
+      "input_price": 0.668,
+      "output_price": 0.668,
       "context_window": "131K",
       "notes": "旧开源中坚",
       "cached_input_price": 0,
@@ -1183,8 +1183,8 @@
     {
       "provider": "Mistral",
       "model": "Mistral Large 3",
-      "input_price": 3.39,
-      "output_price": 10.17,
+      "input_price": 3.34,
+      "output_price": 10.02,
       "context_window": "256K",
       "notes": "推荐",
       "cached_input_price": 0,
@@ -1194,8 +1194,8 @@
     {
       "provider": "Mistral",
       "model": "Mistral Small 4",
-      "input_price": 1.017,
-      "output_price": 4.068,
+      "input_price": 1.002,
+      "output_price": 4.008,
       "context_window": "32K",
       "notes": "小模型",
       "cached_input_price": 0,
@@ -1205,8 +1205,8 @@
     {
       "provider": "Mistral",
       "model": "Codestral",
-      "input_price": 2.034,
-      "output_price": 6.102,
+      "input_price": 2.004,
+      "output_price": 6.012,
       "context_window": "32K",
       "notes": "代码",
       "cached_input_price": 0,
@@ -1216,8 +1216,8 @@
     {
       "provider": "Mistral",
       "model": "Mistral Medium 3.1",
-      "input_price": 2.712,
-      "output_price": 13.56,
+      "input_price": 2.672,
+      "output_price": 13.36,
       "context_window": "131K",
       "notes": "最新中端",
       "cached_input_price": 0,
@@ -1227,8 +1227,8 @@
     {
       "provider": "Mistral",
       "model": "Mistral Large 2",
-      "input_price": 13.56,
-      "output_price": 40.68,
+      "input_price": 13.36,
+      "output_price": 40.08,
       "context_window": "128K",
       "notes": "上代旗舰",
       "cached_input_price": 0,
@@ -1238,8 +1238,8 @@
     {
       "provider": "Mistral",
       "model": "Mistral Tiny",
-      "input_price": 1.017,
-      "output_price": 2.712,
+      "input_price": 1.002,
+      "output_price": 2.672,
       "context_window": "32K",
       "notes": "极致便宜",
       "cached_input_price": 0,
@@ -1249,8 +1249,8 @@
     {
       "provider": "Mistral",
       "model": "Mistral Medium 3.5",
-      "input_price": 10.17,
-      "output_price": 50.85,
+      "input_price": 10.02,
+      "output_price": 50.1,
       "context_window": "256K",
       "notes": "最新中端旗舰",
       "cached_input_price": 0,
@@ -1260,8 +1260,8 @@
     {
       "provider": "Mistral",
       "model": "Mistral Small 3.1",
-      "input_price": 0.678,
-      "output_price": 2.034,
+      "input_price": 0.668,
+      "output_price": 2.004,
       "context_window": "128K",
       "notes": "性价比轻量",
       "cached_input_price": 0,
@@ -1271,8 +1271,8 @@
     {
       "provider": "Mistral",
       "model": "Mistral Nemo",
-      "input_price": 0.1356,
-      "output_price": 0.2034,
+      "input_price": 0.1336,
+      "output_price": 0.2004,
       "context_window": "131K",
       "notes": "极致便宜/最小",
       "cached_input_price": 0,
@@ -1282,8 +1282,8 @@
     {
       "provider": "Mistral",
       "model": "Ministral 3 8B",
-      "input_price": 1.017,
-      "output_price": 1.017,
+      "input_price": 1.002,
+      "output_price": 1.002,
       "context_window": "262K",
       "notes": "边缘端侧",
       "cached_input_price": 0,
@@ -1298,8 +1298,8 @@
       "context_window": "1M",
       "notes": "🔥🔥最新旗舰(9月)/长文本·代码·视觉",
       "cached_input_price": 2,
-      "input_usd": 2.9499,
-      "output_usd": 14.7493
+      "input_usd": 2.994,
+      "output_usd": 14.9701
     },
     {
       "provider": "月之暗面",
@@ -1309,8 +1309,8 @@
       "context_window": "262K",
       "notes": "🔥最新Agent旗舰",
       "cached_input_price": 1.0985,
-      "input_usd": 0.9587,
-      "output_usd": 3.9823
+      "input_usd": 0.9731,
+      "output_usd": 4.0419
     },
     {
       "provider": "月之暗面",
@@ -1320,8 +1320,8 @@
       "context_window": "256K",
       "notes": "🔥面向编码/缓存¥1.30",
       "cached_input_price": 1.3,
-      "input_usd": 0.9587,
-      "output_usd": 3.9823
+      "input_usd": 0.9731,
+      "output_usd": 4.0419
     },
     {
       "provider": "月之暗面",
@@ -1331,8 +1331,8 @@
       "context_window": "128K",
       "notes": "旧版",
       "cached_input_price": 0,
-      "input_usd": 0.7375,
-      "output_usd": 1.4749
+      "input_usd": 0.7485,
+      "output_usd": 1.497
     },
     {
       "provider": "零一万物",
@@ -1342,14 +1342,14 @@
       "context_window": "32K",
       "notes": "旧",
       "cached_input_price": 0,
-      "input_usd": 0.295,
-      "output_usd": 0.885
+      "input_usd": 0.2994,
+      "output_usd": 0.8982
     },
     {
       "provider": "Cohere",
       "model": "Command R+",
-      "input_price": 10.17,
-      "output_price": 30.51,
+      "input_price": 10.02,
+      "output_price": 30.06,
       "context_window": "128K",
       "notes": "企业级长文本",
       "cached_input_price": 0,
@@ -1359,63 +1359,63 @@
     {
       "provider": "xAI",
       "model": "Grok 4.6",
-      "input_price": 13.56,
-      "output_price": 40.68,
+      "input_price": 13.36,
+      "output_price": 40.08,
       "context_window": "1M",
       "notes": "最新(9月)/缓存$0.5",
-      "cached_input_price": 3.39,
+      "cached_input_price": 3.34,
       "input_usd": 2,
       "output_usd": 6
     },
     {
       "provider": "xAI",
       "model": "Grok 4.5",
-      "input_price": 13.56,
-      "output_price": 40.68,
+      "input_price": 13.36,
+      "output_price": 40.08,
       "context_window": "256K",
       "notes": "🔥最新旗舰",
-      "cached_input_price": 2.1696,
+      "cached_input_price": 2.1376,
       "input_usd": 2,
       "output_usd": 6
     },
     {
       "provider": "xAI",
       "model": "Grok-4.3",
-      "input_price": 8.475,
-      "output_price": 16.95,
+      "input_price": 8.35,
+      "output_price": 16.7,
       "context_window": "1M",
       "notes": "最新/推荐",
-      "cached_input_price": 1.356,
+      "cached_input_price": 1.336,
       "input_usd": 1.25,
       "output_usd": 2.5
     },
     {
       "provider": "xAI",
       "model": "Grok Build 0.1",
-      "input_price": 6.78,
-      "output_price": 13.56,
+      "input_price": 6.68,
+      "output_price": 13.36,
       "context_window": "1M",
       "notes": "新版尝鲜/推荐",
-      "cached_input_price": 1.0848,
+      "cached_input_price": 1.0688,
       "input_usd": 1,
       "output_usd": 2
     },
     {
       "provider": "xAI",
       "model": "Grok 4.1",
-      "input_price": 5.085,
-      "output_price": 10.17,
+      "input_price": 5.01,
+      "output_price": 10.02,
       "context_window": "128K",
       "notes": "上代/性价比",
-      "cached_input_price": 0.8136,
+      "cached_input_price": 0.8016,
       "input_usd": 0.75,
       "output_usd": 1.5
     },
     {
       "provider": "Perplexity",
       "model": "Sonar Pro",
-      "input_price": 20.34,
-      "output_price": 101.7,
+      "input_price": 20.04,
+      "output_price": 100.2,
       "context_window": "200K",
       "notes": "联网搜索旗舰",
       "cached_input_price": 0,
@@ -1425,8 +1425,8 @@
     {
       "provider": "Perplexity",
       "model": "Sonar",
-      "input_price": 6.78,
-      "output_price": 33.9,
+      "input_price": 6.68,
+      "output_price": 33.4,
       "context_window": "128K",
       "notes": "联网搜索轻量",
       "cached_input_price": 0,
@@ -1436,8 +1436,8 @@
     {
       "provider": "Together",
       "model": "Llama 4 Maverick",
-      "input_price": 1.017,
-      "output_price": 4.068,
+      "input_price": 1.002,
+      "output_price": 4.008,
       "context_window": "1M",
       "notes": "同Meta原价",
       "cached_input_price": 0,
@@ -1447,8 +1447,8 @@
     {
       "provider": "Fireworks",
       "model": "Llama 4 Scout",
-      "input_price": 0.5424,
-      "output_price": 2.034,
+      "input_price": 0.5344,
+      "output_price": 2.004,
       "context_window": "1M",
       "notes": "开源托管",
       "cached_input_price": 0,
@@ -1463,8 +1463,8 @@
       "context_window": "1M",
       "notes": "降57~99%/推荐",
       "cached_input_price": 0.0249,
-      "input_usd": 0.4425,
-      "output_usd": 0.885
+      "input_usd": 0.4491,
+      "output_usd": 0.8982
     },
     {
       "provider": "小米",
@@ -1474,30 +1474,129 @@
       "context_window": "1M",
       "notes": "降64~98%/推荐",
       "cached_input_price": 0.02,
-      "input_usd": 0.1475,
-      "output_usd": 0.295
+      "input_usd": 0.1497,
+      "output_usd": 0.2994
     },
     {
       "provider": "Sakana AI",
       "model": "Fugu Max",
-      "input_price": 13.56,
-      "output_price": 40.68,
+      "input_price": 13.36,
+      "output_price": 40.08,
       "context_window": "1M",
       "notes": "🔥🔥9/11新发/缓存$0.25·联网调用$0.007/次",
-      "cached_input_price": 1.695,
+      "cached_input_price": 1.67,
       "input_usd": 2,
       "output_usd": 6
     },
     {
       "provider": "Sakana AI",
       "model": "Fugu Ultra v2",
-      "input_price": 33.9,
-      "output_price": 203.4,
+      "input_price": 33.4,
+      "output_price": 200.4,
       "context_window": "1M",
       "notes": "🔥🔥9/11新发/缓存$0.50·>272K 档 $10/$1/$45",
-      "cached_input_price": 3.39,
+      "cached_input_price": 3.34,
       "input_usd": 5,
       "output_usd": 30
+    },
+    {
+      "provider": "OpenAI",
+      "model": "GPT-6.1 Sol",
+      "input_price": 13.36,
+      "output_price": 66.8,
+      "context_window": "1M",
+      "notes": "🔥官方在售(10/28核对)/缓存$0.10/批量半价",
+      "cached_input_price": 0.668,
+      "input_usd": 2,
+      "output_usd": 10
+    },
+    {
+      "provider": "OpenAI",
+      "model": "GPT-6.1 Terra",
+      "input_price": 6.68,
+      "output_price": 33.4,
+      "context_window": "1M",
+      "notes": "官方在售(10/28核对)/缓存$0.05",
+      "cached_input_price": 0.334,
+      "input_usd": 1,
+      "output_usd": 5
+    },
+    {
+      "provider": "OpenAI",
+      "model": "GPT-6 Luna",
+      "input_price": 0.668,
+      "output_price": 3.34,
+      "context_window": "1M",
+      "notes": "官方在售(10/28核对)/最便宜/缓存$0.01",
+      "cached_input_price": 0.0668,
+      "input_usd": 0.1,
+      "output_usd": 0.5
+    },
+    {
+      "provider": "OpenAI",
+      "model": "GPT-5.3 Codex",
+      "input_price": 11.69,
+      "output_price": 93.52,
+      "context_window": "1M",
+      "notes": "官方在售(10/28核对)/代码专用",
+      "cached_input_price": 1.169,
+      "input_usd": 1.75,
+      "output_usd": 14
+    },
+    {
+      "provider": "OpenAI",
+      "model": "GPT-5.6 Cyber",
+      "input_price": 83.5,
+      "output_price": 501,
+      "context_window": "1M",
+      "notes": "官方在售(10/28核对)/安全向",
+      "cached_input_price": 8.35,
+      "input_usd": 12.5,
+      "output_usd": 75
+    },
+    {
+      "provider": "Anthropic",
+      "model": "Claude Opus 5.5",
+      "input_price": 26.72,
+      "output_price": 133.6,
+      "context_window": "1M",
+      "notes": "🔥官方在售(10/28)/缓存$0.20/快速模式2x",
+      "cached_input_price": 1.336,
+      "input_usd": 4,
+      "output_usd": 20
+    },
+    {
+      "provider": "Anthropic",
+      "model": "Claude Sonnet 5.5",
+      "input_price": 13.36,
+      "output_price": 66.8,
+      "context_window": "1M",
+      "notes": "🔥官方在售(10/28)/缓存$0.10",
+      "cached_input_price": 0.668,
+      "input_usd": 2,
+      "output_usd": 10
+    },
+    {
+      "provider": "Anthropic",
+      "model": "Claude Haiku 5.5",
+      "input_price": 0.668,
+      "output_price": 3.34,
+      "context_window": "1M",
+      "notes": "官方在售(10/28)/>100K时$0.5/$2.5",
+      "cached_input_price": 0.0668,
+      "input_usd": 0.1,
+      "output_usd": 0.5
+    },
+    {
+      "provider": "Google",
+      "model": "Gemini 4 Argon",
+      "input_price": 13.36,
+      "output_price": 66.8,
+      "context_window": "2M",
+      "notes": "🔥全新旗舰(10/28核对)",
+      "cached_input_price": 1.336,
+      "input_usd": 2,
+      "output_usd": 10
     }
   ]
 }
